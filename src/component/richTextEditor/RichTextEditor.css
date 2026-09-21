@@ -1,0 +1,846 @@
+/* ============================================================================
+   Story Groove RichTextEditor — modern, brand-aligned chrome around Quill.
+
+   Design tokens used (matched to bookEditor / BookEditorPage palette):
+     --sg-brand:        #078fca   primary blue
+     --sg-brand-deep:   #0276a8   pressed / focus ring
+     --sg-brand-soft:   rgba(7,143,202,0.12)
+     --sg-ink:          #1e3a4c   primary text
+     --sg-ink-soft:     #475569   secondary text
+     --sg-surface:      #ffffff
+     --sg-surface-1:    #f8fafc
+     --sg-surface-2:    #f1f5f9
+     --sg-border:       #e2e8f0
+     --sg-border-soft:  rgba(2, 65, 92, 0.08)
+
+   Goal: replace Quill snow's generic chrome with a chrome that reads as a
+   professional writing tool (Notion / Linear / modern docs apps).
+   ============================================================================ */
+
+.rich-text-editor-root {
+  --sg-brand: #078fca;
+  --sg-brand-deep: #0276a8;
+  --sg-brand-soft: rgba(7, 143, 202, 0.12);
+  --sg-brand-ring: rgba(7, 143, 202, 0.28);
+  --sg-ink: #1e3a4c;
+  --sg-ink-soft: #475569;
+  --sg-mute: #64748b;
+  --sg-surface: #ffffff;
+  --sg-surface-1: #f8fafc;
+  --sg-surface-2: #f1f5f9;
+  --sg-border: #e2e8f0;
+  --sg-border-soft: rgba(2, 65, 92, 0.08);
+}
+
+/* Fill parent when Book Editor uses flex layout (tools strip + editor) */
+.rich-text-editor-root.rich-text-editor-root--fill {
+  flex: 1;
+  min-height: 0;
+}
+
+.rich-text-editor-root .editor-container {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin-top: 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  overflow: visible;
+  container-type: inline-size;
+  container-name: editor;
+}
+
+.editor-container .ql-toolbar.ql-snow {
+  flex-shrink: 0;
+}
+
+.editor-container .ql-container {
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 1;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #b0b5bb #e8eaed;
+}
+
+.editor-container .ql-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.editor-container .ql-container::-webkit-scrollbar-track {
+  background: #e8eaed;
+  border-radius: 10px;
+}
+
+.editor-container .ql-container::-webkit-scrollbar-thumb {
+  background: #b0b5bb;
+  border-radius: 10px;
+  border: 2px solid #e8eaed;
+}
+
+.editor-container .ql-container::-webkit-scrollbar-thumb:hover {
+  background: #9ca2a8;
+}
+
+.rich-text-editor-root .editor-container .ql-container {
+  border: none !important;
+  background: var(--sg-surface);
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+
+/* ----------------------------------------------------------------------------
+   Toolbar shell — soft gradient strip, no harsh borders
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow {
+  background: linear-gradient(180deg, var(--sg-surface) 0%, var(--sg-surface-1) 100%);
+  border-bottom: 1px solid var(--sg-border) !important;
+  padding: 8px 10px !important;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  box-shadow: inset 0 -1px 0 rgba(2, 65, 92, 0.02);
+  position: relative;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* Horizontally scrollable row of format controls (wraps on narrow screens) */
+.editor-container .ql-toolbar.ql-snow .sg-toolbar-tools-scroll {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+  gap: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sg-border) transparent;
+  padding-bottom: 1px;
+  position: relative;
+}
+
+.editor-container .ql-toolbar.ql-snow .sg-toolbar-tools-scroll .ql-picker.ql-expanded {
+  z-index: 50;
+}
+
+.editor-container .ql-toolbar.ql-snow .sg-toolbar-tools-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.editor-container .ql-toolbar.ql-snow .sg-toolbar-tools-scroll::-webkit-scrollbar-thumb {
+  background: var(--sg-border);
+  border-radius: 999px;
+}
+
+.editor-container .ql-toolbar.ql-snow .sg-toolbar-tools-scroll .ql-formats {
+  flex-shrink: 0;
+}
+
+/* Format groups — pill clusters separated by subtle dividers */
+.editor-container .ql-toolbar.ql-snow .ql-formats {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 !important;
+  padding: 0 6px;
+  position: relative;
+}
+.editor-container .ql-toolbar.ql-snow .ql-formats + .ql-formats::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 18px;
+  width: 1px;
+  background: var(--sg-border-soft);
+}
+
+/* ----------------------------------------------------------------------------
+   Toolbar buttons — modern pill style
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow button {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  margin: 0;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--sg-ink-soft);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease,
+    border-color 150ms ease, transform 120ms ease, box-shadow 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-container .ql-toolbar.ql-snow button svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.editor-container .ql-toolbar.ql-snow button:hover,
+.editor-container .ql-toolbar.ql-snow button:focus {
+  background: var(--sg-surface-2);
+  color: var(--sg-ink);
+}
+
+.editor-container .ql-toolbar.ql-snow button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--sg-brand-ring);
+}
+
+.editor-container .ql-toolbar.ql-snow button:active {
+  transform: translateY(1px);
+}
+
+/* Active state — brand pill, never Quill's default cyan/blue stroke */
+.editor-container .ql-toolbar.ql-snow .ql-active,
+.editor-container .ql-toolbar.ql-snow button.ql-active {
+  background: var(--sg-brand-soft) !important;
+  color: var(--sg-brand-deep) !important;
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-active .ql-stroke,
+.editor-container .ql-toolbar.ql-snow button.ql-active .ql-stroke {
+  stroke: var(--sg-brand-deep) !important;
+}
+.editor-container .ql-toolbar.ql-snow .ql-active .ql-fill,
+.editor-container .ql-toolbar.ql-snow button.ql-active .ql-fill {
+  fill: var(--sg-brand-deep) !important;
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-stroke {
+  stroke: var(--sg-ink-soft);
+  transition: stroke 150ms ease;
+}
+.editor-container .ql-toolbar.ql-snow .ql-fill {
+  fill: var(--sg-ink-soft);
+  transition: fill 150ms ease;
+}
+.editor-container .ql-toolbar.ql-snow button:hover .ql-stroke {
+  stroke: var(--sg-ink);
+}
+.editor-container .ql-toolbar.ql-snow button:hover .ql-fill {
+  fill: var(--sg-ink);
+}
+
+/* ----------------------------------------------------------------------------
+   Pickers (header / size / align / highlight) — modern pill label + chevron
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-picker {
+  color: var(--sg-ink-soft);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 13px;
+  height: 30px;
+  line-height: 1;
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-picker-label::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker-options .ql-picker-item::before {
+  pointer-events: none;
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-picker-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 22px 0 10px;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--sg-ink-soft);
+  transition: background-color 150ms ease, color 150ms ease,
+    border-color 150ms ease;
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-picker-label:hover {
+  background: var(--sg-surface-2);
+  color: var(--sg-ink);
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-picker-label:focus,
+.editor-container .ql-toolbar.ql-snow .ql-picker-label:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--sg-brand-ring);
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  background: var(--sg-brand-soft);
+  color: var(--sg-brand-deep);
+  border-color: transparent;
+}
+
+/* Hide Quill's default 18×18 SVG chevron — we draw a cleaner one via ::after */
+.editor-container .ql-toolbar.ql-snow .ql-picker-label svg {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  pointer-events: none;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker-label::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: transform 150ms ease;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label::after {
+  transform: rotate(225deg);
+  margin-top: -2px;
+}
+
+/* Dropdown panels — card surface; keep hidden until picker is opened */
+.editor-container .ql-toolbar.ql-snow .ql-picker:not(.ql-expanded) .ql-picker-options {
+  display: none !important;
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  display: block;
+  /* JS pins this to the viewport so overflow-x: auto cannot clip/steal clicks. */
+  position: fixed;
+  margin-top: 0;
+  top: auto;
+  z-index: 2000;
+  padding: 6px;
+  background: var(--sg-surface);
+  border: 1px solid var(--sg-border);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14),
+    0 4px 10px rgba(15, 23, 42, 0.06);
+  min-width: 140px;
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-picker-options .ql-picker-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  margin: 1px 0;
+  border-radius: 6px;
+  color: var(--sg-ink);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker-options .ql-picker-item:hover {
+  background: var(--sg-surface-2);
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker-options .ql-picker-item.ql-selected {
+  background: var(--sg-brand-soft);
+  color: var(--sg-brand-deep);
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------------------
+   Header picker — show "Paragraph" / "Heading 1" instead of Quill's generic
+   "Normal", and render dropdown items at their actual visual weight/size.
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header {
+  width: auto;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-item::before {
+  content: "Paragraph";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+  content: "Heading 1";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+  content: "Heading 2";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+  content: "Heading 3";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-options .ql-picker-item[data-value="1"]::before {
+  font-size: 18px;
+  font-weight: 700;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-options .ql-picker-item[data-value="2"]::before {
+  font-size: 16px;
+  font-weight: 700;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-options .ql-picker-item[data-value="3"]::before {
+  font-size: 14px;
+  font-weight: 600;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-options {
+  min-width: 170px;
+}
+
+/* ----------------------------------------------------------------------------
+   Font family picker — Times New Roman default; Arial optional
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font {
+  width: auto;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-label {
+  min-width: 8.5rem;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before {
+  content: "Times New Roman";
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+  content: "Font";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="times-new-roman"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="times-new-roman"]::before {
+  content: "Times New Roman";
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="arial"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="arial"]::before {
+  content: "Arial";
+  font-family: Arial, Helvetica, sans-serif;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-options {
+  min-width: 160px;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-options .ql-picker-item[data-value="times-new-roman"]::before {
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-font .ql-picker-options .ql-picker-item[data-value="arial"]::before {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ----------------------------------------------------------------------------
+   Font size picker — pt-based; unset = 12 pt body (matches .ql-editor 12pt)
+   Legacy px values display as their true pt equivalent (16px → 12 pt).
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size {
+  width: auto;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label {
+  min-width: 56px;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label:not([data-value])::before {
+  content: "12 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: "Font size";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="10pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="10pt"]::before {
+  content: "10 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="11pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="11pt"]::before {
+  content: "11 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before {
+  content: "12 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14pt"]::before {
+  content: "14 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16pt"]::before {
+  content: "16 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18pt"]::before {
+  content: "18 pt";
+}
+/* Legacy px → true pt labels (px × 0.75) */
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="10px"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="10px"]::before {
+  content: "8 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before {
+  content: "9 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before {
+  content: "11 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
+  content: "14 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before {
+  content: "18 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item:not([data-value])::before {
+  content: "12 pt (default)";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options {
+  min-width: 108px;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item {
+  font-variant-numeric: tabular-nums;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item[data-value="10pt"]::before { font-size: 10pt; }
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item[data-value="11pt"]::before { font-size: 11pt; }
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item[data-value="12pt"]::before { font-size: 12pt; }
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item[data-value="14pt"]::before { font-size: 14pt; }
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item[data-value="16pt"]::before { font-size: 16pt; }
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item[data-value="18pt"]::before { font-size: 18pt; }
+
+/* ----------------------------------------------------------------------------
+   Line spacing — Word-style multiples; unset = double (manuscript default)
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight {
+  width: auto;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-label {
+  min-width: 6.25rem;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-label:not([data-value])::before {
+  content: "Double";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-label::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-item::before {
+  content: "Line spacing";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-label[data-value="1"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="1"]::before {
+  content: "Single";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-label[data-value="1.15"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="1.15"]::before {
+  content: "1.15";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-label[data-value="1.5"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="1.5"]::before {
+  content: "1.5 lines";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-label[data-value="2"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="2"]::before {
+  content: "Double";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-options .ql-picker-item:not([data-value])::before {
+  content: "Manuscript default";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-options {
+  min-width: 11.5rem;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-lineHeight .ql-picker-options .ql-picker-item {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----------------------------------------------------------------------------
+   Space after paragraph — Word-style pt increments (6 / 12 / 18 pt)
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing {
+  width: auto;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label {
+  min-width: 7rem;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label:not([data-value])::before {
+  content: "Space after";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item::before {
+  content: "Space after";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label[data-value="0"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item[data-value="0"]::before {
+  content: "None";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label[data-value="6pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item[data-value="6pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label[data-value="0.5em"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item[data-value="0.5em"]::before {
+  content: "6 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label[data-value="12pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item[data-value="12pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label[data-value="1em"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item[data-value="1em"]::before {
+  content: "12 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label[data-value="18pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item[data-value="18pt"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-label[data-value="1.5em"]::before,
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-item[data-value="1.5em"]::before {
+  content: "18 pt";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-options .ql-picker-item:not([data-value])::before {
+  content: "No extra (default)";
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-options {
+  min-width: 10.5rem;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-paragraphSpacing .ql-picker-options .ql-picker-item {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----------------------------------------------------------------------------
+   Align picker — Quill renders this as an icon picker with SVG items.
+   Keep the icons, just style the dropdown card.
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-align {
+  width: 30px;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-align .ql-picker-label {
+  width: 30px;
+  padding: 0;
+  justify-content: center;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-align .ql-picker-label::after {
+  display: none;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-align .ql-picker-label svg {
+  position: static;
+  transform: none;
+  opacity: 1;
+  width: 18px;
+  height: 18px;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-align.ql-expanded .ql-picker-options {
+  display: flex;
+  gap: 2px;
+  min-width: 0;
+  padding: 6px;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-align .ql-picker-options .ql-picker-item {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+.editor-container .ql-toolbar.ql-snow .ql-picker.ql-align .ql-picker-options .ql-picker-item svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ----------------------------------------------------------------------------
+   Highlight picker — marker pen icon + yellow underline accent.
+   Dropdown is a 4×2 swatch grid with a "clear" swatch.
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-label {
+  width: 30px;
+  padding: 0;
+  justify-content: center;
+}
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-label svg {
+  display: none;
+}
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-label::after {
+  display: none;
+}
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-label::before {
+  font-family: "bootstrap-icons";
+  content: "\f7f8";
+  font-size: 16px;
+  line-height: 1;
+  color: currentColor;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 4px;
+  background-image: linear-gradient(to right, #fff59d, #fff59d);
+  background-repeat: no-repeat;
+  background-size: 16px 3px;
+  background-position: center bottom;
+}
+.editor-container .ql-toolbar.ql-snow .ql-background.ql-expanded .ql-picker-label::before {
+  background-image: linear-gradient(to right, var(--sg-brand-deep), var(--sg-brand-deep));
+}
+
+.editor-container .ql-toolbar.ql-snow .ql-background.ql-expanded .ql-picker-options {
+  display: grid;
+  grid-template-columns: repeat(4, 24px);
+  gap: 6px;
+  padding: 10px;
+  min-width: 0;
+}
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-options .ql-picker-item {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border-radius: 6px;
+  border: 1px solid rgba(2, 65, 92, 0.12);
+  transition: transform 120ms ease, box-shadow 120ms ease,
+    border-color 120ms ease;
+}
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-options .ql-picker-item:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.18);
+  border-color: rgba(2, 65, 92, 0.2);
+}
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-options .ql-picker-item.ql-selected {
+  box-shadow: 0 0 0 2px var(--sg-brand-deep);
+  border-color: var(--sg-brand-deep);
+}
+/* "Remove highlight" swatch (no data-value) — diagonal red slash on white */
+.editor-container .ql-toolbar.ql-snow .ql-background .ql-picker-options .ql-picker-item:not([data-value]) {
+  background:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 1px),
+      #ef4444 50%,
+      transparent calc(50% + 1px)
+    ),
+    #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   Editor canvas — book-like reading surface
+   ---------------------------------------------------------------------------- */
+.editor-container .ql-editor .ql-font-times-new-roman {
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+.editor-container .ql-editor .ql-font-arial {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.editor-container .ql-editor {
+  padding: 16px 26px !important;
+  color: #1f2937;
+  font-size: 12pt;
+  font-family: "Times New Roman", Times, Georgia, serif;
+  /* Manuscript convention: double-spaced body until a paragraph sets line-height */
+  line-height: 2;
+  letter-spacing: 0.005em;
+  caret-color: var(--sg-brand-deep);
+  background: var(--sg-surface);
+  border-radius: 0 0 10px 10px;
+}
+.editor-container .ql-editor::selection,
+.editor-container .ql-editor *::selection {
+  background: var(--sg-brand-soft);
+}
+
+.editor-container .ql-editor.ql-blank::before {
+  color: var(--sg-mute);
+  font-style: italic;
+  font-family: "Times New Roman", Times, Georgia, serif;
+  font-size: 12pt;
+  left: 28px;
+  right: 28px;
+}
+
+/* Inline link styling — readable, branded, no jarring underline */
+.editor-container .ql-editor a {
+  color: var(--sg-brand-deep);
+  text-decoration: none;
+  border-bottom: 1px solid var(--sg-brand-soft);
+  transition: border-color 150ms ease;
+}
+.editor-container .ql-editor a:hover {
+  border-bottom-color: var(--sg-brand-deep);
+}
+
+/* Link tooltip popover — match toolbar card styling */
+.editor-container .ql-snow .ql-tooltip {
+  border-radius: 10px;
+  border: 1px solid var(--sg-border);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14),
+    0 4px 10px rgba(15, 23, 42, 0.06);
+  padding: 8px 12px;
+  color: var(--sg-ink);
+  font-family: inherit;
+  z-index: 70;
+}
+.editor-container .ql-snow .ql-tooltip input[type="text"] {
+  border: 1px solid var(--sg-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--sg-ink);
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.editor-container .ql-snow .ql-tooltip input[type="text"]:focus {
+  border-color: var(--sg-brand);
+  box-shadow: 0 0 0 3px var(--sg-brand-ring);
+}
+.editor-container .ql-snow .ql-tooltip a.ql-action,
+.editor-container .ql-snow .ql-tooltip a.ql-remove {
+  color: var(--sg-brand-deep);
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------------------
+   Responsive — narrow editor column (split view) and phones
+   ---------------------------------------------------------------------------- */
+@container editor (max-width: 720px) {
+  .editor-container .ql-toolbar.ql-snow .sg-toolbar-tools-scroll {
+    padding: 6px 8px;
+  }
+
+  .editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label {
+    min-width: 4.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .editor-container .ql-toolbar.ql-snow .sg-toolbar-tools-scroll {
+    padding: 6px 8px;
+  }
+
+  .editor-container .ql-toolbar.ql-snow button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .editor-container .ql-toolbar.ql-snow .ql-picker-label {
+    height: 32px;
+  }
+
+  .editor-container .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label {
+    min-width: 4.5rem;
+  }
+
+  .editor-container .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label {
+    min-width: 44px;
+  }
+
+  .editor-container .ql-editor {
+    padding: 20px 16px !important;
+  }
+
+  .editor-container .ql-editor.ql-blank::before {
+    left: 16px;
+    right: 16px;
+  }
+}
+
+/* AntD ink bar override (kept from prior version, scoped to be harmless). */
+.ant-tabs-ink-bar {
+  background-color: #000 !important;
+}

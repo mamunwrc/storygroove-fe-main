@@ -1,0 +1,16 @@
+{
+  "schema_version": "1",
+  "feature_id": "api-usage-admin",
+  "title": "API Usage Administration",
+  "description": "Super-admin dashboard for OpenAI usage, costs, rate limits, and user blocking.",
+  "source_paths": [
+    "src/Pages/ApiUsageDashboard/",
+    "src/api/apiUsage.js",
+    "src/component/guards/SuperAdminGuard.jsx"
+  ],
+  "related_paths": [],
+  "entrypoints": [
+    "src/Pages/ApiUsageDashboard/ApiUsageDashboard.jsx"
+  ],
+  "mapping_confidence": "high"
+}

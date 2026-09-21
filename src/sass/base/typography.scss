@@ -1,0 +1,166 @@
+@use "sass:map";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+$theme-fonts: (
+  "primary-font": "Inter",
+  "secondary-font": "Domine",
+);
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Domine", serif;
+}
+
+.title-text-h1 {
+  font-size: 36px;
+  line-height: 42px;
+  color: $color-text-primary;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.title-text-h2 {
+  color: $color-text-tertiary;
+  font-family: "Domine", serif !important;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 130%;
+  letter-spacing: 0%;
+  text-align: left;
+  @media screen and (max-width: 500px) {
+    font-size: 22px;
+    line-height: 20px;
+  }
+}
+.title-text-h3 {
+  color: $color-text-tertiary;
+  font-family: "Domine", serif !important;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 130%;
+  letter-spacing: 0%;
+}
+.title-text-h4 {
+  color: $color-text-tertiary;
+  font-family: "Domine", serif !important;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 130%;
+  letter-spacing: 0%;
+}
+.body-text-primary {
+  font-size: 24px;
+  line-height: 30px;
+  color: $color-text-primary;
+  @media screen and (max-width: 1024px) {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+.body-text-large {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 140%;
+  letter-spacing: 0%;
+  color: #494949;
+}
+.body-text-medium {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  color: #4F4F4F;
+}
+.body-text-small {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 25px;
+  color: $color-text-secondary;
+}
+.button-medium {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #fff;
+  padding: 15px 25px;
+  background-color: #3a86ff;
+  gap: 10px;
+  display: flex;
+  @media screen and (max-width: 500px) {
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px;
+  }
+}
+.menu-medium {
+  font-family: Inter;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: $color-text-primary;
+}
+
+.paragraph-text-primary {
+  font-size: 16px !important;
+  line-height: 20px;
+  font-weight: 500;
+  color: $color-text-primary;
+}
+.paragraph-text-secondary {
+  font-size: 16px;
+  line-height: 20px;
+  color: $color-text-primary;
+}
+.caption-text-primary {
+  font-family: "Inter", sans-serif !important;
+  font-size: 14px;
+  line-height: 20px;
+  color: $color-text-primary;
+}
+.logo-text {
+  padding: 40px 0 0 60px;
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 5px;
+}
+.text-36 {
+  font-size: 36px;
+}
+.text-30 {
+  font-size: 30px;
+}
+.text-18 {
+  font-size: 18px !important;
+}
+.link {
+  text-decoration: none;
+}
+.fw-500 {
+  font-weight: 500 !important;
+}
+.font-domine {
+  font-family: "Domine", serif !important;
+}
+
+/* New Design Types */
+.form-heading {
+  font-size: 24px;
+  line-height: 30px;
+  color: $color-white;
+  font-weight: 700;
+  font-family: map.get($theme-fonts, "primary-font");
+  text-transform: uppercase;
+}
+.form-label {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 21px;
+  color: $color-white;
+  font-family: map.get($theme-fonts, "primary-font");
+}

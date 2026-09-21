@@ -1,0 +1,16 @@
+{
+  "schema_version": "1",
+  "feature_id": "olivia-writing-studio",
+  "title": "Olivia Writing Studio",
+  "description": "Olivia editor chat, scene chat, layering, rich scenes, and checkpoints in the Book Editor.",
+  "source_paths": [
+    "src/Pages/BookEditor/BookEditorPage.jsx",
+    "src/Pages/BookEditor/oliviaLayeringParse.js",
+    "src/component/OliviaChatModal/"
+  ],
+  "related_paths": [],
+  "entrypoints": [
+    "src/Pages/BookEditor/BookEditorPage.jsx"
+  ],
+  "mapping_confidence": "high"
+}

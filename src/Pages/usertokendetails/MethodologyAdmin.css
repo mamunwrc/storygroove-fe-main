@@ -1,0 +1,1090 @@
+/**
+ * Methodology admin — Olivia craft rules / templates / overlays CRUD.
+ * Brand accent: #078fca (matches Agent Prompts KB & app primary).
+ */
+
+.methodology-admin {
+  --ma-primary: #078fca;
+  --ma-primary-dark: #0678b0;
+  --ma-primary-soft: rgba(7, 143, 202, 0.1);
+  --ma-primary-border: rgba(7, 143, 202, 0.28);
+  --ma-surface: #ffffff;
+  --ma-surface-muted: #f8fafc;
+  --ma-border: #e8eef3;
+  --ma-border-strong: #d0dce6;
+  --ma-text: #1e293b;
+  --ma-text-muted: #64748b;
+  --ma-radius: 12px;
+  --ma-radius-sm: 8px;
+  --ma-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+  --ma-list-width: min(360px, 38vw);
+  /* Account page chrome only (My Account heading + card-box margin + parent
+     General/Subscription tabs). Hero + audit sit above the workspace and
+     scroll naturally — they must NOT eat into the split height. */
+  --ma-chrome-offset: 168px;
+
+  /* Align with tab-content edges; do not use negative top margin — it overlaps parent nav tabs. */
+  margin: 0 0 0 -10px;
+  color: var(--ma-text);
+}
+
+@media (max-width: 1200px) {
+  .methodology-admin {
+    --ma-chrome-offset: 152px;
+  }
+}
+
+.methodology-admin__shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Rules / Templates / Overlays workspace — fills the viewport below account
+   chrome. Hero + audit scroll above this; only the list + editor scroll inside. */
+.methodology-admin__workspace {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: var(--ma-chrome-offset);
+  z-index: 2;
+  min-height: calc(100vh - var(--ma-chrome-offset));
+  height: calc(100vh - var(--ma-chrome-offset));
+  background: var(--ma-surface);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+
+.methodology-admin__hero {
+  flex-shrink: 0;
+  border-radius: var(--ma-radius);
+  overflow: hidden;
+  border: 1px solid var(--ma-primary-border);
+  background: linear-gradient(
+    165deg,
+    var(--ma-primary-soft) 0%,
+    var(--ma-surface) 42%,
+    #fafcfd 100%
+  );
+  box-shadow: var(--ma-shadow);
+}
+
+.methodology-admin__hero-accent {
+  height: 3px;
+  background: linear-gradient(90deg, var(--ma-primary-dark), var(--ma-primary), #34b8e8);
+}
+
+.methodology-admin__hero-body {
+  padding: 0.95rem 1.2rem 0.9rem;
+}
+
+.methodology-admin__hero-top {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  flex-wrap: wrap;
+}
+
+.methodology-admin__hero-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ma-radius-sm);
+  background: var(--ma-primary-soft);
+  color: var(--ma-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.methodology-admin__hero-text {
+  flex: 1;
+  min-width: 220px;
+}
+
+.methodology-admin__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ma-text);
+  letter-spacing: -0.01em;
+}
+
+.methodology-admin__subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ma-text-muted);
+  line-height: 1.5;
+  max-width: 46rem;
+}
+
+.methodology-admin__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.methodology-admin__file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.methodology-admin__import-summary {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  color: var(--ma-text);
+}
+
+.methodology-admin__import-warning {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  padding: 0.85rem 1rem;
+  border-radius: var(--ma-radius-sm);
+  background: rgba(234, 88, 12, 0.08);
+  border: 1px solid rgba(234, 88, 12, 0.35);
+  color: #9a3412;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.methodology-admin__import-warning svg {
+  flex-shrink: 0;
+  font-size: 1.35rem;
+  margin-top: 0.1rem;
+}
+
+/* Match Refresh + Run audit — global .storygroove-theme .btn-primary uses 48px / 10px radius */
+.methodology-admin__hero-actions .btn.ma-btn,
+.methodology-admin .btn.ma-btn {
+  height: auto;
+  min-height: 2rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--ma-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  box-shadow: none;
+}
+
+.methodology-admin__btn-primary.ma-btn,
+.methodology-admin__btn-primary.ma-btn.btn-primary {
+  background-color: var(--ma-primary);
+  border-color: var(--ma-primary);
+  color: #fff;
+}
+
+.methodology-admin__btn-primary.ma-btn:hover,
+.methodology-admin__btn-primary.ma-btn:focus,
+.methodology-admin__btn-primary.ma-btn.btn-primary:hover,
+.methodology-admin__btn-primary.ma-btn.btn-primary:focus {
+  background-color: var(--ma-primary-dark);
+  border-color: var(--ma-primary-dark);
+  color: #fff;
+}
+
+.methodology-admin__btn-primary.ma-btn:disabled,
+.methodology-admin__btn-primary.ma-btn.btn-primary:disabled {
+  background-color: var(--ma-primary);
+  border-color: var(--ma-primary);
+  color: #fff;
+  opacity: 0.65;
+}
+
+.methodology-admin__btn-secondary.ma-btn,
+.methodology-admin__btn-secondary.ma-btn.btn-outline-secondary {
+  background-color: var(--ma-surface);
+  border-color: var(--ma-border-strong);
+  color: var(--ma-text);
+}
+
+.methodology-admin__btn-secondary.ma-btn:hover,
+.methodology-admin__btn-secondary.ma-btn:focus,
+.methodology-admin__btn-secondary.ma-btn.btn-outline-secondary:hover,
+.methodology-admin__btn-secondary.ma-btn.btn-outline-secondary:focus {
+  background-color: var(--ma-surface-muted);
+  border-color: var(--ma-primary);
+  color: var(--ma-primary-dark);
+}
+
+.methodology-admin__btn-secondary.ma-btn:disabled,
+.methodology-admin__btn-secondary.ma-btn.btn-outline-secondary:disabled {
+  background-color: var(--ma-surface);
+  border-color: var(--ma-border);
+  color: var(--ma-text-muted);
+  opacity: 0.7;
+}
+
+.methodology-admin__version-chip {
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.76rem;
+  color: var(--ma-text-muted);
+  background: var(--ma-surface);
+  border: 1px solid var(--ma-border);
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+}
+
+/* ── Stats row ────────────────────────────────────────────────────── */
+
+.methodology-admin__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .methodology-admin__stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+.methodology-admin__stat {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--ma-radius-sm);
+  background: var(--ma-surface);
+  border: 1px solid var(--ma-border);
+}
+
+.methodology-admin__stat-icon {
+  font-size: 1.1rem;
+  color: var(--ma-primary);
+  opacity: 0.9;
+}
+
+.methodology-admin__stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ma-text);
+}
+
+.methodology-admin__stat-label {
+  font-size: 0.7rem;
+  color: var(--ma-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Audit banner ─────────────────────────────────────────────────── */
+
+.methodology-admin__audit {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--ma-radius-sm);
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.methodology-admin__audit.has-collisions {
+  border-color: #fecaca;
+  background: #fff1f2;
+  color: #991b1b;
+}
+
+.methodology-admin__audit-icon {
+  flex-shrink: 0;
+  font-size: 1.35rem;
+  margin-top: 0.1rem;
+}
+
+.methodology-admin__audit-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.methodology-admin__audit-body ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.methodology-admin__audit-body code {
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+}
+
+.methodology-admin__audit-dismiss {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 0.55;
+  padding: 0.15rem;
+  cursor: pointer;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.methodology-admin__audit-dismiss:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────────── */
+
+.methodology-admin__tabs.nav-tabs {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--ma-border);
+  gap: 0.25rem;
+}
+
+.methodology-admin__tabs .nav-link {
+  border: none;
+  border-radius: var(--ma-radius-sm) var(--ma-radius-sm) 0 0;
+  color: var(--ma-text-muted);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.55rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.methodology-admin__tabs .nav-link:hover {
+  color: var(--ma-primary);
+  background: var(--ma-primary-soft);
+}
+
+.methodology-admin__tabs .nav-link.active {
+  color: var(--ma-primary-dark);
+  background: var(--ma-primary-soft);
+  border-bottom: 2px solid var(--ma-primary);
+  font-weight: 600;
+}
+
+.methodology-admin__tab-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--ma-border);
+  color: var(--ma-text-muted);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  min-width: 1.4rem;
+  text-align: center;
+}
+
+.methodology-admin__tabs .nav-link.active .methodology-admin__tab-count {
+  background: var(--ma-primary);
+  color: #fff;
+}
+
+/* Bootstrap Tabs inside the workspace — tab-content fills space below the
+   Rules / Templates / Overlays nav so the split gets maximum height. */
+.methodology-admin__workspace .tab-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: stretch !important;
+  padding: 0 !important;
+  margin-top: 0 !important;
+}
+
+.methodology-admin__workspace .tab-content > .tab-pane {
+  width: 100%;
+}
+
+.methodology-admin__workspace .tab-content > .tab-pane.active {
+  flex: 1;
+  min-height: 0;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.methodology-admin__tab-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.85rem;
+}
+
+/* ── Master / detail split ─────────────────────────────────────────── */
+
+.methodology-admin__split {
+  display: grid;
+  grid-template-columns: var(--ma-list-width) minmax(0, 1fr);
+  /* minmax(0, 1fr) is the standard CSS-grid trick that lets grid items
+     respect overflow inside a bounded container — without it the row
+     track grows to fit content and the list never scrolls. */
+  grid-template-rows: minmax(0, 1fr);
+  gap: 1rem;
+  flex: 1;
+  min-height: 0;
+}
+
+
+@media (max-width: 992px) {
+  .methodology-admin__workspace {
+    height: auto;
+    min-height: 520px;
+  }
+
+  .methodology-admin__split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    flex: none;
+  }
+
+  .methodology-admin__list {
+    height: auto;
+    max-height: 320px;
+  }
+
+  .methodology-admin__editor {
+    height: auto;
+    min-height: 360px;
+    max-height: calc(100vh - 200px);
+  }
+}
+
+/* ── List pane ────────────────────────────────────────────────────── */
+
+.methodology-admin__list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ma-border);
+  border-radius: var(--ma-radius);
+  background: var(--ma-surface);
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+  box-shadow: var(--ma-shadow);
+}
+
+.methodology-admin__list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--ma-border);
+  background: var(--ma-surface-muted);
+}
+
+.methodology-admin__list-title-wrap {
+  min-width: 0;
+}
+
+.methodology-admin__list-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ma-text);
+}
+
+.methodology-admin__list-count {
+  font-size: 0.75rem;
+  color: var(--ma-text-muted);
+  margin-top: 0.1rem;
+}
+
+.methodology-admin__list-search {
+  position: relative;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--ma-border);
+}
+
+.methodology-admin__list-search-icon {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.methodology-admin__list-search input {
+  width: 100%;
+  border: 1px solid var(--ma-border-strong);
+  border-radius: var(--ma-radius-sm);
+  padding: 0.45rem 0.65rem 0.45rem 2.15rem;
+  font-size: 0.88rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.methodology-admin__list-search input:focus {
+  outline: none;
+  border-color: var(--ma-primary);
+  box-shadow: 0 0 0 3px var(--ma-primary-soft);
+}
+
+.methodology-admin__filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 0.75rem 0.55rem;
+  border-bottom: 1px solid var(--ma-border);
+}
+
+.methodology-admin__filter-chip {
+  border: 1px solid var(--ma-border-strong);
+  background: var(--ma-surface);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ma-text-muted);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.methodology-admin__filter-chip:hover {
+  border-color: var(--ma-primary-border);
+  color: var(--ma-primary-dark);
+}
+
+.methodology-admin__filter-chip.is-active {
+  background: var(--ma-primary-soft);
+  border-color: var(--ma-primary);
+  color: var(--ma-primary-dark);
+}
+
+.methodology-admin__list-rows {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.methodology-admin__list-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.65rem 0.9rem 0.65rem 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+  text-align: left;
+  width: 100%;
+  background: transparent;
+  border-right: none;
+  border-top: none;
+}
+
+.methodology-admin__list-row:hover {
+  background: var(--ma-surface-muted);
+}
+
+.methodology-admin__list-row:focus-visible {
+  outline: 2px solid var(--ma-primary);
+  outline-offset: -2px;
+}
+
+.methodology-admin__list-row.is-active {
+  background: var(--ma-primary-soft);
+  border-left-color: var(--ma-primary);
+}
+
+.methodology-admin__list-row.is-disabled {
+  opacity: 0.5;
+}
+
+.methodology-admin__list-row-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ma-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.methodology-admin__list-row-meta {
+  font-size: 0.72rem;
+  color: var(--ma-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+/* ── Pills ──────────────────────────────────────────────────────────── */
+
+.methodology-admin__pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  background: #eef2f6;
+  border-radius: 999px;
+  padding: 0.08rem 0.45rem;
+  color: #475569;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.methodology-admin__pill--scope-universal {
+  background: var(--ma-primary-soft);
+  color: var(--ma-primary-dark);
+}
+
+.methodology-admin__pill--scope-phase {
+  background: rgba(245, 158, 11, 0.14);
+  color: #92400e;
+}
+
+.methodology-admin__pill--disabled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.methodology-admin__pill--enabled {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* ── Editor pane ────────────────────────────────────────────────────── */
+
+.methodology-admin__editor {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ma-border);
+  border-radius: var(--ma-radius);
+  background: var(--ma-surface);
+  min-height: 0;
+  height: 100%;
+  box-shadow: var(--ma-shadow);
+}
+
+.methodology-admin__form-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem 0.85rem;
+  border-bottom: 1px solid var(--ma-border);
+  background: var(--ma-surface-muted);
+}
+
+.methodology-admin__form-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ma-text);
+  line-height: 1.3;
+}
+
+.methodology-admin__form-key {
+  margin: 0.25rem 0 0;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.78rem;
+  color: var(--ma-text-muted);
+}
+
+.methodology-admin__form-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.methodology-admin__form-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.15rem;
+  min-height: 0;
+}
+
+.methodology-admin__form-footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.85rem 1.15rem;
+  border-top: 1px solid var(--ma-border);
+  background: var(--ma-surface-muted);
+}
+
+/* ── Form sections ─────────────────────────────────────────────────── */
+
+.methodology-admin__section {
+  margin-bottom: 1.25rem;
+}
+
+.methodology-admin__section:last-child {
+  margin-bottom: 0;
+}
+
+.methodology-admin__section-title {
+  margin: 0 0 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ma-primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.methodology-admin__section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ma-border);
+  margin-left: 0.5rem;
+}
+
+.methodology-admin__form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1rem;
+}
+
+@media (max-width: 640px) {
+  .methodology-admin__form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.methodology-admin__field label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ma-text);
+  font-weight: 600;
+  margin-bottom: 0.28rem;
+}
+
+.methodology-admin__field-hint {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--ma-text-muted);
+  font-weight: 400;
+  margin-top: 0.2rem;
+  line-height: 1.4;
+}
+
+.methodology-admin__field input,
+.methodology-admin__field select,
+.methodology-admin__field textarea {
+  width: 100%;
+  border: 1px solid var(--ma-border-strong);
+  border-radius: var(--ma-radius-sm);
+  padding: 0.5rem 0.65rem;
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.methodology-admin__field input:focus,
+.methodology-admin__field select:focus,
+.methodology-admin__field textarea:focus {
+  outline: none;
+  border-color: var(--ma-primary);
+  box-shadow: 0 0 0 3px var(--ma-primary-soft);
+}
+
+.methodology-admin__field input:disabled {
+  background: #f1f5f9;
+  color: var(--ma-text-muted);
+  cursor: not-allowed;
+}
+
+.methodology-admin__field textarea {
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.methodology-admin__field textarea.ma-textarea--lg {
+  min-height: 160px;
+}
+
+.methodology-admin__field--full {
+  grid-column: 1 / -1;
+}
+
+.methodology-admin__char-count {
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--ma-text-muted);
+  margin-top: 0.2rem;
+}
+
+.methodology-admin__switch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0;
+}
+
+/* ── Chips & phases ─────────────────────────────────────────────────── */
+
+.methodology-admin__chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--ma-border-strong);
+  border-radius: var(--ma-radius-sm);
+  background: var(--ma-surface);
+  min-height: 42px;
+}
+
+.methodology-admin__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  background: var(--ma-primary-soft);
+  color: var(--ma-primary-dark);
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  font-weight: 500;
+}
+
+.methodology-admin__chip-x {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--ma-primary);
+  line-height: 1;
+  display: flex;
+}
+
+.methodology-admin__chip-x:hover {
+  color: #b91c1c;
+}
+
+.methodology-admin__chips input {
+  flex: 1;
+  min-width: 100px;
+  border: none;
+  outline: none;
+  font-size: 0.85rem;
+  padding: 0.2rem;
+  background: transparent;
+}
+
+.methodology-admin__phase-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.methodology-admin__phase-options button {
+  border: 1px solid var(--ma-border-strong);
+  background: var(--ma-surface);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ma-text-muted);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.methodology-admin__phase-options button:hover:not(:disabled) {
+  border-color: var(--ma-primary-border);
+  color: var(--ma-primary-dark);
+}
+
+.methodology-admin__phase-options button.is-active {
+  background: var(--ma-primary);
+  border-color: var(--ma-primary);
+  color: #fff;
+}
+
+.methodology-admin__phase-options button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Beats ──────────────────────────────────────────────────────────── */
+
+.methodology-admin__beats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  border: 1px solid var(--ma-border);
+  border-radius: var(--ma-radius-sm);
+  padding: 0.65rem;
+  background: var(--ma-surface-muted);
+}
+
+.methodology-admin__beats-empty {
+  font-size: 0.85rem;
+  color: var(--ma-text-muted);
+  text-align: center;
+  padding: 0.75rem;
+}
+
+.methodology-admin__beat {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0.5rem 0.65rem;
+  background: var(--ma-surface);
+  border: 1px solid var(--ma-border);
+  border-radius: var(--ma-radius-sm);
+  padding: 0.55rem 2rem 0.55rem 0.55rem;
+  position: relative;
+}
+
+.methodology-admin__beat-remove {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 0.95rem;
+  cursor: pointer;
+  line-height: 1;
+  border-radius: 4px;
+  padding: 0.15rem;
+}
+
+.methodology-admin__beat-remove:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.methodology-admin__beat-field label {
+  font-size: 0.68rem;
+  color: var(--ma-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.methodology-admin__beat-field input,
+.methodology-admin__beat-field textarea {
+  width: 100%;
+  border: 1px solid var(--ma-border-strong);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+.methodology-admin__beat-field textarea {
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  resize: vertical;
+  min-height: 48px;
+}
+
+/* ── Empty states ───────────────────────────────────────────────────── */
+
+.methodology-admin__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.25rem;
+  color: var(--ma-text-muted);
+  font-size: 0.88rem;
+  gap: 0.5rem;
+}
+
+.methodology-admin__empty-icon {
+  font-size: 2rem;
+  color: #cbd5e1;
+}
+
+.methodology-admin__empty-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  min-height: 360px;
+  padding: 2.5rem 1.5rem;
+  border: 1px dashed var(--ma-border-strong);
+  border-radius: var(--ma-radius);
+  background: linear-gradient(180deg, #fafcfd 0%, #fff 100%);
+  color: var(--ma-text-muted);
+}
+
+.methodology-admin__empty-panel-icon {
+  font-size: 3rem;
+  color: var(--ma-primary);
+  opacity: 0.35;
+  margin-bottom: 0.75rem;
+}
+
+.methodology-admin__empty-panel h5 {
+  margin: 0 0 0.5rem;
+  color: var(--ma-text);
+  font-weight: 600;
+}
+
+.methodology-admin__empty-panel p {
+  margin: 0;
+  max-width: 22rem;
+  line-height: 1.55;
+  font-size: 0.9rem;
+}
+
+/* ── Loading ────────────────────────────────────────────────────────── */
+
+.methodology-admin__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  gap: 1rem;
+  color: var(--ma-text-muted);
+}
+
+.methodology-admin__loading-bar {
+  width: min(280px, 80%);
+  height: 6px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+  position: relative;
+}
+
+.methodology-admin__loading-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, var(--ma-primary), transparent);
+  animation: ma-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes ma-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.methodology-admin__field-error {
+  font-size: 0.78rem;
+  color: #b91c1c;
+  margin-top: 0.25rem;
+}

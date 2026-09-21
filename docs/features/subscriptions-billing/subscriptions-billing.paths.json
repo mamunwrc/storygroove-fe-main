@@ -1,0 +1,21 @@
+{
+  "schema_version": "1",
+  "feature_id": "subscriptions-billing",
+  "title": "Subscriptions and Billing",
+  "description": "Stripe subscriptions, checkout, billing portal, webhooks, and trial gating.",
+  "source_paths": [
+    "src/Pages/Subscription/",
+    "src/Pages/Billing/",
+    "src/api/billing.js",
+    "src/api/subscriptions.js",
+    "src/component/Subscriptions/",
+    "src/component/Modal/SubscriptionRequiredModal.jsx"
+  ],
+  "related_paths": [
+    "src/Pages/SubscriptionFailed/"
+  ],
+  "entrypoints": [
+    "src/Pages/Subscription/index.jsx"
+  ],
+  "mapping_confidence": "high"
+}

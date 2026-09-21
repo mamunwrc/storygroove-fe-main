@@ -1,0 +1,112 @@
+.sg-payment-method {
+  max-width: 960px;
+  margin: 0 auto 24px;
+  padding: 24px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #f8fbfd;
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #6b7280;
+    font-size: 0.9375rem;
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-family: "Domine", serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0c2d48;
+    margin: 0 0 6px;
+  }
+
+  &__desc {
+    margin: 0;
+    max-width: 560px;
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  &__cta {
+    flex-shrink: 0;
+  }
+
+  &__card-summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+  }
+
+  &__card-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  &__card-main {
+    font-weight: 600;
+    color: #0c2d48;
+    font-size: 1rem;
+  }
+
+  &__card-meta {
+    margin-top: 2px;
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  &__empty {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+
+  &__form {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  &__secure-note {
+    margin: 0 0 12px;
+    color: #0a5d84;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  &__card-element {
+    padding: 14px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  &__error {
+    margin: 10px 0 0;
+    color: #b91c1c;
+    font-size: 0.875rem;
+  }
+
+  &__form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+  }
+}

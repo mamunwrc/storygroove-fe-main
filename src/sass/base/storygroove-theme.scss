@@ -1,0 +1,128 @@
+// Storygroove Theme Global Styles
+@use "sass:map";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap");
+
+.storygroove-theme {
+
+  // Fill Button
+  .btn.btn-primary,
+  .sg-btn-fill {
+    height: 48px;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background: #078fca;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    font-family: map.get($theme-fonts, "primary-font");
+
+    &:hover {
+      background: darken(#078fca, 10%);
+      color: #e6e6e6;
+    }
+  }
+
+  // Outline Button
+  .sg-btn-outline {
+    min-width: 90px;
+    height: 48px;
+    padding: 16px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: transparent;
+    color: #078fca;
+    border: 1px solid #078fca;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    text-decoration: none;
+    font-family: "Inter", sans-serif;
+
+    &:hover {
+      background: #078fca;
+      color: #fff;
+      border-color: #078fca;
+    }
+  }
+
+  .outline-card-btn {
+    background-color: #f5fafe;
+    border: 1px solid #ccd4d8;
+    display: flex;
+    justify-content: space-between;
+    color: #4f4f4f;
+    font-weight: 500;
+  }
+
+  .rounded-btn .sg-btn-outline,
+  .rounded-btn .outline-card-btn {
+    border-radius: 30px;
+    height: 40px;
+    min-width: 120px;
+  }
+
+  .form-label {
+    font-family: map.get($theme-fonts, "primary-font");
+    font-weight: 300;
+    font-size: 14px;
+    color: #333333;
+  }
+
+  .form-control {
+    height: 48px;
+  }
+
+  .form-control:disabled {
+    box-shadow: none;
+    border-radius: 8px;
+    border: 1.5px solid #ccd4d8;
+    background: #f5fafe;
+    height: 48px;
+  }
+
+  .tab-content {
+    padding: 24px;
+    margin-top: 0px;
+  }
+
+  .card-box {
+    border-radius: 8px;
+    border: 1px solid #ccd4d8;
+    background: #ffffff;
+    box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.1);
+    margin: 24px;
+    min-height: 86vh;
+  }
+
+  .box-shadow {
+    border-radius: 8px;
+    border: 1px solid #ccd4d8;
+    background: #fff;
+    box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.15);
+  }
+
+  .modal-lg {
+    max-width: 625px;
+  }
+
+  .modal-content {
+    font-weight: 300;
+    color: #4f4f4f;
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
+}

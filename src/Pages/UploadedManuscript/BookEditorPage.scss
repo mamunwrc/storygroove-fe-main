@@ -1,0 +1,259 @@
+.wordcount-label {
+  font-size: 16px;
+  border-left: 1px solid #ccd4d8;
+  padding-left: 15px;
+}
+.wordcount-progress {
+  max-width: 200px;
+  width: 100%;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+.wordcount-bar-bg {
+  background: #e0e0e0;
+  border-radius: 6px;
+  width: 100%;
+  height: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.wordcount-bar-fill {
+  background: #078fca;
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s;
+}
+.wordcount-badge {
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 2px 12px;
+  font-size: 14px;
+  color: #4F4F4F;
+  background: #f8f9fa;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+// Pulse for Ellis' "generating" per-chapter review status dot.
+@keyframes ellisPulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.35; }
+  100% { opacity: 1; }
+}
+
+// Full-page themed loader/error shown while the uploaded manuscript opens.
+.upload-viewer-boot {
+  flex: 1;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  padding: 40px 24px;
+
+  .building-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e0e0e0;
+    border-top-color: #078fca;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 6px;
+  }
+
+  .building-spine-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #02415c;
+    margin: 0;
+  }
+
+  .building-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #3a3a3a;
+    margin: 0;
+    max-width: 420px;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upload-viewer-boot .building-spinner {
+    animation: none;
+  }
+}
+
+// Ellis scene-by-scene review loading (upload viewer right sidebar)
+.book-editor-sidebar-column .sidebar-scene-pane .ellis-review-loading {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 8px;
+  width: 100%;
+  animation: sidebarFadeIn 0.35s ease;
+
+  &__card {
+    flex: 1;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 18px 20px;
+    border-radius: 10px;
+    background: linear-gradient(165deg, #f4fafd 0%, #eef6fb 100%);
+    border: 1px solid #cfe8f4;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #078fca;
+    animation: sidebarPulse 1.5s infinite ease-in-out;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #078fca;
+    line-height: 1.35;
+  }
+
+  &__progress {
+    height: 3px;
+    border-radius: 2px;
+    background: #e0ecf2;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    width: 40%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #078fca, #0ab0e6);
+    animation: sidebarProgressSlide 1.5s infinite ease-in-out;
+  }
+
+  &__hint {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #5a6b78;
+    text-align: center;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__lines {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  &__line {
+    display: block;
+    height: 10px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #e2edf4 0%, #f2f8fc 45%, #e2edf4 90%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite ease-in-out;
+    width: 100%;
+  }
+
+  &__line--short {
+    width: 62%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-editor-sidebar-column .sidebar-scene-pane .ellis-review-loading {
+    &__pulse,
+    &__progress-fill,
+    &__line {
+      animation: none;
+    }
+  }
+}
+
+// Download Editing Plan — match StoryGroove theme (#078fca) on the right rail
+.chapter-plan-download-wrap {
+  padding: 0 2px 10px;
+  flex-shrink: 0;
+}
+
+.chapter-plan-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  background: #078fca;
+  border: 1px solid #0679ab;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: #0679ab;
+    border-color: #056890;
+    box-shadow: 0 2px 8px rgba(7, 143, 202, 0.35);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(7, 143, 202, 0.55);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  &--busy {
+    cursor: wait;
+  }
+}
+
+.chapter-plan-download-btn__spinner {
+  animation: chapterPlanDownloadSpin 0.75s linear infinite;
+}
+
+@keyframes chapterPlanDownloadSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Saved Ellis chapter reviews in Revision Plan sidebar
+.book-editor-sidebar-column .ellis-scene-review .sidebar-scene-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 6px;
+}

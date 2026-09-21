@@ -1,0 +1,62 @@
+.outerbillingdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.innerbillingdiv {
+  margin: auto;
+  width: 75%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.invoicetitle {
+  font-weight: bold;
+}
+
+.billingDropdown {
+  margin-right: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+    linear-gradient(180deg, #ffffff 0%, #eaeaea 150%);
+}
+
+.showp {
+  margin-right: 10px;
+  margin-top: revert;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.ddtoggle {
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.billingpagination {
+  margin: auto;
+  margin-right: 1px;
+  align-items: center;
+  gap: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .paginate {
+    margin-bottom: 150px;
+  }
+  .paginate-inner {
+    display: block;
+  }
+  .billing-table {
+    overflow-x: auto;
+  }
+}
+.billing-table thead td {
+  background-color: #bdbdbd;
+}
+.billing-table td {
+  border: 1px solid #e0e0e0;
+}

@@ -1,0 +1,439 @@
+@use "sass:map";
+
+// .toaster-header {
+//   gap: 15px;
+//   color: #ffffff;
+//   background-color: #ca1111;
+//   padding: 15px;
+//   border: 0;
+//   border-radius: 10px;
+//   .toaster-icon {
+//     font-size: 40px;
+//     background-color: 'transparent';
+//     border: '0';
+//     border-radius: '50%';
+//     color: #ffffff;
+//   }
+//   .toaster-body {
+//     width: 65%;
+//   }
+//   button {
+//     display: none;
+//   }
+// }
+
+// .login-page {
+//   max-width: 100%;
+//   width: 100%;
+// }
+// .left-section {
+//   height: 100%;
+// }
+// .right-section {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: #1e90ff;
+
+//   img {
+//     object-fit: cover;
+//     width: 100%;
+//     height: 100%;
+//   }
+// }
+
+// .form-signin {
+//   .form {
+//     max-width: 100%;
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+//   }
+
+//   .form-logo {
+//     text-align: center;
+//     margin-bottom: 30px;
+//   }
+
+//   .form-check {
+//     margin-top: 24px;
+//   }
+
+//   .form-floating input {
+//     background: $color-white !important;
+//   }
+// }
+
+// // new styles for login page
+
+// .login-page {
+//   max-width: 100%;
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   .logo {
+//     font-weight: 700;
+//     padding: 40px 0 0 60px;
+//   }
+//   .left-section {
+//     width: 50%;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     background-color: #fafafa;
+//     .form-signin {
+//       width: 100%;
+//       max-width: 620px;
+//       padding: 20px 30px;
+//       display: flex;
+//       justify-content: center;
+//       align-items: center;
+//       flex-direction: column;
+//       .password-text {
+//         font-weight: 400;
+//         font-size: 12px;
+//         line-height: 140%;
+//         letter-spacing: 0%;
+//         color: #697077;
+//         margin-top: 5px;
+//       }
+//       .login-btn {
+//         height: 48px;
+//         border-radius: 10px;
+//       }
+//       .forget-password-switch {
+//         font-size: 35px;
+//         color: #ffffff;
+//         cursor: pointer;
+//       }
+//       .logo-img {
+//         width: 272px;
+//       }
+//       .title-text-h2 {
+//         margin: 35px 0;
+//       }
+//       .form-title {
+//         font-size: 36px;
+//         color: #1b1b1b;
+//         margin-bottom: 0px;
+//       }
+//       .form-subtitle {
+//         color: #808080;
+//         font-size: 18px;
+//         margin-bottom: 40px;
+//       }
+//       .form.custom-form {
+//         .form-label {
+//           font-size: 20px;
+//           font-weight: 500;
+//         }
+//         .form-control {
+//         }
+//         .forgot-link {
+//           color: #7fc9c7;
+//           font-size: 18px;
+//           font-weight: 500;
+//           line-height: 21px;
+//           padding-right: 0px;
+//         }
+//         .form-toggle-password {
+//           width: 40px;
+//           position: absolute;
+//           top: 70%;
+//           right: 18px;
+//           transform: translateY(-50%);
+//           background-color: #ffffff;
+//           border: 0;
+//         }
+//       }
+//     }
+//   }
+//   .right-section {
+//     width: 50%;
+//     position: relative;
+//   }
+// }
+
+// @media screen and (max-width: 800px) {
+//   .login-page {
+//     .left-section {
+//       width: 100%;
+//     }
+//     .right-section {
+//       display: none;
+//     }
+//   }
+//   .form-signin {
+//     justify-content: center;
+//     // min-height: 100vh;
+//     align-items: center;
+//     flex-direction: column;
+//     padding: 20px 15px !important;
+//   }
+// }
+
+// .signup-text {
+//   // color: #7fc9c7;
+//   font-weight: 400;
+//   font-size: 14px;
+//   line-height: 150%;
+//   letter-spacing: 0%;
+//   color: #282828;
+//   cursor: pointer;
+//   text-align: left;
+//   .signup-text-a {
+//     text-decoration: none;
+//   }
+// }
+
+// // global style used for later
+// .form-check {
+//   font-size: 14px;
+//   font-weight: 400;
+//   line-height: 25px;
+//   color: #282828;
+//   margin-top: 0px !important;
+//   input {
+//     border: 1px solid #7fc9c7;
+//     border-radius: 6px;
+//     width: 20px;
+//     height: 20px;
+//   }
+//   .form-check-input:checked[type='checkbox'] {
+//     --bs-form-check-bg-image: url('../../assests/images/check.png');
+//     background-color: rgba(64, 152, 255, 0.1);
+//     border: 1px solid #7fc9c7;
+//   }
+// }
+// // styles for google buttons , might need later
+// .nsm7Bb-HzV7m-LgbsSe {
+//   border: none !important;
+//   border-radius: 8px !important;
+//   padding: 0 !important;
+// }
+// .nsm7Bb-HzV7m-LgbsSe {
+//   font-size: 18px !important;
+//   color: #1b1b1b;
+//   font-family: Work Sans !important;
+// }
+// .nsm7Bb-HzV7m-LgbsSe.nsm7Bb-HzV7m-LgbsSe-BPrWId {
+//   font-size: 18px !important;
+//   color: #1b1b1b;
+//   font-family: Work Sans !important;
+// }
+
+/* Kept: Existing toaster styles */
+.toaster-header {
+  gap: 15px;
+  color: #ffffff;
+  background-color: #ca1111;
+  padding: 15px;
+  border: 0;
+  border-radius: 10px;
+  .toaster-icon {
+    font-size: 40px;
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: #ffffff;
+  }
+  .toaster-body {
+    width: 65%;
+  }
+  button {
+    display: none;
+  }
+}
+
+/* Changed: Updated login-page to use a full-screen background */
+.auth-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("../../assests/images/main-banner.jpg") no-repeat center
+    center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+/* Added: Background overlay for better form visibility */
+.auth-background {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-half{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50%;
+  // ✅ Make it responsive
+  @media (max-width: 1024px) {
+    width: 70%;
+    margin-right: 0;
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    margin-right: 0;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    margin-right: 0;
+    padding: 20px;
+    align-items: flex-start;
+  }
+}
+
+/* Removed: Left-section and right-section split */
+.form-fields-container {
+  padding: 50px 50px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 540px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  border-radius: 20px;
+  background: 
+    linear-gradient(to right, #DFF9FF 50%, #00698C 50%) border-box, /* gradient border */
+    rgba(255, 255, 255, 0.1) padding-box; /* inner background */
+
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 105, 140, 0.5);
+
+  border-image-slice: 1;
+  background: rgba(255, 255, 255, 0.1);
+
+  /* Updated: Adjusted logo size */
+  .logo-img {
+    width: 248px;
+    margin-bottom: 20px;
+  }
+
+  /* Updated: Adjusted title styling */
+  .form-heading {
+    margin-bottom: 20px;
+  }
+
+  /* Updated: Form styling */
+  .form.custom-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-family: map.get($theme-fonts, "primary-font");
+    color: #ffffff;
+    font-size: 14px;
+    .form-label {
+      margin-bottom: 4px;
+    }
+
+    .form-control {
+      border-radius: 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .form-toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 70%;
+      transform: translateY(-50%);
+      background-color: transparent;
+      border: 0;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .password-text {
+      font-size: 12px;
+      color: #697077;
+      text-align: left;
+    }
+
+    .login-btn {
+      background-color: #078FCA;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      &:hover {
+        background-color: #187bcd;
+      }
+    }
+
+    .btn.btn-link {
+      padding: 0;
+      margin: 0;
+      color: #ffffff;
+      font-weight: bold;
+      margin-left: 5px;
+      letter-spacing: 0.5px;
+      font-size: 14px;
+      text-decoration: underline;
+      position: relative;
+      top: -2px;
+    }
+  }
+
+  /* Updated: Forgot password switch icon */
+  .forget-password-switch {
+    font-size: 24px;
+    color: #1e90ff;
+    cursor: pointer;
+  }
+}
+
+/* Updated: Signup text styling */
+.signup-text {
+  font-size: 15px;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 300;
+  font-family: 'Inter', sans-serif;
+  a,
+  .signup-text-a {
+    margin-left: 2px;
+    font-weight: 700;
+  }
+}
+
+/* Kept: Existing form-check styles */
+.form-check {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 25px;
+  color: #ffffff;
+  margin-top: 0px !important;
+  font-family: map.get($theme-fonts, "primary-font");
+  input {
+    border: 1px solid #7fc9c7;
+    border-radius: 6px;
+    width: 20px;
+    height: 20px;
+  }
+  .form-check-input:checked[type="checkbox"] {
+    --bs-form-check-bg-image: url("../../assests/images/check.png");
+    background-color: rgba(64, 152, 255, 0.1);
+    border: 1px solid #7fc9c7;
+  }
+}
+
+/* Kept: Existing media query for responsiveness */
+@media screen and (max-width: 800px) {
+  .form-signin {
+    padding: 20px;
+    max-width: 90%;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1",
+  "feature_id": "s3-file-storage",
+  "title": "S3 Asset Display and Upload",
+  "description": "Frontend upload and display of S3-backed user assets via API and /userData URLs.",
+  "source_paths": [
+    "src/api/user.js",
+    "src/api/assistant.js",
+    "src/api/images.js",
+    "src/Pages/usertokendetails/Profile.jsx",
+    "src/component/BookCoverModal/",
+    "src/component/Chat/FileUploadButton.jsx",
+    "src/component/Chat/ChatFileMessage.jsx"
+  ],
+  "related_paths": [
+    "src/component/Chat/FilePreview.jsx"
+  ],
+  "entrypoints": [
+    "src/api/images.js"
+  ],
+  "mapping_confidence": "high"
+}

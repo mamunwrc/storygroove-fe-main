@@ -1,0 +1,19 @@
+{
+  "schema_version": "1",
+  "feature_id": "manual-invite-checkout",
+  "title": "Manual Invite Checkout (Superadmin)",
+  "description": "Superadmin profile tab to pick a customer + plan, generate a Stripe Checkout link, and copy or email it.",
+  "source_paths": [
+    "src/Pages/usertokendetails/ManualInvites.jsx",
+    "src/Pages/usertokendetails/ManualInvites.css"
+  ],
+  "related_paths": [
+    "src/Pages/usertokendetails/usertoken.jsx",
+    "src/api/subscriptions.js",
+    "src/api/user.js"
+  ],
+  "entrypoints": [
+    "src/Pages/usertokendetails/ManualInvites.jsx"
+  ],
+  "mapping_confidence": "high"
+}

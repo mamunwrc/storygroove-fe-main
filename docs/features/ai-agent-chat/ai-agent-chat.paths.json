@@ -1,0 +1,18 @@
+{
+  "schema_version": "1",
+  "feature_id": "ai-agent-chat",
+  "title": "AI Agent Chat",
+  "description": "Simone and Olivia agent chat threads via OpenAI Responses API.",
+  "source_paths": [
+    "src/Pages/AIAgentChat/",
+    "src/api/assistant.js",
+    "src/component/Chat/"
+  ],
+  "related_paths": [
+    "src/component/Modal/SimoneThreadLimitModal.jsx"
+  ],
+  "entrypoints": [
+    "src/Pages/AIAgentChat/AIAgentChatPage.jsx"
+  ],
+  "mapping_confidence": "high"
+}

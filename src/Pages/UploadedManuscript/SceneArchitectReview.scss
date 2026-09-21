@@ -1,0 +1,309 @@
+/* Ellis Scene Architect review — match Olivia chat body copy (.ocm-message-text). */
+.ellis-scene-architect-review {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  &__meta {
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+  &__scene-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px 15px;
+    background: #fff;
+  }
+
+  &__scene-title {
+    margin: 0;
+    font-size: 1.05em;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #02415c;
+  }
+
+  &__section-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #6b7280;
+    margin-bottom: 2px;
+  }
+
+  &__block {
+    margin-top: 10px;
+
+    &:first-of-type {
+      margin-top: 8px;
+    }
+  }
+
+  &__body {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  &__first-line {
+    font-size: 15px;
+    font-style: italic;
+    color: #374151;
+    line-height: 1.55;
+  }
+
+  &__suggestion {
+    border-left: 3px solid #2d72d9;
+    background: #f7f9fc;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 12px;
+  }
+
+  &__suggestion-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  &__suggestion-category {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-left: 6px;
+    text-transform: uppercase;
+  }
+
+  &__weakness {
+    font-size: 14px;
+    color: #9a5b00;
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+
+  &__example {
+    font-size: 14px;
+    line-height: 1.55;
+    margin-top: 8px;
+    background: #fff;
+    border: 1px dashed #d1d9e6;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-style: italic;
+  }
+
+  &__cumulative {
+    border: 1px solid #d8c7a8;
+    background: #fcf8f0;
+    border-radius: 10px;
+    padding: 14px 15px;
+  }
+
+  &__cumulative-title {
+    margin: 0;
+    font-size: 1.05em;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #02415c;
+  }
+
+  &__cumulative-body {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 8px;
+    white-space: pre-wrap;
+  }
+}
+
+.ellis-chapter-review-footer {
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid #e8ecef;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #3f4947;
+
+  p {
+    margin: 0;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+@mixin ellis-review-markdown-structure($body-color: #333) {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  strong {
+    font-weight: 400;
+    color: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+  }
+
+  hr.scene-section-separator {
+    border: none;
+    border-top: 1px solid #ccd4d8;
+    margin: 12px 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  hr.scene-section-separator + p {
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: normal;
+
+    strong {
+      font-weight: 700;
+      color: #02415c;
+    }
+  }
+
+  p.ellis-review-scene-title {
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: 1.05em;
+    font-weight: 700;
+    color: #02415c;
+    line-height: 1.35;
+
+    strong {
+      font-weight: 700;
+      color: #02415c;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  hr.ellis-creative-suggestion-separator {
+    border: none;
+    border-top: 1px solid #ccd4d8;
+    margin: 0 0 8px;
+  }
+
+  hr.scene-section-separator + p.ellis-creative-section-header {
+    margin-top: 12px;
+    margin-bottom: 0;
+    font-weight: normal;
+
+    strong {
+      font-weight: 700;
+      color: #02415c;
+    }
+  }
+
+  hr.ellis-creative-section-divider {
+    border: none;
+    border-top: 1px solid #ccd4d8;
+    margin: 10px 0 16px;
+  }
+
+  hr.ellis-creative-section-divider + p.ellis-creative-weakness-line {
+    margin-top: 0;
+  }
+
+  p.ellis-creative-sub-label {
+    margin: 0 0 8px;
+
+    strong {
+      font-weight: 600;
+      color: #3f5663;
+    }
+  }
+
+  p.ellis-creative-suggestion-name strong {
+    font-weight: 700;
+    color: #02415c;
+  }
+
+  p.ellis-creative-weakness-line .ellis-creative-weakness-value {
+    color: $body-color;
+  }
+
+  p.ellis-creative-example {
+    padding-left: 1em;
+    line-height: 1.5;
+    font-style: italic;
+
+    strong {
+      font-style: normal;
+      color: #3f5663;
+    }
+  }
+}
+
+/* Ellis chat bubble — 15px / #333 */
+@mixin ellis-review-markdown-body-chat {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+
+  p {
+    margin: 0 0 0.65em;
+    line-height: 1.55;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @include ellis-review-markdown-structure(#333);
+}
+
+/* Revision Plan sidebar — match Olivia sidebar (14px, #41474C) */
+@mixin ellis-review-markdown-body-sidebar {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #41474c;
+
+  p {
+    margin: 0 0 0.55em;
+    line-height: 1.55;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @include ellis-review-markdown-structure(#41474c);
+}
+
+/* Formatted markdown chapter reviews in Ellis chat. */
+.sidebar-markdown-body--ellis-review {
+  @include ellis-review-markdown-body-chat;
+}
+
+/* Revision Plan sidebar — overrides chat typography; keeps Ellis section structure. */
+.book-editor-sidebar-column .ellis-scene-review .sidebar-markdown-body--ellis-review {
+  @include ellis-review-markdown-body-sidebar;
+}
+
+.ellis-saved-review-markdown {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 4px;
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "feature_id": "final-draft",
+  "title": "Final Draft Review",
+  "description": "Final draft review page with Ellis feedback and finalize workflow.",
+  "source_paths": [
+    "src/Pages/FinalDrift/",
+    "src/component/Modal/FinalizeDraftConfirmationModal.jsx"
+  ],
+  "related_paths": [
+    "src/api/bookGeneration.js"
+  ],
+  "entrypoints": [
+    "src/Pages/FinalDrift/FinalDriftPage.jsx"
+  ],
+  "mapping_confidence": "high"
+}

@@ -1,0 +1,80 @@
+@use 'sass:map';
+
+.navbar {
+  position: -webkit-sticky !important;
+  position: -moz-sticky !important;
+  position: -o-sticky !important;
+  position: -ms-sticky !important;
+  position: sticky !important;
+  background-color: #1b1b1b;
+  height: 70px;
+  padding: 0 35px;
+  @media screen and (max-width: 1024px) {
+    z-index: 0;
+  }
+  .logo {
+    display: flex;
+    width: 100%;
+    .logo-text {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    padding: 0 10px;
+    .logo {
+      .logo-text {
+        font-size: 16px;
+      }
+    }
+  }
+ 
+}
+
+ .header-dropdown {
+  background-color: #f8f8f8;
+  padding: 8px;
+   border-radius: 8px;
+    .btn-group {
+          justify-content: space-between;
+      .dropdown-btn {
+        border: none;
+        border-radius: 50%;
+        font-size: 30px;
+        color: $color-text-primary;
+        font-weight: 500;
+        line-height: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: space-between;
+        cursor: pointer;
+        
+        span{
+          font-size: 16px;
+          font-weight: 400;
+          color: #494949;
+        }
+        img {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+      .dropdown-icon {
+        font-size: 20px;
+        font-weight: 700;
+        color: #e7e7e7;
+      }
+      .dropdown-menu-lg-end {
+        left: -57px;
+      }
+    }
+    .btn-group:hover {
+      background-color: transparent;
+    }
+  }
+  .header-dropdown:hover {
+    background-color: #f0f0f0;
+  }

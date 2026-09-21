@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "feature_id": "novel-management",
+  "title": "Novel Management",
+  "description": "Novel CRUD, scenes, notes, characters, user content, and manuscript download.",
+  "source_paths": [
+    "src/api/bookGeneration.js",
+    "src/Pages/BookEditor/AddCharacterModal.jsx",
+    "src/Pages/BookEditor/OutlineSidebar.jsx",
+    "src/contexts/NovelContext.js"
+  ],
+  "related_paths": [],
+  "entrypoints": [
+    "src/contexts/NovelContext.js"
+  ],
+  "mapping_confidence": "high"
+}

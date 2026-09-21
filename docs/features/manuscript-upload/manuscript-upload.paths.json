@@ -1,0 +1,16 @@
+{
+  "schema_version": "1",
+  "feature_id": "manuscript-upload",
+  "title": "Manuscript Upload and Viewer",
+  "description": "Upload existing manuscripts and edit them in the upload viewer.",
+  "source_paths": [
+    "src/component/createBook/UploadManuscriptModal.jsx",
+    "src/Pages/UploadedManuscript/",
+    "src/component/FileUpload/"
+  ],
+  "related_paths": [],
+  "entrypoints": [
+    "src/Pages/UploadedManuscript/UploadBookViewerPage.jsx"
+  ],
+  "mapping_confidence": "high"
+}

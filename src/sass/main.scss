@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap");
+
+@import "./base/color.scss";
+@import "./base/variable.scss";
+@import "./base/typography.scss";
+@import "./base/global.scss";
+@import "./base/include-media.scss";
+@import "./components/NewSidebar.scss";
+@import "./components/CustomStyles.scss";
+@import "../Pages/LoginPage/login.scss";
+@import "./pages/Dashboard.scss";
+@import "../Pages/ResetPassword/ResetPassword.scss";
+@import "./components/Header.scss";
+@import "../component/layout/footer/footer.scss";
+@import "../component/Prompt/Prompt.scss";
+@import "./pages/subscription.scss";
+@import "./pages/Layout.scss";
+@import "./components/ShopifyProducts.scss";
+@import "./base/modal.scss";
+@import "../Pages/BookDetails/bookdetails.scss";
+@import "../Pages/BookEditor/bookEditor.scss";
+@import "./base/storygroove-theme.scss";

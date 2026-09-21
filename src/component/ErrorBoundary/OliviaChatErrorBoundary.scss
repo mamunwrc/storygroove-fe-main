@@ -1,0 +1,76 @@
+.ocm-error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+
+  &--modal {
+    padding: 24px;
+    min-height: 240px;
+  }
+
+  &--page {
+    padding: 32px;
+    min-height: 60vh;
+  }
+
+  &__card {
+    max-width: 480px;
+    width: 100%;
+    padding: 24px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  &__desc {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #4b5563;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__btn {
+    appearance: none;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
+    color: #1f2937;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: #f3f4f6;
+    }
+
+    &--primary {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #fff;
+
+      &:hover {
+        background: #1d4ed8;
+      }
+    }
+  }
+}

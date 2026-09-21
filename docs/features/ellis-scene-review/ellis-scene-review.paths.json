@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "feature_id": "ellis-scene-review",
+  "title": "Ellis Scene Review",
+  "description": "Ellis per-scene feedback display in Book Editor and Final Draft.",
+  "source_paths": [
+    "src/Pages/FinalDrift/",
+    "src/Pages/BookEditor/"
+  ],
+  "related_paths": [
+    "src/api/bookGeneration.js"
+  ],
+  "entrypoints": [
+    "src/Pages/FinalDrift/FinalDriftPage.jsx"
+  ],
+  "mapping_confidence": "high"
+}

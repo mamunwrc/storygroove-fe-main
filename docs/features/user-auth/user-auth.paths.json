@@ -1,0 +1,23 @@
+{
+  "schema_version": "1",
+  "feature_id": "user-auth",
+  "title": "User Authentication and Profile",
+  "description": "Login, registration, 2FA, password reset, profile, and admin user management.",
+  "source_paths": [
+    "src/Pages/LoginPage/",
+    "src/Pages/SignUpPage/",
+    "src/Pages/ResetPassword/",
+    "src/Pages/VerifyToken/",
+    "src/Pages/usertokendetails/Profile.jsx",
+    "src/contexts/NewAuthProvider.js",
+    "src/api/user.js"
+  ],
+  "related_paths": [
+    "src/component/GoogleSignInButton/",
+    "src/Pages/callback.jsx"
+  ],
+  "entrypoints": [
+    "src/Pages/LoginPage/index.jsx"
+  ],
+  "mapping_confidence": "high"
+}

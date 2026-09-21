@@ -1,0 +1,80 @@
+.finaldrift-page {
+  background: #f8f9fa;
+}
+.editor-box {
+  min-height: 400px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+.right-box {
+  min-height: 400px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+.book-final-drift-stepper {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .custom-stepper {
+    border: 1px solid #e5e5e5;
+    border-radius: 100px;
+    display: flex;
+    height: 56px;
+    padding: 10px 0px;
+    justify-content: space-around;
+    align-items: center;
+    align-self: stretch;
+    .sub-step-label {
+      font-size: 16px;
+      margin: 0px 8px;
+      min-width: 120px;
+      text-align: center;
+      cursor: pointer;
+      font-family: "Roboto", sans-serif;
+    }
+  }
+  .stepper-btn-container {
+    min-width: 172px;
+    justify-content: flex-end;
+    display: flex;
+    .sg-btn-outline {
+      border-radius: 30px;
+      height: 50px;
+    }
+  }
+}
+.wordcount-label {
+  font-size: 16px;
+  border-left: 1px solid #CCD4D8;
+  padding-left: 15px;
+}
+.wordcount-progress {
+  max-width: 200px;
+  width: 100%;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+.wordcount-bar-bg {
+  background: #e0e0e0;
+  border-radius: 6px;
+  width: 100%;
+  height: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.wordcount-bar-fill {
+  background: #078FCA;
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s;
+}
+.wordcount-badge {
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 2px 12px;
+  font-size: 14px;
+  color: #4F4F4F;
+  background: #f8f9fa;
+  font-weight: 700;
+  margin-left: 4px;
+}

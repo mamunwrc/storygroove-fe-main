@@ -1,0 +1,3019 @@
+/* Root flex shell — inherit height from Layout outlet (not viewport units). */
+.book-editor-root {
+  height: 100%;
+  min-height: 0;
+}
+
+/* Main column beside outline: fill remaining width, allow flex children to shrink */
+.book-editor-main-stack {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  /* Size-aware top bar: layout responds to this column's width, not just viewport. */
+  container-type: inline-size;
+  container-name: book-editor-main;
+}
+
+/* Editor + sidebar row: min-height 0 so nested flex scroll areas work.
+   Replaces the previous inline `style={{ height: "calc(100vh - 80px)" }}` so we
+   can override the height per breakpoint (e.g. when the mobile toolbar adds a row). */
+.book-editor-workspace-row {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  overflow-x: hidden;
+  padding: 8px 12px;
+}
+
+.book-editor-root--focus .book-editor-workspace-row {
+  padding: 4px 8px;
+}
+
+.book-editor-editor-column {
+  flex: 7 1 0;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Inset for floating Olivia FAB (cover + download moved to topbar) */
+  --editor-fab-pad-bottom: 7rem;
+  --editor-fab-pad-right: 6rem;
+  overflow: hidden !important;
+}
+
+/* When the writer has dragged the Scene Coach to a custom width, the editor
+   yields its flex weight so the inline `flex: 0 0 ${px}` on the right panel
+   wins. The 360px floor keeps the editor a clickable target even at max
+   coach width. Applies on desktop only — drawer takes over below 1200px. */
+@media (min-width: 1200px) {
+  .book-editor-editor-column--resized {
+    flex: 1 1 0;
+    min-width: 360px;
+  }
+
+  /* Smooth width change when the writer click-toggles the Scene Coach panel. */
+  .book-editor-editor-column--resized.is-coach-width-animating {
+    transition: flex 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Drag must stay instant — no transition while the pointer is moving. */
+  .book-editor-editor-column--resized.is-resizing-coach {
+    transition: none !important;
+  }
+}
+
+.book-editor-editor-column--full {
+  flex: 1 1 0;
+}
+
+/* Focus mode — hide side panels on desktop; editor column fills workspace */
+@media (min-width: 1200px) {
+  .book-editor-root--focus {
+    .book-editor-drawer--left,
+    .book-editor-resize-handle--outline,
+    .book-editor-drawer--right,
+    .book-editor-workspace-row > .book-editor-resize-handle {
+      display: none !important;
+    }
+
+    .book-editor-editor-column {
+      flex: 1 1 0 !important;
+      min-width: 0;
+    }
+  }
+}
+
+/* Dense / compact WordCountBar on the editor route */
+.page-heading.page-heading--dense {
+  padding: 0.75rem 1rem !important;
+}
+
+.page-heading.page-heading--compact {
+  padding: 0.5rem 0.75rem !important;
+  display: flex !important;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px 12px;
+
+  .wcbar-row__primary {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .wcbar-row__stats {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-top: none;
+    padding-top: 0;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .wcbar-row__stats .wordcount-label {
+    border-left: none;
+    padding-left: 0;
+    font-size: 13px;
+  }
+
+  .wordcount-progress,
+  .wordcount-badge {
+    display: none;
+  }
+
+  .wcbar-row__stats .wcbar-row__cta {
+    margin-left: auto;
+  }
+
+  .topbar-actions {
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+}
+
+@container book-editor-main (max-width: 900px) {
+  .page-heading.page-heading--compact .wordcount-progress,
+  .page-heading.page-heading--compact .wordcount-badge,
+  .page-heading.page-heading--mobile .wordcount-progress,
+  .page-heading.page-heading--mobile .wordcount-badge {
+    display: none;
+  }
+}
+
+/* Ultra-compact top bar on tablet/mobile book editor */
+.page-heading.page-heading--mobile {
+  padding: 0.375rem 0.625rem !important;
+  gap: 6px;
+
+  .wcbar-row__primary svg {
+    display: none;
+  }
+
+  .wordcount-label {
+    font-size: 12px;
+  }
+
+  .wordcount-label strong {
+    font-weight: 600;
+  }
+
+  .wordcount-progress,
+  .wordcount-badge {
+    display: none;
+  }
+
+  .wcbar-row__stats .wcbar-row__cta {
+    gap: 4px;
+  }
+
+  .topbar-action-btn--prominent {
+    padding: 5px 8px;
+  }
+}
+
+.book-editor-mobile-top-chrome {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar-focus-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  line-height: 1;
+  flex-shrink: 0;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover:not(:disabled) {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    color: #1e3a4c;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(7, 143, 202, 0.55);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &[aria-pressed="true"] {
+    background: #e0f2fe;
+    border-color: #078fca;
+    color: #056a99;
+  }
+}
+
+@media (max-width: 991px) {
+  .topbar-focus-btn__label {
+    display: none;
+  }
+}
+
+.book-editor-sidebar-column {
+  flex: 3 1 0;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.wordcount-label {
+  font-size: 16px;
+  border-left: 1px solid #ccd4d8;
+  padding-left: 15px;
+}
+.wordcount-progress {
+  max-width: 200px;
+  width: 100%;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+.wordcount-bar-bg {
+  background: #e0e0e0;
+  border-radius: 6px;
+  width: 100%;
+  height: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.wordcount-bar-fill {
+  background: #078fca;
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s;
+}
+.wordcount-badge {
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 2px 12px;
+  font-size: 14px;
+  color: #4F4F4F;
+  background: #f8f9fa;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+/* ── Topbar action buttons (Cover + Download) ── */
+
+.topbar-actions {
+  flex-shrink: 0;
+}
+
+.topbar-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+  line-height: 1;
+  flex-shrink: 0;
+
+  svg { flex-shrink: 0; }
+}
+
+.topbar-action-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.topbar-action-btn:active:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.topbar-action-btn:focus-visible {
+  outline: 2px solid rgba(7, 143, 202, 0.55);
+  outline-offset: 2px;
+}
+
+.topbar-action-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.topbar-action-btn--cover {
+  color: #6c63ff;
+  border-color: #d4d0ff;
+
+  &:hover:not(:disabled) {
+    background: #f5f3ff;
+    border-color: #b8b3f0;
+  }
+}
+
+.topbar-action-btn--download {
+  color: #1e8e3e;
+  border-color: #b7e4c7;
+
+  &:hover:not(:disabled) {
+    background: #f0fdf4;
+    border-color: #86d4a0;
+  }
+}
+
+/* Filled CTA treatment — Download and Book Cover stay discoverable in the top bar */
+.topbar-action-btn--prominent {
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
+}
+
+.topbar-action-btn--prominent.topbar-action-btn--download {
+  background: #ecfdf5;
+  border-color: #86efac;
+  color: #15803d;
+
+  &:hover:not(:disabled) {
+    background: #dcfce7;
+    border-color: #4ade80;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.22);
+  }
+}
+
+.topbar-action-btn--prominent.topbar-action-btn--cover {
+  background: #f5f3ff;
+  border-color: #c4b5fd;
+  color: #5b21b6;
+
+  &:hover:not(:disabled) {
+    background: #ede9fe;
+    border-color: #a78bfa;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.22);
+  }
+}
+
+/* Visible but not ready — empty manuscript */
+.topbar-action-btn--download-disabled:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+  background: #f8fafc;
+  border-style: dashed;
+  border-color: #cbd5e1;
+  color: #64748b;
+  box-shadow: none;
+}
+
+.topbar-action-btn--busy {
+  cursor: wait;
+}
+
+.topbar-action-label {
+  pointer-events: none;
+}
+
+.topbar-action-spinner {
+  animation: topbarSpin 0.75s linear infinite;
+}
+
+@keyframes topbarSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (max-width: 991px) {
+  .topbar-action-label {
+    display: none;
+  }
+
+  .topbar-action-btn {
+    padding: 7px 9px;
+  }
+
+  .topbar-action-btn--prominent {
+    padding: 7px 9px;
+  }
+
+  .page-heading {
+    padding: 0.875rem 1rem !important;
+  }
+
+  .wcbar-title {
+    max-width: none;
+  }
+}
+
+/* Generation progress banner */
+.generation-progress-banner {
+  position: relative;
+  height: 36px;
+  background: #e8f4f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid #ccd4d8;
+}
+.generation-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #078fca22;
+  transition: width 0.6s ease-out;
+}
+.generation-progress-text {
+  position: relative;
+  font-size: 13px;
+  font-weight: 500;
+  color: #02415c;
+  letter-spacing: 0.02em;
+}
+
+/* Building/welcome state in editor area */
+.editor-building-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  text-align: left;
+  padding: 40px 48px;
+  overflow-y: auto;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.editor-building-state--leaving {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.building-complete-line {
+  font-size: 15px;
+  font-weight: 500;
+  color: #02415c;
+}
+.building-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.building-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e0e0e0;
+  border-top-color: #078fca;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.building-spine-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #02415c;
+  margin: 0;
+}
+.building-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.building-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #3a3a3a;
+  margin: 0;
+}
+.building-bold-line {
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 600;
+  color: #02415c;
+  margin: 0;
+}
+.building-actions-list {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #3a3a3a;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Smooth boot loading (avoid empty -> jump)
+--------------------------------------------------------------------------- */
+.editor-surface {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-surface > .editor-building-state {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Panel headers (Story Hub / Drafting Space / Scene Coach)
+
+   Shared shape: title + one-line subtitle. The three variants tune the
+   palette to the surface they sit on (dark navy left rail, light center
+   surface, light right rail) and the spacing to the controls below.
+--------------------------------------------------------------------------- */
+.panel-header {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .panel-header-title {
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+
+  .panel-header-subtitle {
+    margin: 0;
+    line-height: 1.35;
+  }
+}
+
+.panel-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.panel-header-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #f1f5f9;
+    color: #02415c;
+    border-color: #cbd5e1;
+    outline: none;
+  }
+}
+
+.panel-header-toggle__icon {
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel-header-toggle.is-expanded .panel-header-toggle__icon {
+  transform: rotate(180deg);
+}
+
+.panel-header-subtitle-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+  > .panel-header-subtitle {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  &.is-expanded {
+    grid-template-rows: 1fr;
+  }
+}
+
+/* Left rail — dark navy outline-box. White title + translucent subtitle, with
+   a translucent rule below to separate from the Outline / Characters / Story
+   Bible toggle row. */
+.panel-header--left {
+  padding: 4px 4px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  margin-bottom: 10px;
+
+  .panel-header-title {
+    font-size: 15px;
+    color: #ffffff;
+  }
+
+  .panel-header-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* Center — sits directly above the Quill editor tools strip. Matches the
+   tools' gradient + bottom border so header + toolbar read as one continuous
+   strip. Title uses the brand navy. */
+.panel-header--center {
+  padding: 12px 14px 10px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 8px 8px 0 0;
+  transition: padding 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.is-collapsed {
+    padding: 8px 12px;
+  }
+
+  & + .book-editor-editor-chrome,
+  & + .book-editor-editor-tools {
+    border-top: 0;
+    border-radius: 0;
+  }
+
+  & + .editor-fade,
+  & + .book-editor-editor-chrome + .editor-fade,
+  & + .book-editor-editor-tools + .editor-fade {
+    border-radius: 0 0 8px 8px;
+  }
+
+  .panel-header-title {
+    font-size: 16px;
+    color: #02415c;
+  }
+
+  .panel-header-subtitle {
+    font-size: 12px;
+    color: #64748b;
+  }
+}
+
+/* Drafting Space — title and instructions share a row; description wraps as needed. */
+.panel-header--drafting-inline {
+  gap: 0;
+  padding: 8px 14px;
+
+  .panel-header-row {
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 2px;
+  }
+
+  .panel-header-title {
+    flex-shrink: 0;
+    white-space: nowrap;
+
+    &::after {
+      content: "—";
+      margin-left: 10px;
+      font-weight: 400;
+      color: #94a3b8;
+    }
+  }
+
+  .panel-header-subtitle {
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-header--center,
+  .panel-header--drafting-inline,
+  .panel-header--mobile-dictation,
+  .panel-header-subtitle-wrap,
+  .panel-header-toggle__icon {
+    transition: none;
+  }
+}
+
+/* Right rail — inside the Scene Design / Notes tabs root. Title uses the same
+   Domine serif as the in-tab "Act X | Scene X" heading for visual coherence. */
+.panel-header--right {
+  padding: 4px 2px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 10px;
+
+  .panel-header-title {
+    font-family: "Domine", serif;
+    font-size: 16px;
+    color: #02415c;
+  }
+
+  .panel-header-subtitle {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    color: #64748b;
+  }
+}
+
+/* Tighten spacing in narrow drawers so the header doesn't crowd the toggle. */
+@media (max-width: 1199px) {
+  .panel-header--left {
+    padding-top: 2px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+
+  .panel-header--right {
+    padding-top: 2px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Editor empty state — shown when no scene is selected
+
+   Sits directly below the Drafting Space `.panel-header--center` strip and
+   replaces the Quill editor + voice/save toolbar. Visually echoes the right
+   rail's `.scene-design-idle` so writers recognise the "nothing to act on
+   yet" pattern.
+--------------------------------------------------------------------------- */
+.editor-empty-state {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 48px;
+  background: #ffffff;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Pre-outline variant: takes over the full editor surface (no Drafting Space
+   header sitting above it) so we paint corners and use the soft studio
+   gradient to feel less "blank page" and more "let's get started". */
+.editor-empty-state--pre-outline {
+  padding: 56px 48px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 60%);
+  border-radius: 8px;
+  overflow-y: auto;
+}
+
+.editor-empty-state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+}
+
+/* Pure-CSS book icon, mirroring `.scene-design-idle-icon` so the styling
+   feels native and we don't pull in another image asset. */
+.editor-empty-state-icon {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #e8f4fa 0%, #dceef8 100%);
+  border: 1px solid #c5e0f0;
+}
+
+.editor-empty-state-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 26px;
+  margin: -13px 0 0 -11px;
+  border-radius: 2px;
+  border: 2px solid #078fca;
+  border-bottom-width: 3px;
+  opacity: 0.55;
+}
+
+.editor-empty-state-title {
+  margin: 0 0 8px;
+  font-family: "Domine", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #02415c;
+  line-height: 1.3;
+}
+
+.editor-empty-state-sub {
+  margin: 0 0 18px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #5a6b78;
+  max-width: 360px;
+}
+
+.editor-empty-state-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 9px 22px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #02415c;
+  border: 1px solid #02415c;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.editor-empty-state-cta:hover,
+.editor-empty-state-cta:focus-visible {
+  background: #03587a;
+  box-shadow: 0 4px 14px rgba(2, 65, 92, 0.18);
+  outline: none;
+}
+
+.editor-empty-state-cta:active {
+  transform: translateY(1px);
+}
+
+.editor-empty-state-hint {
+  margin: 14px 0 0;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #64748b;
+  max-width: 320px;
+}
+
+/* "Show outline" button appears only on tablet/mobile widths where the
+   outline lives in an off-canvas drawer. On desktop the outline is always
+   visible to the left, so the static hint above is enough. */
+.editor-empty-state-drawer-btn {
+  display: none;
+  margin-top: 8px;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #03587a;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(3, 88, 122, 0.35);
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.editor-empty-state-drawer-btn:hover,
+.editor-empty-state-drawer-btn:focus-visible {
+  color: #02415c;
+  border-bottom-color: #02415c;
+  outline: none;
+}
+
+@media (max-width: 1199px) {
+  .editor-empty-state-drawer-btn {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 600px) {
+  .editor-empty-state {
+    padding: 24px 16px;
+  }
+
+  .editor-empty-state-title {
+    font-size: 16px;
+  }
+
+  .editor-empty-state-sub {
+    font-size: 12px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Pre-outline empty state — richer "let's start with Olivia" hub
+
+   Replaces the Drafting Space header + Quill entirely when we have no scenes
+   yet. Visually echoes the welcome modal (avatar, eyebrow, Domine heading,
+   step preview, primary CTA) but lives inline on the surface so the moment
+   the welcome modal is dismissed there's a clear, inviting next step.
+--------------------------------------------------------------------------- */
+.editor-empty-state-card--pre-outline {
+  max-width: 520px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Post-guide pre-outline state — tighter card after the 7-card walkthrough. */
+.editor-empty-state-card--pre-outline-ready {
+  max-width: 440px;
+
+  .editor-empty-state-sub--lg {
+    margin-bottom: 20px;
+  }
+}
+
+.editor-empty-state-avatar {
+  width: 88px;
+  height: 88px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 18px rgba(2, 65, 92, 0.18);
+  background: #ccd4d8;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.editor-empty-state-eyebrow {
+  margin: 0 0 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #078fca;
+}
+
+.editor-empty-state-title--lg {
+  margin: 0 0 10px;
+  font-family: "Domine", serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #02415c;
+  line-height: 1.2;
+}
+
+.editor-empty-state-sub--lg {
+  margin: 0 0 22px;
+  max-width: 440px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #41474c;
+}
+
+.editor-empty-state-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 26px;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 1px 2px rgba(2, 65, 92, 0.04);
+  }
+}
+
+.editor-empty-state-step-num {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e8f4fa;
+  color: #02415c;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid #c5e0f0;
+}
+
+.editor-empty-state-step-text {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #41474c;
+}
+
+.editor-empty-state-cta--primary {
+  min-width: 220px;
+  padding: 12px 26px;
+  font-size: 15px;
+  background: #078fca;
+  border-color: #078fca;
+  box-shadow: 0 4px 14px rgba(7, 143, 202, 0.22);
+}
+
+.editor-empty-state-cta--primary:hover,
+.editor-empty-state-cta--primary:focus-visible {
+  background: #0276a8;
+  border-color: #0276a8;
+  box-shadow: 0 6px 18px rgba(7, 143, 202, 0.28);
+}
+
+.editor-empty-state-guide-link {
+  margin: 12px 0 0;
+  padding: 4px 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #078fca;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover,
+  &:focus-visible {
+    color: #0276a8;
+    outline: none;
+  }
+}
+
+.editor-empty-state-foothint {
+  margin: 14px 0 0;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  color: #64748b;
+}
+
+@media (max-width: 900px) {
+  .editor-empty-state--pre-outline {
+    padding: 36px 20px;
+  }
+
+  .editor-empty-state-title--lg {
+    font-size: 22px;
+  }
+
+  .editor-empty-state-sub--lg {
+    font-size: 13px;
+  }
+
+  .editor-empty-state-avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .editor-empty-state-cta--primary {
+    min-width: 0;
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 600px) {
+  .editor-empty-state--pre-outline {
+    padding: 28px 16px;
+  }
+
+  .editor-empty-state-title--lg {
+    font-size: 20px;
+  }
+
+  .editor-empty-state-steps li {
+    padding: 8px 12px;
+  }
+}
+
+/* Slim voice + save row directly above Quill toolbar */
+.book-editor-editor-chrome,
+.book-editor-editor-tools {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 12px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.book-editor-editor-chrome {
+  border-radius: 0;
+  min-width: 0;
+}
+
+.book-editor-editor-chrome__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.book-editor-history-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.book-editor-history-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 4px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #1e3a4c;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.18s, border-color 0.18s, color 0.18s;
+}
+
+.book-editor-history-btn:hover:not(:disabled) {
+  background: #e8f4fb;
+  border-color: #078fca;
+  color: #078fca;
+}
+
+.book-editor-history-btn:disabled {
+  color: #94a3b8;
+  border-color: #e2e8f0;
+  background: #f8fafc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1199px) {
+  .book-editor-history-btn__redo-label {
+    display: none;
+  }
+}
+
+.book-editor-editor-chrome + .editor-fade .rich-text-editor-root .ql-toolbar.ql-snow {
+  border-top: 0;
+  border-radius: 0;
+}
+
+.book-editor-editor-tools {
+  border-radius: 8px 8px 0 0;
+  padding: 10px 14px;
+  gap: 12px;
+}
+
+.book-editor-voice-typing {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 6px 10px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.book-editor-voice-typing > :not(.book-editor-voice-hint) {
+  flex-shrink: 0;
+}
+
+.book-editor-voice-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e3a4c;
+  letter-spacing: 0.01em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.book-editor-voice-hint {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.35;
+  white-space: nowrap;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1199px) {
+  .book-editor-editor-chrome .book-editor-voice-hint {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Autosave status badge — used in both the editor tools strip and the mobile
+   toolbar. Single source of truth: only the layout (margin / flex) varies
+   per render site via .book-editor-save-status / .book-editor-mobile-save-status.
+--------------------------------------------------------------------------- */
+.save-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  user-select: none;
+}
+
+.save-status-pill__indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* States */
+.save-status-pill--saved {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.save-status-pill--unsaved {
+  background: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+
+  .save-status-pill__indicator {
+    animation: saveStatusPulse 1.6s ease-in-out infinite;
+  }
+}
+
+.save-status-pill--error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.save-status-pill--offline {
+  background: #fff7ed;
+  color: #c2410c;
+  border-color: #fed7aa;
+
+  .save-status-pill__indicator {
+    animation: saveStatusPulse 1.6s ease-in-out infinite;
+  }
+}
+
+.book-editor-offline-banner {
+  flex-shrink: 0;
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #9a3412;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+}
+
+.save-status-pill--saving,
+.save-status-pill--loading {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+
+  .save-status-pill__indicator {
+    width: 10px;
+    height: 10px;
+    background: transparent;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    animation: saveStatusSpin 0.7s linear infinite;
+  }
+}
+
+.save-status-pill--loading {
+  color: #475569;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+@keyframes saveStatusPulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%      { transform: scale(1.4); opacity: 0.55; }
+}
+
+@keyframes saveStatusSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-status-pill--unsaved .save-status-pill__indicator,
+  .save-status-pill--offline .save-status-pill__indicator,
+  .save-status-pill--error .save-status-pill__indicator,
+  .save-status-pill--saving .save-status-pill__indicator,
+  .save-status-pill--loading .save-status-pill__indicator {
+    animation: none;
+  }
+}
+
+/* Editor toolbar render site — hidden on tablet/mobile because the mobile
+   toolbar already shows the canonical badge (avoids duplicate state). */
+.book-editor-save-status {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1199px) {
+  .book-editor-editor-tools .book-editor-save-status,
+  .book-editor-editor-chrome .book-editor-save-status {
+    display: none;
+  }
+}
+
+.book-editor-editor-tools .chat-icon-btn,
+.book-editor-editor-chrome .chat-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #3f4947;
+  cursor: pointer;
+  transition: background-color 0.18s, color 0.18s;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+}
+
+.book-editor-editor-tools .chat-icon-btn:hover:not(:disabled),
+.book-editor-editor-chrome .chat-icon-btn:hover:not(:disabled) {
+  background-color: #e8f4fb;
+  color: #078fca;
+}
+
+.book-editor-editor-tools .chat-icon-btn:disabled,
+.book-editor-editor-tools .chat-icon-btn--disabled,
+.book-editor-editor-chrome .chat-icon-btn:disabled,
+.book-editor-editor-chrome .chat-icon-btn--disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.book-editor-editor-tools .chat-icon-btn--recording,
+.book-editor-editor-chrome .chat-icon-btn--recording {
+  color: #e53935;
+  background-color: #fdecea;
+  animation: book-editor-pulse-mic 1.2s infinite;
+}
+
+.book-editor-editor-tools .chat-icon-btn--recording:hover,
+.book-editor-editor-chrome .chat-icon-btn--recording:hover {
+  background-color: #fce4e4;
+  color: #c62828;
+}
+
+@keyframes book-editor-pulse-mic {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(229, 57, 53, 0);
+  }
+}
+
+.editor-fade {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.editor-fade .rich-text-editor-root {
+  flex: 1;
+  min-height: 0;
+  overflow: visible;
+}
+
+.editor-fade .rich-text-editor-root .editor-container {
+  overflow: visible;
+}
+.editor-fade.is-loading {
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+.editor-fade.is-ready {
+  opacity: 1;
+  /* Avoid transform here: it becomes a containing block for position:fixed
+     toolbar menus and they get clipped by .book-editor-editor-column overflow. */
+  transform: none;
+}
+
+/*
+ * Quill defaults: .ql-editor { height: 100%; overflow-y: auto } — scroll happens
+ * inside the editor, so extra padding often does not clear bottom FABs reliably.
+ * Delegate scrolling to .ql-container and let .ql-editor grow so padding-bottom
+ * extends the document and stays past the floating buttons.
+ */
+.book-editor-editor-column .editor-fade .ql-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+.book-editor-editor-column .editor-fade .ql-container .ql-editor {
+  height: auto;
+  min-height: 100%;
+  overflow-y: visible;
+  padding-bottom: var(--editor-fab-pad-bottom);
+  padding-right: var(--editor-fab-pad-right);
+}
+
+.editor-skeleton {
+  position: absolute;
+  inset: 0;
+  padding: 20px 18px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.editor-skeleton .skeleton-line {
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #eef1f4 25%, #f7f9fb 50%, #eef1f4 75%);
+  background-size: 200% 100%;
+  animation: editorShimmer 1.2s ease-in-out infinite;
+  margin-bottom: 12px;
+}
+.editor-skeleton .skeleton-spacer {
+  height: 18px;
+}
+.editor-skeleton .w-60 { width: 60%; }
+.editor-skeleton .w-70 { width: 70%; }
+.editor-skeleton .w-75 { width: 75%; }
+.editor-skeleton .w-80 { width: 80%; }
+.editor-skeleton .w-85 { width: 85%; }
+.editor-skeleton .w-88 { width: 88%; }
+.editor-skeleton .w-90 { width: 90%; }
+.editor-skeleton .w-92 { width: 92%; }
+.editor-skeleton .w-95 { width: 95%; }
+
+@keyframes editorShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.olivia-floating-anchor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.olivia-floating-anchor.is-positioned {
+  opacity: 1;
+  pointer-events: auto;
+  transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .olivia-floating-anchor.is-positioned {
+    transition: none;
+  }
+}
+
+.olivia-floating-anchor.is-positioned:has(.olivia-floating-btn--hidden) {
+  pointer-events: none;
+}
+
+.olivia-floating-anchor.is-dragging {
+  z-index: 4;
+  transition: none;
+  cursor: grabbing;
+}
+
+.olivia-floating-anchor.is-dragging .olivia-floating-btn {
+  transition: none;
+  cursor: grabbing;
+}
+
+.floating-fab-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.olivia-floating-tooltip {
+  position: relative;
+  order: -1;
+  max-width: 268px;
+  padding: 12px 36px 12px 14px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e2e8f0;
+}
+
+.olivia-floating-tooltip-text {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #334155;
+}
+
+.olivia-floating-tooltip-cta {
+  display: inline-block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #078fca;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.olivia-floating-tooltip-cta:hover {
+  background: #0678ad;
+}
+
+.olivia-floating-tooltip-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.olivia-floating-tooltip-close:hover {
+  color: #64748b;
+  background: #f1f5f9;
+}
+
+.olivia-floating-tooltip-caret {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 7px solid #fff;
+  filter: drop-shadow(0 1px 0 #e2e8f0);
+}
+
+.olivia-floating-btn {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  width: 80px;
+  height: 80px;
+  border: none;
+  border-radius: 50%;
+  border-bottom-right-radius: 8px;
+  background: #078FCA;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  transition: opacity 320ms ease, transform 320ms ease, visibility 320ms ease;
+  touch-action: none;
+}
+
+.olivia-floating-btn--hidden {
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.olivia-floating-btn--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+}
+
+.olivia-floating-btn__avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #ccd4d8;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* ── Download Manuscript floating FAB ── */
+
+.download-floating-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 320ms ease, transform 320ms ease, visibility 320ms ease;
+}
+
+.download-floating-wrap--hidden {
+  opacity: 0;
+  transform: translateY(12px) scale(0.85);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.download-floating-wrap--visible {
+  opacity: 1;
+  visibility: visible;
+  animation: downloadFabEnter 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes downloadFabEnter {
+  0%   { transform: translateY(14px) scale(0.88); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Hover / keyboard: explain the action */
+.download-floating-hint {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  max-width: min(220px, 70vw);
+  width: max-content;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  color: #1e293b;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+
+.download-floating-hint::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -7px;
+  border: 7px solid transparent;
+  border-top-color: #fff;
+  filter: drop-shadow(0 1px 0 #e2e8f0);
+}
+
+.download-floating-wrap:hover .download-floating-hint,
+.download-floating-wrap:focus-within .download-floating-hint {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Hide tooltip when FAB is hidden (disabled); keep it usable while downloading */
+.download-floating-wrap:not(.download-floating-wrap--downloading):has(
+    .download-floating-btn:disabled
+  )
+  .download-floating-hint {
+  display: none;
+}
+
+.download-floating-wrap--downloading .download-floating-hint {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.download-floating-caption {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #475569;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 76px;
+  user-select: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.download-floating-btn {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e8e3e 0%, #34a853 100%);
+  box-shadow: 0 4px 14px rgba(30, 142, 62, 0.35);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 200ms ease, background 200ms ease, transform 200ms ease;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+}
+
+.download-floating-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #188038 0%, #2e9a4a 100%);
+  box-shadow: 0 6px 22px rgba(30, 142, 62, 0.5);
+  transform: translateY(-2px) scale(1.06);
+}
+
+.download-floating-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px rgba(30, 142, 62, 0.3);
+}
+
+.download-floating-btn:focus-visible {
+  outline: 3px solid rgba(7, 143, 202, 0.55);
+  outline-offset: 3px;
+}
+
+.download-floating-btn:disabled {
+  cursor: not-allowed;
+}
+
+.download-floating-btn--busy {
+  opacity: 0.92;
+  cursor: wait;
+}
+
+.download-floating-btn__spinner {
+  animation: downloadFabSpin 0.75s linear infinite;
+}
+
+@keyframes downloadFabSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .download-floating-wrap--visible {
+    animation: none;
+  }
+
+  .download-floating-hint {
+    transition: none;
+  }
+
+  .download-floating-btn {
+    transition: none;
+  }
+
+  .download-floating-btn__spinner {
+    animation: none;
+  }
+}
+
+/* ---- Cover generation FAB ---- */
+
+.cover-floating-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 320ms ease, transform 320ms ease, visibility 320ms ease;
+}
+
+.cover-floating-wrap--hidden {
+  opacity: 0;
+  transform: translateY(12px) scale(0.85);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cover-floating-wrap--visible {
+  opacity: 1;
+  visibility: visible;
+  animation: coverFabEnter 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes coverFabEnter {
+  0%   { transform: translateY(14px) scale(0.88); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.cover-floating-hint {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  max-width: min(220px, 70vw);
+  width: max-content;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  color: #1e293b;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+
+.cover-floating-hint::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -7px;
+  border: 7px solid transparent;
+  border-top-color: #fff;
+  filter: drop-shadow(0 1px 0 #e2e8f0);
+}
+
+.cover-floating-wrap:hover .cover-floating-hint,
+.cover-floating-wrap:focus-within .cover-floating-hint {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.cover-floating-wrap:has(.cover-floating-btn:disabled) .cover-floating-hint {
+  display: none;
+}
+
+.cover-floating-caption {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #475569;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 76px;
+  user-select: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.cover-floating-btn {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c63ff 0%, #8b83ff 100%);
+  box-shadow: 0 4px 14px rgba(108, 99, 255, 0.35);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 200ms ease, background 200ms ease, transform 200ms ease;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+}
+
+.cover-floating-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5a52e0 0%, #7a72f0 100%);
+  box-shadow: 0 6px 22px rgba(108, 99, 255, 0.5);
+  transform: translateY(-2px) scale(1.06);
+}
+
+.cover-floating-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+}
+
+.cover-floating-btn:focus-visible {
+  outline: 3px solid rgba(108, 99, 255, 0.55);
+  outline-offset: 3px;
+}
+
+.cover-floating-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-floating-wrap--visible {
+    animation: none;
+  }
+
+  .cover-floating-hint {
+    transition: none;
+  }
+
+  .cover-floating-btn {
+    transition: none;
+  }
+}
+
+@keyframes oliviaPulse {
+  0%   { transform: scale(1);   box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+  50%  { transform: scale(1.12); box-shadow: 0 0 24px 6px rgba(7,143,202,0.45); }
+  100% { transform: scale(1);   box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+}
+
+.olivia-floating-btn--attention {
+  animation: oliviaPulse 1.2s ease-in-out 3;
+}
+
+/* OliviaChatModal styles live in OliviaChatModal/OliviaChatModal.scss */
+
+/* ---------------------------------------------------------------------------
+   Responsive: off-canvas drawers for tablet/mobile
+   - >= 1200px: drawers act as transparent flex items (no positioning).
+   - <= 1199px: drawers become fixed-position panels that slide in/out.
+--------------------------------------------------------------------------- */
+
+/* Default (desktop): each drawer is a normal flex item. Outline defaults to
+   320px via .book-editor-drawer--left; inner .outline-box fills the aside.
+   The right drawer wraps .book-editor-sidebar-column (flex:3 sizing). */
+.book-editor-drawer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+}
+
+.book-editor-drawer--right {
+  flex: 3 1 0;
+  min-height: 0;
+  /* Positioning context for the absolutely positioned
+     .book-editor-panel-resize-toggle button that sits on the left edge. */
+  position: relative;
+}
+
+@media (min-width: 1200px) {
+  .book-editor-root--has-outline-resize {
+    gap: 0;
+  }
+
+  .book-editor-drawer--left {
+    flex: 0 0 320px;
+    min-width: 0;
+  }
+
+  .book-editor-drawer--left.is-resizing-outline {
+    transition: none !important;
+  }
+
+  .book-editor-drawer--right.is-resized.is-coach-width-animating {
+    transition: flex-basis 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .book-editor-drawer--right.is-resizing-coach {
+    transition: none !important;
+  }
+}
+
+/* Scene Coach resize handle — vertical divider between Drafting Space and
+   the Scene Coach panel. Desktop only; tablet/mobile keep the off-canvas
+   drawer behavior and hide the handle below.
+
+   UX notes:
+   - The handle is a generous hit zone (16px wide) with a visible "grip pill"
+     centered inside so non-technical writers immediately recognise it as
+     something draggable, without needing to hover.
+   - We tighten the parent `gap-4` to a small value when the handle exists so
+     the two columns aren't separated by wasted whitespace.
+*/
+
+/* When the resize handle is rendered, collapse the row gap so editor,
+   handle, and coach feel like a single connected workspace. */
+@media (min-width: 1200px) {
+  .book-editor-workspace-row--has-resize-handle.book-editor-workspace-row {
+    gap: 0 !important;
+  }
+}
+
+.book-editor-resize-handle {
+  flex: 0 0 16px;
+  position: relative;
+  align-self: stretch;
+  cursor: col-resize;
+  background: transparent;
+  touch-action: none;
+  z-index: 5;
+  transition: background 0.15s ease;
+
+  /* Subtle vertical hairline so the panels still feel separated even when
+     the grip pill is at rest. */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 50%;
+    width: 1px;
+    background: #e2e8f0;
+    transform: translateX(-50%);
+    pointer-events: none;
+    transition: background 0.15s ease;
+  }
+
+  &:hover::after,
+  &:focus-visible::after,
+  &.is-active::after {
+    background: rgba(7, 143, 202, 0.4);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* The visible "grab me" affordance — a small pill containing a horizontal
+   double-chevron icon and an animated "Drag" label that reveals on hover.
+   Faint brand-blue tint at rest so non-technical writers register it as
+   interactive without needing to discover it via hover. */
+.book-editor-resize-handle__grip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    rgba(7, 143, 202, 0.06) 100%
+  );
+  border: 1px solid rgba(7, 143, 202, 0.35);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 2px;
+  pointer-events: none;
+  overflow: hidden;
+  transition:
+    width 0.18s ease,
+    height 0.18s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.18s ease;
+}
+
+.book-editor-resize-handle__icon {
+  color: #078fca;
+  flex-shrink: 0;
+  transition: color 0.15s ease, transform 0.18s ease;
+}
+
+.book-editor-resize-handle__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #078fca;
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 0.18s ease, max-height 0.18s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Hover / focus / drag — pill expands horizontally with a solid background
+   so the "Drag" label stays readable over any editor content behind it. */
+.book-editor-resize-handle:hover .book-editor-resize-handle__grip,
+.book-editor-resize-handle:focus-visible .book-editor-resize-handle__grip,
+.book-editor-resize-handle.is-active .book-editor-resize-handle__grip {
+  flex-direction: row;
+  width: auto;
+  min-width: 68px;
+  height: 30px;
+  padding: 4px 10px;
+  gap: 5px;
+  background: #ffffff;
+  border-color: #078fca;
+  box-shadow: 0 4px 14px rgba(7, 143, 202, 0.28);
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+.book-editor-resize-handle:hover .book-editor-resize-handle__icon,
+.book-editor-resize-handle:focus-visible .book-editor-resize-handle__icon,
+.book-editor-resize-handle.is-active .book-editor-resize-handle__icon {
+  transform: scale(1.05);
+}
+
+.book-editor-resize-handle:hover .book-editor-resize-handle__label,
+.book-editor-resize-handle:focus-visible .book-editor-resize-handle__label,
+.book-editor-resize-handle.is-active .book-editor-resize-handle__label {
+  opacity: 1;
+  max-height: none;
+  color: #056a99;
+}
+
+/* First-load attention nudge — a brief wiggle to draw the eye without
+   being obnoxious. Capped at ~2 cycles via JS-controlled className. */
+@keyframes book-editor-resize-handle-wiggle {
+  0%, 100% {
+    transform: translate(-50%, -50%);
+  }
+  20% {
+    transform: translate(calc(-50% - 5px), -50%);
+  }
+  40% {
+    transform: translate(calc(-50% + 4px), -50%);
+  }
+  60% {
+    transform: translate(calc(-50% - 3px), -50%);
+  }
+  80% {
+    transform: translate(calc(-50% + 2px), -50%);
+  }
+}
+
+.book-editor-resize-handle.is-nudging .book-editor-resize-handle__grip {
+  animation: book-editor-resize-handle-wiggle 1.6s ease-in-out 1;
+  border-color: #078fca;
+  box-shadow: 0 0 0 4px rgba(7, 143, 202, 0.14);
+}
+
+/* First-time coachmark popover — anchored to the handle, points right at it
+   with an arrow on its right edge. Tablet/mobile inherits the parent's
+   display:none, so it never shows on a viewport without the handle. */
+.book-editor-resize-coachmark {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 18px);
+  transform: translateY(-50%);
+  width: 240px;
+  padding: 14px 16px 14px 16px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
+  z-index: 60;
+  pointer-events: auto;
+  animation: book-editor-coachmark-in 0.28s ease-out 0.6s both;
+}
+
+/* Arrow on the right edge of the coachmark pointing at the handle. */
+.book-editor-resize-coachmark::after,
+.book-editor-resize-coachmark::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.book-editor-resize-coachmark::after {
+  border-width: 8px 0 8px 10px;
+  border-color: transparent transparent transparent #ffffff;
+  z-index: 2;
+}
+.book-editor-resize-coachmark::before {
+  border-width: 9px 0 9px 11px;
+  border-color: transparent transparent transparent #cbd5e1;
+  margin-left: -1px;
+  z-index: 1;
+}
+
+
+.book-editor-resize-coachmark--outline {
+  right: auto;
+  left: calc(100% + 18px);
+  animation: book-editor-coachmark-in-outline 0.28s ease-out 0.6s both;
+}
+
+.book-editor-resize-coachmark--outline::after,
+.book-editor-resize-coachmark--outline::before {
+  left: auto;
+  right: 100%;
+  border-width: 8px 10px 8px 0;
+  border-color: transparent #ffffff transparent transparent;
+}
+
+.book-editor-resize-coachmark--outline::before {
+  border-width: 9px 11px 9px 0;
+  border-color: transparent #cbd5e1 transparent transparent;
+  margin-left: 0;
+  margin-right: -1px;
+}
+
+@keyframes book-editor-coachmark-in-outline {
+  from {
+    opacity: 0;
+    transform: translate(-8px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+@keyframes book-editor-coachmark-in {
+  from {
+    opacity: 0;
+    transform: translate(8px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+.book-editor-resize-coachmark__title {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.book-editor-resize-coachmark__body {
+  margin: 0 0 12px 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #475569;
+}
+
+.book-editor-resize-coachmark__close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.book-editor-resize-coachmark__close:hover,
+.book-editor-resize-coachmark__close:focus-visible {
+  background: #f1f5f9;
+  color: #0f172a;
+  outline: none;
+}
+
+.book-editor-resize-coachmark__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #078fca;
+  border: 1px solid #078fca;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.book-editor-resize-coachmark__cta:hover,
+.book-editor-resize-coachmark__cta:focus-visible {
+  background: #056a99;
+  box-shadow: 0 2px 8px rgba(7, 143, 202, 0.4);
+  outline: none;
+}
+
+/* In-panel Expand/Collapse button — lives on the inner left edge of the
+   Scene Coach panel so writers who never drag still have an obvious
+   button. Hidden on tablet/mobile (drawer takes over). */
+.book-editor-panel-resize-toggle {
+  position: absolute;
+  top: 14px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #078fca;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  z-index: 6;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.book-editor-panel-resize-toggle:hover,
+.book-editor-panel-resize-toggle:focus-visible {
+  background: #078fca;
+  color: #ffffff;
+  border-color: #078fca;
+  box-shadow: 0 4px 12px rgba(7, 143, 202, 0.32);
+  outline: none;
+  transform: scale(1.06);
+}
+.book-editor-panel-resize-toggle[aria-pressed="true"] {
+  background: #e0f2fe;
+  color: #056a99;
+  border-color: #078fca;
+}
+
+@media (max-width: 1199px) {
+  .book-editor-panel-resize-toggle,
+  .book-editor-resize-coachmark {
+    display: none;
+  }
+}
+
+/* Suppress text selection / random cursors everywhere while a resize is
+   active so the writer doesn't accidentally select editor text mid-drag. */
+body.book-editor-resizing,
+body.book-editor-resizing * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+@media (max-width: 1199px) {
+  .book-editor-resize-handle {
+    display: none;
+  }
+}
+
+/* Mobile toolbar — hidden on desktop, shown on tablet/mobile. */
+.book-editor-mobile-toolbar {
+  display: none;
+}
+
+.book-editor-drawer-overlay {
+  display: none;
+}
+
+/* WordCountBar — default grid. With CTAs: stacked grid by default; wide column → single row. */
+.page-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "title actions"
+    "stats stats";
+  align-items: center;
+  gap: 8px 12px;
+  flex-shrink: 0;
+}
+
+/* Row 1: title + Need help. Row 2: word count + progress + CTAs. */
+.page-heading--has-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "title actions"
+    "stats stats";
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.page-heading--has-cta .wcbar-row__primary {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.page-heading--has-cta .wcbar-row__stats {
+  flex-wrap: wrap;
+}
+
+.page-heading--has-cta .wcbar-row__stats .wordcount-progress {
+  flex: 1 1 120px;
+  min-width: 72px;
+  max-width: none;
+}
+
+.page-heading--has-cta .wcbar-row__cta {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.page-heading--has-cta .topbar-actions {
+  flex-shrink: 0;
+}
+
+.wcbar-row__primary {
+  grid-area: title;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.wcbar-row__stats {
+  grid-area: stats;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 8px;
+}
+
+.wcbar-row__stats .wordcount-label,
+.wcbar-row__stats .wordcount-badge {
+  flex-shrink: 0;
+}
+
+.wcbar-row__stats .wordcount-label {
+  border-left: none;
+  padding-left: 0;
+}
+
+.wcbar-row__stats .wordcount-progress {
+  flex: 0 1 200px;
+  min-width: 80px;
+  max-width: 200px;
+}
+
+.wcbar-row__cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.topbar-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: end;
+
+  .sg-support-link {
+    flex-shrink: 0;
+  }
+}
+
+/* Narrow main column: let non-CTA progress bar grow on small screens. */
+@container book-editor-main (max-width: 719px) {
+  .page-heading:not(.page-heading--has-cta) .wcbar-row__stats .wordcount-progress {
+    flex: 1 1 120px;
+    max-width: none;
+  }
+}
+
+@container book-editor-main (min-width: 1200px) {
+  .page-heading--has-cta {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px 14px;
+  }
+
+  .page-heading--has-cta .wcbar-row__primary {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .page-heading--has-cta .wcbar-row__stats {
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .page-heading--has-cta .wcbar-row__stats .wordcount-label {
+    border-left: 1px solid #ccd4d8;
+    padding-left: 15px;
+  }
+
+  .page-heading--has-cta .wcbar-row__stats .wordcount-progress {
+    flex: 0 0 140px;
+    min-width: 72px;
+    max-width: 140px;
+  }
+
+  .page-heading--has-cta .topbar-actions {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+}
+
+@container book-editor-main (min-width: 1050px) {
+  .page-heading:not(.page-heading--has-cta) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "title stats actions";
+    row-gap: 8px;
+  }
+
+  .page-heading:not(.page-heading--has-cta) .wcbar-row__stats {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .page-heading:not(.page-heading--has-cta) .wcbar-row__stats .wordcount-label {
+    border-left: 1px solid #ccd4d8;
+    padding-left: 15px;
+  }
+
+  .page-heading:not(.page-heading--has-cta) .wcbar-row__stats .wordcount-progress {
+    flex: 1 1 120px;
+    max-width: 200px;
+  }
+}
+
+.wcbar-title {
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  min-width: 0;
+}
+
+@media (max-width: 1199px) {
+  /* Workspace row stacks vertically — only the editor column remains in flow.
+     Both side panels slide over the top as drawers. */
+  .book-editor-workspace-row {
+    flex-direction: column !important;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+
+  .book-editor-editor-column {
+    flex: 1 1 auto !important;
+    width: 100%;
+    height: 100%;
+    padding: 6px 8px;
+  }
+
+  .book-editor-root--mobile-layout.book-editor-root--focus
+    .book-editor-editor-column {
+    padding: 4px 6px;
+  }
+
+  /* Force single-row top bar on tablet/mobile (avoids 2-row CTA grid). */
+  .book-editor-main-stack .page-heading.page-heading--has-cta {
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px 8px;
+    padding: 0.5rem 0.625rem !important;
+  }
+
+  .book-editor-main-stack .page-heading.page-heading--has-cta .wcbar-row__stats {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-top: none;
+    padding-top: 0;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .book-editor-main-stack .page-heading.page-heading--has-cta .wcbar-row__stats .wordcount-label {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .book-editor-main-stack .page-heading.page-heading--has-cta .wordcount-progress,
+  .book-editor-main-stack .page-heading.page-heading--has-cta .wordcount-badge {
+    display: none;
+  }
+
+  .book-editor-main-stack .page-heading.page-heading--has-cta .topbar-actions {
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  /* Editor surface: on mobile the Drafting Space header lives in top chrome,
+     so the Quill toolbar always gets the top corner radius. */
+  .book-editor-root--mobile-layout
+    .editor-surface
+    > .editor-fade
+    .rich-text-editor-root
+    .ql-toolbar.ql-snow {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .book-editor-root--mobile-layout
+    .editor-surface
+    > .editor-fade:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+
+  /* Mobile toolbar visible: slim strip below word count. */
+  .book-editor-mobile-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    gap: 8px;
+    flex-shrink: 0;
+    min-height: 52px;
+  }
+
+  .book-editor-mobile-toolbar-trailing {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  /* Mobile focus — slim exit control replaces word count + panel toggles */
+  .book-editor-mobile-focus-exit-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    flex-shrink: 0;
+  }
+
+  .book-editor-mobile-focus-exit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #e0f2fe;
+    border-color: #078fca;
+    color: #056a99;
+    cursor: pointer;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .book-editor-mobile-focus-exit-btn:hover,
+  .book-editor-mobile-focus-exit-btn:focus-visible {
+    background: #bae6fd;
+    outline: none;
+  }
+
+  /* Drafting Space title + dictation row — below panel toggles, above editor */
+  .book-editor-mobile-dictation-stack {
+    flex-shrink: 0;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+
+  .panel-header--mobile-dictation {
+    border-radius: 0;
+    padding: 6px 12px 5px;
+    margin: 0;
+
+    .panel-header-title {
+      font-size: 14px;
+    }
+
+    .panel-header-subtitle {
+      font-size: 11px;
+      line-height: 1.35;
+    }
+  }
+
+  .book-editor-mobile-dictation-stack .book-editor-mobile-voice-bar {
+    border-top: 1px solid #e2e8f0;
+    border-bottom: none;
+  }
+
+  /* Voice typing — own row below Drafting Space header */
+  .book-editor-mobile-voice-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  .book-editor-mobile-voice-bar .voice-recorder-wrapper {
+    flex-shrink: 0;
+  }
+
+  .book-editor-mobile-voice-hint {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.35;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .book-editor-mobile-voice-bar .chat-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #3f4947;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .book-editor-mobile-voice-bar .chat-icon-btn--recording {
+    color: #e53935;
+    background-color: #fdecea;
+  }
+
+  .book-editor-drawer-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #fff;
+    color: #1e3a4c;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .book-editor-drawer-toggle--focus[aria-pressed="true"] {
+    background: #e0f2fe;
+    border-color: #078fca;
+    color: #056a99;
+  }
+
+  .book-editor-drawer-toggle:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+  }
+
+  .book-editor-drawer-toggle:focus-visible {
+    outline: 2px solid rgba(7, 143, 202, 0.55);
+    outline-offset: 2px;
+  }
+
+  .book-editor-mobile-save-status {
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  /* Switch drawers to fixed-position overlays. Inline desktop resize widths
+     must not bleed into the mobile drawer, so `width` and `flex` win over
+     the inline `style={{ flex: ... }}` applied on .book-editor-drawer--right
+     by the desktop resize handler. */
+  .book-editor-drawer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 1100;
+    width: min(360px, 92vw) !important;
+    height: 100vh;
+    height: 100dvh;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    transition: transform 0.28s ease;
+    will-change: transform;
+    flex: 0 0 auto !important;
+    overflow: hidden;
+  }
+
+  .book-editor-drawer--left {
+    left: 0;
+    transform: translateX(-100%);
+    background: #02415c;
+  }
+
+  .book-editor-drawer--right {
+    right: 0;
+    transform: translateX(100%);
+    background: #fff;
+  }
+
+  .book-editor-drawer.is-open {
+    transform: translateX(0);
+  }
+
+  .book-editor-drawer-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1090;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(2px);
+    animation: bookEditorOverlayFade 0.22s ease;
+  }
+
+  /* Drawer mode: keep CTA topbar stacked even if container queries are unsupported. */
+  .page-heading--has-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title actions"
+      "stats stats";
+    align-items: center;
+    gap: 8px 12px;
+  }
+
+  .page-heading--has-cta .topbar-actions {
+    margin-left: 0;
+  }
+}
+
+@keyframes bookEditorOverlayFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Mobile (<= 767px) — tighten paddings, maximize editor canvas. */
+@media (max-width: 767px) {
+  .book-editor-main-stack .page-heading,
+  .book-editor-main-stack .page-heading.page-heading--mobile,
+  .book-editor-main-stack .page-heading.page-heading--dense {
+    padding: 0.3125rem 0.5rem !important;
+  }
+
+  .book-editor-main-stack .page-heading .wcbar-title {
+    max-width: 120px;
+    font-size: 13px;
+  }
+
+  .book-editor-main-stack .page-heading .wordcount-label {
+    font-size: 11px;
+  }
+
+  .book-editor-main-stack .page-heading .wordcount-label strong {
+    display: none;
+  }
+
+  .book-editor-mobile-toolbar {
+    min-height: 44px;
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .book-editor-mobile-toolbar-trailing {
+    gap: 6px;
+  }
+
+  .book-editor-drawer-toggle {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .book-editor-editor-column {
+    padding: 4px 4px !important;
+    --editor-fab-pad-bottom: 5.5rem;
+    --editor-fab-pad-right: 5rem;
+  }
+
+  .book-editor-root--mobile-layout.book-editor-root--focus
+    .book-editor-editor-column {
+    padding: 2px 4px !important;
+  }
+
+  .book-editor-root--mobile-layout
+    .editor-surface
+    .editor-fade
+    .ql-editor {
+    padding: 12px 10px !important;
+  }
+
+  .book-editor-root--mobile-layout
+    .editor-surface
+    .editor-fade
+    .ql-toolbar.ql-snow {
+    padding: 4px 6px !important;
+  }
+
+  .book-editor-main-stack .page-heading.page-heading--mobile .topbar-actions .sg-support-link {
+    display: none;
+  }
+
+  /* Olivia FAB — shrink so it doesn't dominate the editor on small screens. */
+  .olivia-floating-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .olivia-floating-btn__avatar {
+    width: 48px;
+    height: 48px;
+  }
+}

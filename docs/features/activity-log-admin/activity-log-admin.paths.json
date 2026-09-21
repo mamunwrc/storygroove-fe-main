@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "feature_id": "activity-log-admin",
+  "title": "Activity Log Administration",
+  "description": "Super-admin activity log listing and dashboard.",
+  "source_paths": [
+    "src/Pages/ActivityLogDashboard/",
+    "src/api/activityLogs.js"
+  ],
+  "related_paths": [
+    "src/component/guards/SuperAdminGuard.jsx"
+  ],
+  "entrypoints": [
+    "src/Pages/ActivityLogDashboard/ActivityLogDashboard.jsx"
+  ],
+  "mapping_confidence": "high"
+}

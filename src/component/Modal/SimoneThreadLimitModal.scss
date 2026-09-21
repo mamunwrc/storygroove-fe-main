@@ -1,0 +1,116 @@
+// Match dashboard persona / coach CTAs (PersonaCardsView .persona-button,
+// ProjectsListView .coach-button) — navy #0A5D84, not theme cyan.
+$sg-dashboard-cta: #0a5d84;
+$sg-dashboard-cta-hover: #084663;
+
+.simone-limit-modal {
+  // Default Bootstrap dialog is ~500px — too narrow for two CTAs in one row.
+  &__dialog.modal-dialog {
+    max-width: min(640px, calc(100vw - 2rem));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .modal-content {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  // Full-bleed app icon asset (android-chrome); no extra tile — shape & bg are in the PNG.
+  .simone-limit-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  }
+
+  .simone-limit-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .simone-limit-message {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .simone-limit-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+
+    .simone-limit-btn {
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: "Inter", sans-serif;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, opacity 0.2s;
+      border: 1px solid transparent;
+      // Always one row: buttons share width; label wraps inside if space is tight.
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 100%;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.25;
+
+      &__sparkle {
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $sg-dashboard-cta;
+        outline-offset: 2px;
+      }
+
+      &--primary {
+        background: $sg-dashboard-cta;
+        color: #fff;
+        border-color: $sg-dashboard-cta;
+
+        &:hover {
+          background: $sg-dashboard-cta-hover;
+          border-color: $sg-dashboard-cta-hover;
+          color: #fff;
+        }
+      }
+
+      &--secondary {
+        background: #fff;
+        color: $sg-dashboard-cta;
+        border-color: $sg-dashboard-cta;
+
+        &:hover:not(:disabled) {
+          background: rgba(10, 93, 132, 0.08);
+          color: $sg-dashboard-cta;
+          border-color: $sg-dashboard-cta;
+        }
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

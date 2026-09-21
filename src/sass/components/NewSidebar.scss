@@ -1,0 +1,316 @@
+@use 'sass:map';
+// styles for Newsidebar component
+.new-sidebar {
+  height: 100vh;
+  background-color: #002A3C;
+  border-right: 1px solid #002a3c;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: map.get($theme-fonts, 'primary-font');
+  position: relative;
+
+  &.new-sidebar-collapsed {
+    width: 80px;
+    padding: 20px 12px;
+  }
+
+  &.new-sidebar-expanded {
+    width: 256px;
+    padding: 20px 12px;
+  }
+
+  .sidebar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 20px;
+    transition: all 0.2s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    .toggle-text {
+      font-size: 16px;
+      font-weight: 400;
+      color: white;
+    }
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    min-height: 40px;
+
+    img {
+      max-width: 145px;
+      height: auto;
+    }
+
+    .logo-icon {
+      font-size: 32px;
+      font-weight: bold;
+      color: #DEF0FA;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: #084663;
+    margin: 0 0 20px 0;
+  }
+}
+// styles for navlinkscontainer component
+.nav-links-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 8px;
+
+  // Subtle scrollbar so the dark sidebar stays clean in both expanded and
+  // collapsed states (Firefox + WebKit).
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .nav-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav-link-wrapper {
+    width: 100%;
+  }
+
+  .nav-link-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.2s;
+    font-family: map.get($theme-fonts, 'primary-font');
+
+    &.nav-link-collapsed {
+      justify-content: center;
+      padding: 12px;
+    }
+
+    &.nav-link-expanded {
+      justify-content: flex-start;
+    }
+
+    .nav-link-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .nav-link-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .nav-link-text {
+      font-size: 16px;
+      font-weight: 400;
+      color: white;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.nav-link-active {
+      background-color: #0A5D84;
+      font-weight: 500;
+    }
+
+    // `<button>`-flavored nav item (Community trigger). Neutralizes the
+    // default browser button chrome so it renders identical to <NavLink>/<div>.
+    &.nav-link-item--button {
+      background: transparent;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+
+      &:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.6);
+        outline-offset: 2px;
+      }
+
+      &:disabled,
+      &.nav-link-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .new-sidebar {
+    &.new-sidebar-expanded {
+      width: 256px;
+    }
+    &.new-sidebar-collapsed {
+      width: 80px;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .new-sidebar {
+    &.new-sidebar-expanded {
+      width: 300px;
+    }
+  }
+}
+
+// Sidebar Profile Styles
+.new-sidebar-profile {
+  width: 100%;
+
+  &.new-sidebar-profile-collapsed {
+    .sidebar-profile-dropdown {
+      justify-content: center;
+    }
+  }
+
+  &.new-sidebar-profile-expanded {
+    .sidebar-profile-dropdown {
+      justify-content: space-between;
+    }
+  }
+
+  .sidebar-profile-dropdown {
+    background-color: #DEF0FA;
+    padding: 8px 12px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #C8E5F5;
+    }
+
+    .sidebar-profile-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+
+      .sidebar-profile-avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 1px solid #0A5D84;
+        flex-shrink: 0;
+      }
+
+      .sidebar-profile-name {
+        font-size: 16px;
+        font-weight: 400;
+        color: #002A3C;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .sidebar-profile-menu-icon {
+      color: #002A3C;
+      flex-shrink: 0;
+    }
+
+    .dropdown-menu {
+      transform: translate(0px, -62px) !important;
+      min-width: 200px;
+    }
+  }
+
+  .dropdown-item {
+    display: flex;
+    border-radius: 16px;
+    justify-content: space-between;
+    padding: 10px 16px;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #03587a !important;
+      color: #fff !important;
+    }
+  }
+}

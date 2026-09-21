@@ -1,0 +1,24 @@
+{
+  "schema_version": "1",
+  "feature_id": "dashboard",
+  "title": "Dashboard and Project Hub",
+  "description": "Writer home, project list, book idea/details, and navigation to agents and editor.",
+  "source_paths": [
+    "src/Pages/Dashboard/",
+    "src/Pages/BookIdea/",
+    "src/Pages/BookDetails/",
+    "src/component/Dashboard/",
+    "src/component/createBook/",
+    "src/Pages/Layout/",
+    "src/component/layout/",
+    "src/App.js"
+  ],
+  "related_paths": [
+    "src/api/bookGeneration.js",
+    "src/api/assistant.js"
+  ],
+  "entrypoints": [
+    "src/Pages/Dashboard/Dashboard.jsx"
+  ],
+  "mapping_confidence": "high"
+}

@@ -1,0 +1,2269 @@
+.book-editor {
+  .tab-content {
+    margin-top: 0;
+  }
+  .accordion-body {
+    height: 230px !important;
+    overflow-y: auto;
+  }
+}
+
+.generate-book-card-container {
+  border-radius: 12px;
+  border: 1px solid #ccd4d8;
+  background: #fff;
+  box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.1);
+  @media screen and (max-width: 800px) {
+    padding: 0 !important;
+  }
+  .form-control {
+    border: 1px solid #e5e5e5;
+  }
+  .substep {
+    // width: 246px;
+    svg {
+      width: 25px;
+      height: 25px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+    @media screen and (max-width: 600px) {
+      margin-bottom: 20px;
+    }
+  }
+  .add-character-btn {
+    width: 251px;
+    height: 48px;
+    padding-right: 12px;
+    padding-left: 12px;
+    border-radius: 10px;
+    border-width: 2px;
+    background-color: #fff;
+    border-color: #3a86ff;
+    color: #3a86ff;
+    margin-left: 24px;
+  }
+}
+
+.generate-book-form-container {
+  padding: 24px;
+  background-color: #F7F8F9;
+  border: 1px solid #CCD4D8;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  min-height: 280px;
+  @media screen and (max-width: 800px) {
+    padding: 20px 20px 20px;
+  }
+}
+.generate-book-form-container.add-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F2F2F2;
+}
+
+/* New Styles */
+
+/* Shared editor-sidebar scrollbar (Olivia + Ellis, left outline + right tabs).
+   Width/color must beat global Prompt.scss (2px) and global.scss (5px). */
+@mixin sg-editor-sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #b0b5bb #e8eaed;
+
+  &::-webkit-scrollbar {
+    width: 10px !important;
+    height: 10px !important;
+  }
+  &::-webkit-scrollbar-track {
+    background: #e8eaed !important;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #b0b5bb !important;
+    border-radius: 10px;
+    border: 2px solid #e8eaed;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9ca2a8 !important;
+  }
+}
+
+.outline-box,
+.sidebar-tabs-root {
+  @include sg-editor-sidebar-scrollbar;
+
+  * {
+    @include sg-editor-sidebar-scrollbar;
+  }
+}
+
+.outline-box {
+  background: #02415C;
+  padding: 12px;
+  width: 100%;
+  min-width: 0;
+  color: #fff;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  align-self: stretch;
+}
+
+/* Tablet/mobile: outline lives inside the off-canvas drawer (see
+   BookEditorPage.scss). Drop the desktop fixed width so it fills the drawer. */
+@media (max-width: 1199px) {
+  .outline-box {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+  }
+}
+
+/* Keeps scene row width stable when rename/delete/drag are deferred during initial stream */
+.scene-stream-placeholder-grip {
+  flex-shrink: 0;
+  width: 52px;
+  height: 16px;
+}
+
+/* Outline / Characters toggle strip */
+.outline-tab-toggle {
+  display: flex;
+  gap: 6px;
+  padding: 4px 2px 10px;
+  flex-shrink: 0;
+
+  button {
+    flex: 1;
+    padding: 6px 4px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+    &.active {
+      background: #fff;
+      color: #02415c;
+      border-color: #fff;
+    }
+    &:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  }
+}
+
+/* Permanent plain-language hint for drag-to-reorder (always visible on Outline tab). */
+.outline-reorder-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  padding: 4px 12px 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+  flex-shrink: 0;
+}
+
+.outline-reorder-hint__icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  opacity: 0.85;
+}
+
+.outline-hub-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.outline-hub-header__text {
+  min-width: 0;
+}
+
+.outline-hub-guide-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  padding: 5px 11px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #e0f2fe;
+  background: rgba(7, 143, 202, 0.22);
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    background: rgba(7, 143, 202, 0.35);
+    border-color: rgba(125, 211, 252, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(125, 211, 252, 0.85);
+    outline-offset: 2px;
+  }
+}
+
+.outline-hub-guide-btn__avatar {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.outline-download-wrap {
+  padding: 0 12px 10px;
+  flex-shrink: 0;
+}
+
+.outline-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #e0f2fe;
+  background: rgba(7, 143, 202, 0.22);
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(7, 143, 202, 0.35);
+    border-color: rgba(125, 211, 252, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(125, 211, 252, 0.85);
+    outline-offset: 2px;
+  }
+
+  &:disabled,
+  &--disabled:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    border-style: dashed;
+  }
+
+  &--busy {
+    cursor: wait;
+  }
+}
+
+.outline-download-btn__spinner {
+  animation: outlineDownloadSpin 0.75s linear infinite;
+}
+
+.outline-chapter-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.outline-chapter-toolbar__hint {
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.outline-add-chapter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #e0f2fe;
+  background: rgba(7, 143, 202, 0.22);
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(7, 143, 202, 0.35);
+    border-color: rgba(125, 211, 252, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: #fff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(125, 211, 252, 0.85);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes outlineDownloadSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Outline list (Olivia Outline tab, Ellis Manuscript Map) */
+.outline-outline-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* Characters list inside left outline (scrollable) */
+.outline-characters-inner {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 8px;
+  /* Ant Design seed theme uses a font stack that includes Roboto — override for outline */
+  font-family: "Inter", sans-serif !important;
+
+  .ant-collapse {
+    background: transparent;
+    border: none;
+    font-family: "Inter", sans-serif !important;
+  }
+  .outline-character-collapse.ant-collapse {
+    border: none;
+  }
+  .ant-collapse-item {
+    border: none !important;
+    margin-bottom: 4px;
+    border-radius: 8px !important;
+    /* visible so drag-handle tooltip isn't clipped; content clips its own radius */
+    overflow: visible;
+    background: rgba(255, 255, 255, 0.07);
+    font-family: "Inter", sans-serif !important;
+  }
+  .outline-character-row {
+    position: relative;
+    .outline-character-collapse.ant-collapse {
+      margin-top: 0;
+      overflow: visible;
+    }
+    /* Keep the open tooltip above the next accordion row. */
+    &:has(.outline-character-drag-handle:hover) {
+      z-index: 6;
+    }
+  }
+  .outline-character-row--dragging {
+    opacity: 0.35;
+  }
+  .outline-character-row--drag-over {
+    .ant-collapse-item {
+      box-shadow: inset 0 0 0 2px rgba(125, 211, 252, 0.85);
+    }
+  }
+  .outline-character-drag-handle {
+    /* Sit left of the expand chevron without stealing the toggle click. */
+    margin-right: 2px;
+    z-index: 2;
+
+    /* Below the grip — above is clipped by the characters scroll parent
+       on the first accordion. */
+    &::after {
+      bottom: auto;
+      top: calc(100% + 8px);
+      right: 0;
+      z-index: 40;
+    }
+
+    &::before {
+      bottom: auto;
+      top: calc(100% + 2px);
+      right: 6px;
+      border-top-color: transparent;
+      border-bottom-color: #0f172a;
+      z-index: 40;
+    }
+  }
+  .ant-collapse-header {
+    color: #fff !important;
+    font-size: 13px;
+    padding: 9px 12px !important;
+    align-items: center !important;
+    font-family: "Inter", sans-serif !important;
+    overflow: visible;
+    border-radius: 8px;
+    &:hover {
+      background: #03587a !important;
+    }
+  }
+  .ant-collapse-item-active > .ant-collapse-header {
+    border-radius: 8px 8px 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    /* Opaque so dossier text does not show through while this header sticks. */
+    background: #02415c !important;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  .ant-collapse-header-text {
+    font-family: "Inter", sans-serif !important;
+  }
+  .ant-collapse-expand-icon {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+  /* Expanded body: light “sheet” for readable long-form dossier text */
+  .ant-collapse-content {
+    background: #f8f9fb !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #41474c;
+    font-family: "Inter", sans-serif !important;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+  }
+  .ant-collapse-content-box {
+    padding: 10px 12px !important;
+    font-family: "Inter", sans-serif !important;
+  }
+}
+
+.outline-characters-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+.outline-characters-skeleton-row {
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  background-size: 200% 100%;
+  animation: outline-skeleton-shimmer 1.2s ease-in-out infinite;
+}
+@keyframes outline-skeleton-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.outline-characters-empty {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  font-weight: 400;
+  padding: 8px 4px 0;
+}
+
+/* Story Bible tab: placeholder inside a panel when one section was not extracted */
+.outline-world-section-empty {
+  color: #6c757d;
+  font-size: 13px;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Character markdown: dark text on light card (matches editor readability) */
+.outline-character-content {
+  color: #41474c;
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 400;
+  font-family: "Inter", sans-serif !important;
+
+  .sidebar-markdown-body {
+    color: #41474c;
+    font-family: "Inter", sans-serif !important;
+
+    p,
+    li {
+      color: #41474c;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #02415c;
+    }
+    strong {
+      font-weight: 600;
+      color: #1a2f3d;
+    }
+    a {
+      color: #078fca;
+      &:hover {
+        color: #0678a8;
+      }
+    }
+    code {
+      background: rgba(0, 0, 0, 0.06);
+      color: #2d3338;
+    }
+    hr.scene-section-separator {
+      border-top-color: #ccd4d8;
+    }
+  }
+}
+
+/* Story Bible tab: full master prompt — white sheet (not accordion) */
+.outline-character-content.outline-story-bible-master {
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   OutlineSidebar — shared edit controls (Characters + Story Bible)
+   Mirrors the Scene Design Edit/Save/Cancel look so the experience matches.
+   -------------------------------------------------------------------------- */
+.outline-box .outline-edit-controls {
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.outline-box .sidebar-scene-edit-btn {
+  height: 30px;
+  min-width: 72px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid #078fca;
+  background: #fff;
+  color: #0a6e98;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(22, 27, 29, 0.08);
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+    box-shadow 0.18s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  &:hover:not(:disabled) {
+    background: #eef8fc;
+    border-color: #0678a8;
+    color: #055f84;
+    box-shadow: 0 3px 8px rgba(7, 143, 202, 0.18);
+  }
+
+  &:disabled {
+    opacity: 0.58;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.outline-box .sidebar-scene-edit-secondary-btn {
+  min-width: 64px;
+}
+
+.outline-box .sidebar-scene-save-btn {
+  background: #078fca;
+  color: #fff;
+  border-color: transparent;
+
+  &:hover:not(:disabled) {
+    background: #0678a8;
+    color: #fff;
+    border-color: transparent;
+  }
+}
+
+.outline-box .sidebar-scene-cancel-btn {
+  border-color: #c8d3d8;
+  color: #556166;
+  background: #fff;
+
+  &:hover:not(:disabled) {
+    background: #f6f8f9;
+    border-color: #aebcc2;
+    color: #374247;
+  }
+}
+
+/* Character edit — structured fields grid + dossier textarea */
+.outline-character-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.outline-character-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 10px;
+}
+
+@media (max-width: 1100px) {
+  .outline-character-fields-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.outline-character-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.outline-character-field--full {
+  grid-column: 1 / -1;
+}
+
+.outline-character-field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #556166;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.outline-character-field-input {
+  width: 100%;
+  border: 1px solid #078fca;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: "Inter", sans-serif;
+  color: #41474c;
+  line-height: 1.5;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #0678a8;
+    box-shadow: 0 0 0 2px rgba(7, 143, 202, 0.15);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/* contentEditable surfaces in OutlineSidebar — mirrors .sidebar-scene-inline-edit
+   from SidebarTabs so markdown renders formatted while editing. */
+.outline-box .sidebar-scene-inline-edit {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: "Inter", sans-serif;
+  color: #41474c;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  background: #fff;
+  border: 1px solid #078fca;
+  border-radius: 6px;
+  outline: none;
+  cursor: text;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+
+  strong { font-weight: 700; }
+  em     { font-style: italic; }
+
+  &:focus {
+    border-color: #0678a8;
+    box-shadow: 0 0 0 2px rgba(7, 143, 202, 0.15);
+  }
+
+  &[contenteditable="false"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: #cfd6dc;
+  }
+}
+
+.outline-character-header-extra {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.outline-box .sidebar-scene-delete-btn {
+  min-width: 64px;
+  border-color: #c44752;
+  color: #a8323d;
+  background: #fff;
+
+  &:hover:not(:disabled) {
+    background: #fdf2f2;
+    border-color: #b02a37;
+    color: #8e2430;
+    box-shadow: 0 3px 8px rgba(176, 42, 55, 0.14);
+  }
+}
+
+.outline-character-delete-confirm {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.outline-character-delete-confirm-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a8323d;
+  margin-right: auto;
+}
+
+.outline-character-plain {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.outline-character-content--dossier {
+  overflow: visible;
+}
+
+.outline-character-dossier-edit {
+  min-height: 200px;
+  overflow: visible;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.outline-story-bible-edit {
+  flex: 1;
+  min-height: 260px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* Make the Edit/Save/Cancel row sit cleanly inside the AntD Panel header `extra` slot. */
+.outline-character-collapse .ant-collapse-header .outline-edit-controls {
+  align-items: center;
+}
+
+.outline-character-pending {
+  font-family: "Inter", sans-serif !important;
+  p {
+    margin: 0;
+    font-style: italic;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  strong {
+    font-weight: 600;
+    color: #41474c;
+  }
+}
+
+/* Boot skeleton for OutlineSidebar (stable layout before data hydrates) */
+.outline-boot-skeleton {
+  padding-top: 6px;
+}
+.actAccordion {
+  background-color: #03587a;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 12px 8px 12px 16px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 2px solid transparent;
+
+  > span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &--drop-target {
+    border-color: #5bc0de;
+    box-shadow: 0 0 8px rgba(91, 192, 222, 0.4);
+  }
+}
+.scene-item {
+  margin: 5px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 30px;
+  transition: background-color 0.3s;
+  margin-left: 20px;
+  margin-right: 0px;
+}
+
+.outline-scene-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.outline-chapter-word-count {
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 400;
+  padding-left: 0px;
+  color: rgba(255, 255, 255, 0.55);
+
+  &--selected {
+    color: rgba(255, 255, 255, 0.78);
+  }
+}
+
+/* Visible provisional label while scene body streams (replaces empty skeleton strip) */
+.scene-item .scene-placeholder-label {
+  font-size: 14px;
+  line-height: 1.35;
+  flex: 1;
+  min-width: 0;
+}
+
+.scene-item .scene-placeholder-label--streaming {
+  font-style: italic;
+  opacity: 0.95;
+}
+.ql-toolbar.ql-snow {
+  border: none!important;
+  font-family: "Inter", sans-serif !important;
+  padding: 16px!important;
+  border-bottom: 1px solid #CCD4D8!important;
+}
+.ql-container.ql-snow {
+  border: none!important;
+}
+.scene-item-list {
+  position: relative;
+}
+
+.scene-item-list::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 12px; 
+  width: 1px;
+  background-color: #0A5D84;
+}
+
+/* Outline drag preview — fixed-position floating chip that follows the
+   pointer/finger while a scene is being dragged. The dynamic left/top
+   come from React; the static decoration lives here. The mouse offset
+   (mouse cursor on top-left of preview) used to be `+10/+10`; we apply
+   it via translate so we can vary it on touch devices where the finger
+   hides anything directly under it. */
+.outline-drag-preview {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  transform: translate(10px, 10px) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background-color: #03587a;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: white;
+  font-size: 14px;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (pointer: coarse) {
+  .outline-drag-preview {
+    transform: translate(16px, -36px) rotate(5deg);
+  }
+}
+/* Sidebar column: allow flex shrink so content gets a bounded height for scrolling */
+.book-editor-container {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Tablet/mobile: right Scene Design column lives inside its own off-canvas
+   drawer. Override the desktop flex:3 1 0 sizing so the inner container fills
+   the drawer width instead of competing with the editor column. */
+@media (max-width: 1199px) {
+  .book-editor-sidebar-column {
+    flex: 1 1 auto !important;
+    width: 100%;
+    height: 100%;
+    padding: 16px !important;
+  }
+
+  .book-editor-container {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Flex layout so tab content fills available height (responsive, no fixed vh) */
+.book-editor-container .sidebar-tabs-root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+
+  .ant-tabs,
+  .ant-tabs-nav,
+  .ant-tabs-tab,
+  .ant-tabs-tab-btn,
+  .ant-tabs-content,
+  .ant-tabs-content-holder,
+  .ant-tabs-tabpane {
+    font-family: "Inter", sans-serif !important;
+  }
+}
+.book-editor-container .sidebar-tabs-root .ant-tabs {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  margin: 0 !important;
+  padding-left: 0 !important;
+}
+/* Ant Design 5: content holder wraps the sliding panes */
+.book-editor-container .sidebar-tabs-root .ant-tabs-content-holder {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.book-editor-container .sidebar-tabs-root .ant-tabs-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+/* Inactive tab panes: keep hidden so only active tab content shows */
+.book-editor-container .sidebar-tabs-root .ant-tabs-tabpane:not(.ant-tabs-tabpane-active) {
+  display: none !important;
+}
+/* Only active tab pane gets flex layout */
+.book-editor-container .sidebar-tabs-root .ant-tabs-tabpane.ant-tabs-tabpane-active {
+  height: 100%;
+  min-height: 0;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+.book-editor-container .sidebar-tabs-root .ant-tabs-tabpane.ant-tabs-tabpane-active > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+/* Explicit pane wrapper for Scene Design so scroll area gets bounded height */
+.book-editor-container .sidebar-scene-pane {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+/* "Act X | Scene X" (or Blurb / Synopsis) heading — design reference */
+.book-editor-container .sidebar-scene-heading {
+  font-family: "Domine", serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 130%;
+  letter-spacing: 0;
+  color: #BDBDBD;
+  margin: 0 0 10px 0;
+  flex-shrink: 0;
+}
+/* Hide Ant Design tab bar ::before pseudo-element */
+.book-editor-container .sidebar-tabs-root .ant-tabs-nav::before,
+.book-editor-container .sidebar-tabs-root .ant-tabs-nav-wrap::before,
+.book-editor-container .sidebar-tabs-root .ant-tabs-nav-list::before {
+  display: none !important;
+}
+
+/* SidebarTabs: tab labels, pane content, character list (moved from inline styles) */
+.book-editor-container .sidebar-tab-label {
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+}
+
+/* Three-tab sidebar (Scene Design | Scene Notes | Project Notes) — tighter labels */
+.book-editor-container .sidebar-tabs-root .ant-tabs-tab-btn {
+  font-family: "Inter", sans-serif !important;
+  font-size: 11px !important;
+  padding: 8px 6px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap;
+}
+
+.book-editor-container .sidebar-tabs-root--ellis .ant-tabs-tab-btn {
+  font-size: 10px !important;
+  padding: 8px 4px !important;
+}
+
+.book-editor-container .sidebar-notes-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.book-editor-container .sidebar-notes-subtitle {
+  flex-shrink: 0;
+  font-family: "Inter", sans-serif;
+}
+
+.book-editor-container .sidebar-notes-editor {
+  flex: 1;
+  min-height: 0;
+}
+
+.book-editor-container .sidebar-notes-empty {
+  flex: 1;
+  min-height: 120px;
+}
+
+/* Fill available height and scroll; no fixed vh for responsive layout */
+.book-editor-container .sidebar-scene-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  font-family: "Inter", sans-serif;
+  color: #41474C;
+  padding-right: 14px;
+  @include sg-editor-sidebar-scrollbar;
+}
+
+/* Boot skeleton inside SidebarTabs panes */
+.book-editor-container .sidebar-pane-skeleton {
+  padding: 12px 10px;
+}
+.book-editor-container .sidebar-pane-skeleton .skeleton-bar,
+.book-editor-container .sidebar-pane-skeleton .skeleton-row {
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #eef1f4 25%, #f7f9fb 50%, #eef1f4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  margin-bottom: 12px;
+}
+.book-editor-container .sidebar-pane-skeleton .skeleton-row {
+  height: 38px;
+  border-radius: 10px;
+}
+.book-editor-container .sidebar-pane-skeleton .w-70 { width: 70%; }
+.book-editor-container .sidebar-pane-skeleton .w-75 { width: 75%; }
+.book-editor-container .sidebar-pane-skeleton .w-80 { width: 80%; }
+.book-editor-container .sidebar-pane-skeleton .w-88 { width: 88%; }
+.book-editor-container .sidebar-pane-skeleton .w-90 { width: 90%; }
+.book-editor-container .sidebar-pane-skeleton .w-92 { width: 92%; }
+.book-editor-container .sidebar-pane-skeleton .w-95 { width: 95%; }
+
+/* Separator and spacing between Scene Design sections */
+.book-editor-container .sidebar-scene-content .scene-section-separator {
+  border: none;
+  border-top: 1px solid #ccd4d8;
+  margin: 0;
+  margin-top: 4px;
+}
+.book-editor-container .sidebar-scene-content .scene-section-separator:first-child {
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   .sidebar-markdown-body — react-markdown output inside the Book Editor
+   sidebar (Scene Design + character profiles). Font size intentionally
+   NOT set here so it inherits the 14px context from parent containers.
+   ========================================================================== */
+.sidebar-markdown-body {
+  /* Paragraphs: breathing room between sections */
+  p {
+    margin: 0 0 0.55em;
+    line-height: 1.55;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  /* Headings: same inherited font size, just bold + vertical spacing */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 0.75em;
+    margin-bottom: 0.3em;
+    color: #02415C;
+    &:first-child { margin-top: 0; }
+  }
+
+  /* Lists: proper indentation + nested support */
+  ul, ol {
+    padding-left: 1.4em;
+    margin: 0.2em 0 0.55em;
+    &:last-child { margin-bottom: 0; }
+    li {
+      margin-bottom: 0.25em;
+      line-height: 1.5;
+
+      /* react-markdown commonly wraps list item text in <p>.
+         Our global p margins then make bullets look misaligned. */
+      > p {
+        margin: 0;
+      }
+
+      /* If a list item contains multiple paragraphs, keep them tight */
+      > p + p {
+        margin-top: 0.35em;
+      }
+
+      /* Nested lists inside a list item should align nicely */
+      > ul,
+      > ol {
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+      }
+    }
+    ul, ol {
+      margin-top: 0.15em;
+      margin-bottom: 0.15em;
+    }
+  }
+  ul { list-style-type: disc; padding-left: 26px !important; padding-top: 6px !important; }
+  ol { list-style-type: decimal; }
+
+  /* Bold / italic */
+  strong { font-weight: 700; }
+  em { font-style: italic; }
+
+  /* Inline code */
+  code {
+    background: rgba(0, 0, 0, 0.06);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 0.88em;
+  }
+
+  /* Section separator hr — rendered as .scene-section-separator by
+     the custom react-markdown hr component in sceneComponents */
+  hr.scene-section-separator {
+    border: none;
+    border-top: 1px solid #ccd4d8;
+    margin: 0;
+    margin-top: 4px;
+
+    &:first-child { margin-top: 0; }
+  }
+
+  /* First paragraph after a section hr is the bold section label.
+     The strong inside it carries the bold; color via the rule below.
+     Explicit font-weight: normal prevents the p itself from inheriting
+     any accidental boldness from parent contexts. */
+  hr.scene-section-separator + p {
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: normal;
+
+    strong {
+      font-weight: 700;
+      color: #02415C;
+    }
+  }
+
+  /* Scene coaching (Olivia outline): AI often wraps whole body paragraphs in **…**.
+     Render those as normal weight; keep only the section label line (after hr) bold. */
+  &.sidebar-markdown-body--scene-coaching {
+    strong {
+      font-weight: 400;
+      color: inherit;
+    }
+    hr.scene-section-separator + p strong {
+      font-weight: 700;
+      color: #02415C;
+    }
+    p.scene-post-scene-cta strong {
+      font-weight: 700;
+      color: inherit;
+    }
+    p.scene-design-header-line strong {
+      font-weight: 700;
+      color: #02415C;
+    }
+  }
+}
+.book-editor-container .sidebar-characters-inner {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 14px;
+  @include sg-editor-sidebar-scrollbar;
+}
+.book-editor-container .sidebar-character-collapse {
+  background-color: #f7f8f9;
+}
+.book-editor-container .sidebar-character-content {
+  font-family: "Inter", sans-serif;
+  font-size: inherit;
+  line-height: 1.6;
+  color: #41474C;
+
+  // Ant Design's collapse content box resets list padding/style to nothing.
+  // Use high-specificity nested rules here to guarantee correct indentation
+  // and bullet markers regardless of Ant Design's or Bootstrap's resets.
+  .sidebar-markdown-body {
+    ul, ol {
+      padding-left: 1.6em;
+      list-style-position: outside;
+      margin: 0.2em 0 0.55em;
+
+      &:last-child { margin-bottom: 0; }
+
+      li {
+        margin-bottom: 0.3em;
+        line-height: 1.55;
+
+        // react-markdown wraps li text in <p> — remove its margin so text
+        // sits flush with the bullet and doesn't push nested lists out.
+        > p {
+          margin: 0;
+        }
+        > p + p {
+          margin-top: 0.3em;
+        }
+
+        // Each nested level gets its own full padding-left so bullets
+        // cascade visually inward instead of aligning with the parent level.
+        > ul,
+        > ol {
+          padding-left: 1.6em;
+          list-style-position: outside;
+          margin-top: 0.25em;
+          margin-bottom: 0.1em;
+        }
+      }
+    }
+
+    // Restore bullet/number markers explicitly (Ant Design often sets list-style: none)
+    ul { list-style-type: disc; }
+    ol { list-style-type: decimal; padding-left: 16px; }
+
+    // Second nesting level uses a different bullet marker
+    ul ul { list-style-type: circle; }
+    ul ul ul { list-style-type: square; }
+  }
+}
+
+/* One div for both avatar and tabs (no separate div for image = no blank space) */
+.book-editor-container .sidebar-tabs-bar-with-avatar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+  margin-bottom: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+.book-editor-container .sidebar-tabs-bar-with-avatar > .ant-tabs-nav {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+.book-editor-container .sidebar-tabs-avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  margin-left: 0;
+  margin-top: 3px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ccd4d8;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Tab list inside the same bar (includes tabBarStyle overrides) */
+.book-editor-container .ant-tabs-nav {
+  margin-bottom: 0;
+  display: flex;
+  font-size: 13px;
+  padding: 0;
+}
+.book-editor-container .sidebar-tabs-bar-with-avatar .ant-tabs-nav-list,
+.book-editor-container .ant-tabs-nav-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 300px;
+  display: flex;
+  height: 44px;
+  padding: 0;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  width: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+.book-editor-container .ant-tabs-nav-list .ant-tabs-tab {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+/* Separator between tabs only (nav-list has AddButton + ink-bar after tabs, so use border-left on 2nd+ tabs) */
+.book-editor-container .ant-tabs-nav-list .ant-tabs-tab + .ant-tabs-tab {
+  border-left: 1px solid #e0e0e0;
+}
+.book-editor-container .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+  display: none;
+}
+/* Active tab: solid blue pill, white text */
+.book-editor-container .ant-tabs-tab-active {
+  background: #078fca !important;
+  color: #fff !important;
+  margin: 0 !important;
+  border-right: none !important;
+}
+
+.book-editor-container .ant-tabs-tab-btn {
+  color: #333 !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  font-family: "Inter", sans-serif !important;
+}
+.book-editor-container .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fff !important;
+}
+
+/* Editor canvas typography lives in RichTextEditor.css (component CSS) so it
+   stays consistent across Book Editor, Final Draft, and Upload Manuscript. */
+
+/* Skeleton shimmer for loading scenes */
+.scene-skeleton {
+  display: inline-block;
+  width: 70%;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #0a5d84 25%, #0d7aab 50%, #0a5d84 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Scene title: max 2 lines, then ellipsis; prevents sidebar overflow */
+.scene-item .scene-title-text {
+  min-width: 0;
+  flex: 1;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* Fade-in for scene titles appearing after skeleton */
+.scene-item .scene-title-enter {
+  animation: fadeSlideIn 0.3s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ==========================================================================
+   SidebarTabs — Scene Design Edit Controls
+   ========================================================================== */
+.book-editor-container .sidebar-scene-pane-header {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.book-editor-container .sidebar-scene-edit-controls {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.book-editor-container .sidebar-scene-edit-btn {
+  height: 34px;
+  min-width: 84px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid #078fca;
+  background: #fff;
+  color: #0a6e98;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(22, 27, 29, 0.08);
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: #eef8fc;
+    border-color: #0678a8;
+    color: #055f84;
+    box-shadow: 0 3px 8px rgba(7, 143, 202, 0.18);
+  }
+
+  &:active:not(:disabled) {
+    box-shadow: 0 1px 3px rgba(7, 143, 202, 0.16);
+  }
+
+  &:disabled {
+    opacity: 0.58;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.book-editor-container .sidebar-scene-regenerate-btn {
+  background: linear-gradient(90deg, #078fca 0%, #0a9fd8 100%);
+  color: #fff;
+  border-color: transparent;
+  min-width: 108px;
+  box-shadow: 0 4px 10px rgba(7, 143, 202, 0.28);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(90deg, #067fb4 0%, #0890c5 100%);
+    color: #fff;
+    border-color: transparent;
+  }
+}
+
+.book-editor-container .sidebar-scene-edit-secondary-btn {
+  min-width: 72px;
+}
+
+.book-editor-container .sidebar-scene-save-btn {
+  background: #078fca;
+  color: #fff;
+  border-color: transparent;
+
+  &:hover:not(:disabled) {
+    background: #0678a8;
+    color: #fff;
+    border-color: transparent;
+  }
+}
+
+.book-editor-container .sidebar-scene-cancel-btn {
+  border-color: #c8d3d8;
+  color: #556166;
+  background: #fff;
+
+  &:hover:not(:disabled) {
+    background: #f6f8f9;
+    border-color: #aebcc2;
+    color: #374247;
+  }
+}
+
+.book-editor-container .sidebar-scene-edit-textarea {
+  width: 100%;
+  min-height: 300px;
+  flex: 1;
+  border: 1.5px solid #078fca;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  font-family: "Inter", sans-serif;
+  color: #41474C;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+
+  &:focus {
+    border-color: #0678a8;
+    box-shadow: 0 0 0 2px rgba(7, 143, 202, 0.15);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/* Inline edit — visually flush with the read-only view; height matches content */
+.book-editor-container .sidebar-scene-inline-edit {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: "Inter", sans-serif;
+  color: #41474c;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  background: #fff;
+  border: 1px solid #078fca;
+  border-radius: 6px;
+  outline: none;
+  cursor: text;
+  white-space: pre-wrap;
+
+  strong { font-weight: 700; }
+  em     { font-style: italic; }
+
+  &[contenteditable="false"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: #cfd6dc;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Scene Design streaming indicator
+   -------------------------------------------------------------------------- */
+.sidebar-scene-generating {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: #f0f8fd;
+  border: 1px dashed #b3ddf2;
+  border-radius: 8px;
+  animation: sidebarFadeIn 0.3s ease;
+}
+
+.sidebar-scene-generating-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sidebar-scene-generating-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #078fca;
+  animation: sidebarPulse 1.5s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+.sidebar-scene-generating-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #078fca;
+}
+
+.sidebar-scene-generating-progress {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0678a8;
+  background: #dff2fc;
+  border: 1px solid #b9e3f6;
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-left: auto;
+}
+
+.sidebar-scene-progress-bar {
+  height: 3px;
+  border-radius: 2px;
+  background: #e0ecf2;
+  overflow: hidden;
+}
+
+.sidebar-scene-progress-bar-fill {
+  height: 100%;
+  width: 40%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #078fca, #0ab0e6);
+  animation: sidebarProgressSlide 1.5s infinite ease-in-out;
+}
+
+@keyframes sidebarProgressSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+@keyframes sidebarPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.8); }
+  50%      { opacity: 1;   transform: scale(1.2); }
+}
+
+@keyframes sidebarFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scene Design — fill empty pane while streaming / generating (no text yet) */
+.book-editor-container .scene-design-waiting {
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 16px 8px 24px;
+  animation: sidebarFadeIn 0.35s ease;
+}
+
+.book-editor-container .scene-design-waiting-card {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px 18px 22px;
+  border-radius: 10px;
+  background: linear-gradient(165deg, #f4fafd 0%, #eef6fb 100%);
+  border: 1px solid #cfe8f4;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
+}
+
+.book-editor-container .scene-design-waiting-spinner {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 14px;
+  border: 3px solid #d4e8f2;
+  border-top-color: #078fca;
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}
+
+.book-editor-container .scene-design-waiting-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #02415c;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.book-editor-container .scene-design-waiting-sub {
+  margin: 0 0 18px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #5a6b78;
+  text-align: center;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.book-editor-container .scene-design-waiting-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.book-editor-container .scene-design-waiting-line {
+  display: block;
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e2edf4 0%, #f2f8fc 45%, #e2edf4 90%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite ease-in-out;
+  width: 100%;
+}
+
+.book-editor-container .scene-design-waiting-line--short {
+  width: 62%;
+}
+
+.book-editor-container .scene-design-waiting--compact {
+  min-height: 120px;
+  padding-top: 8px;
+}
+
+.book-editor-container .scene-design-waiting-compact-hint {
+  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #5a6b78;
+  text-align: center;
+}
+
+/* Scene Design — idle empty slot (not streaming) */
+.book-editor-container .scene-design-idle {
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 28px 16px 24px;
+  animation: sidebarFadeIn 0.35s ease;
+}
+
+.book-editor-container .scene-design-idle-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #e8f4fa 0%, #dceef8 100%);
+  border: 1px solid #c5e0f0;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(2, 65, 92, 0.06);
+}
+
+.book-editor-container .scene-design-idle-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 24px;
+  margin: -12px 0 0 -10px;
+  border-radius: 2px;
+  border: 2px solid #078fca;
+  border-bottom-width: 3px;
+  opacity: 0.55;
+}
+
+.book-editor-container .scene-design-idle-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #02415c;
+  line-height: 1.35;
+}
+
+.book-editor-container .scene-design-idle-sub {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #5a6b78;
+  max-width: 300px;
+}
+
+/* ==========================================================================
+   Scene item row layout — title + actions
+   ========================================================================== */
+
+.scene-item-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* Action icon group — always visible so writers can find rename, delete,
+   and drag-to-reorder without discovering hover first. */
+.scene-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  opacity: 1;
+}
+
+/* Scene action buttons (pencil, trash, drag) */
+.scene-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 5px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  &--delete:hover {
+    background: rgba(220, 53, 69, 0.25);
+    color: #ffaaaa;
+  }
+
+  &--coach {
+    color: rgba(100, 200, 255, 0.85);
+
+    &:hover {
+      background: rgba(100, 200, 255, 0.15);
+      color: #7dd8ff;
+    }
+  }
+}
+
+.outline-archived {
+  margin-top: 8px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.outline-archived__header {
+  opacity: 0.9;
+}
+
+.outline-archived__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  line-height: 1;
+  min-width: 0;
+
+  svg {
+    display: block;
+    flex-shrink: 0;
+  }
+}
+
+.outline-archived__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.outline-archived__chevron {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+
+  svg {
+    display: block;
+  }
+}
+
+.outline-archived__item {
+  opacity: 0.82;
+
+  &--selected {
+    opacity: 1;
+  }
+}
+
+/* Drag-to-reorder grip — custom tooltip on hover so writers immediately
+   understand the six-dot icon is draggable (native title tooltips are too
+   slow and easy to miss). */
+.drag-handle-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 3px 2px;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.12s ease, background 0.12s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    /* Right-align to the grip — the handle sits on the sidebar's right edge,
+       so centering would push the label past overflow:hidden and clip it. */
+    right: 0;
+    left: auto;
+    transform: none;
+    padding: 5px 9px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: #ffffff;
+    background: #0f172a;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.12s ease, visibility 0.12s ease;
+    z-index: 30;
+  }
+
+  /* Tooltip arrow — points down toward the grip */
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 2px);
+    right: 6px;
+    left: auto;
+    transform: none;
+    border: 5px solid transparent;
+    border-top-color: #0f172a;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.12s ease, visibility 0.12s ease;
+    z-index: 30;
+  }
+
+  &[data-tooltip]:hover::after,
+  &[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Distinct handle affordance — reads as a drag grip, not a third button. */
+.drag-handle-wrap--affordance {
+  padding: 4px 3px;
+  margin-left: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 1px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 4px 6px 6px 4px;
+}
+
+@keyframes outline-drag-handle-wiggle {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-3px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+.drag-handle-wrap.is-nudging {
+  animation: outline-drag-handle-wiggle 1.6s ease-in-out 1;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+/* One-time coachmark anchored to the first scene grip (popover sits left). */
+.outline-reorder-coachmark {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 10px);
+  transform: translateY(-50%);
+  width: 210px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  z-index: 50;
+  pointer-events: auto;
+  animation: outline-reorder-coachmark-in 0.28s ease-out 0.4s both;
+}
+
+.outline-reorder-coachmark::after,
+.outline-reorder-coachmark::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.outline-reorder-coachmark::after {
+  border-width: 7px 0 7px 9px;
+  border-color: transparent transparent transparent #ffffff;
+  z-index: 2;
+}
+
+.outline-reorder-coachmark::before {
+  border-width: 8px 0 8px 10px;
+  border-color: transparent transparent transparent #cbd5e1;
+  margin-left: -1px;
+  z-index: 1;
+}
+
+@keyframes outline-reorder-coachmark-in {
+  from {
+    opacity: 0;
+    transform: translate(6px, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+.outline-reorder-coachmark__title {
+  margin: 0 0 5px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.25;
+}
+
+.outline-reorder-coachmark__body {
+  margin: 0 0 10px 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #475569;
+}
+
+.outline-reorder-coachmark__close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.outline-reorder-coachmark__close:hover,
+.outline-reorder-coachmark__close:focus-visible {
+  background: #f1f5f9;
+  color: #0f172a;
+  outline: none;
+}
+
+.outline-reorder-coachmark__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #078fca;
+  border: 1px solid #078fca;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.outline-reorder-coachmark__cta:hover,
+.outline-reorder-coachmark__cta:focus-visible {
+  background: #056a99;
+  box-shadow: 0 2px 8px rgba(7, 143, 202, 0.35);
+  outline: none;
+}
+
+.scene-item:has(.outline-reorder-coachmark) {
+  position: relative;
+  z-index: 6;
+  overflow: visible;
+}
+
+@media (max-width: 1199px) {
+  .outline-reorder-coachmark {
+    display: none;
+  }
+}
+
+/* Inline rename input */
+.scene-rename-input {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  outline: none;
+
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* ── Scene row: delete-pending state tint ── */
+.scene-item--deleting {
+  background: rgba(220, 53, 69, 0.12) !important;
+  border-color: rgba(220, 53, 69, 0.3) !important;
+}
+
+/* ── Inline delete confirmation ── */
+.scene-delete-confirm {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  animation: deleteConfirmIn 0.2s ease-out;
+}
+
+.scene-delete-confirm--busy {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.scene-delete-confirm-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #f5b0b0;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.scene-delete-confirm-label--safe {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.scene-delete-confirm-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Shared pill style for delete confirmation buttons */
+.scene-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border: none;
+  border-radius: 14px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.1;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.scene-delete-btn--confirm {
+  background: rgba(220, 53, 69, 0.55);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: rgba(220, 53, 69, 0.82);
+    box-shadow: 0 1px 6px rgba(220, 53, 69, 0.35);
+  }
+}
+
+.scene-delete-btn--confirm-safe {
+  background: rgba(3, 88, 122, 0.75);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: rgba(3, 88, 122, 0.95);
+    box-shadow: 0 1px 6px rgba(3, 88, 122, 0.4);
+  }
+}
+
+.scene-delete-btn--cancel {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.75);
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+  }
+}
+
+/* Tiny inline spinner for delete-in-flight */
+.scene-delete-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: deleteSpin 0.6s linear infinite;
+}
+
+@keyframes deleteSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes deleteConfirmIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

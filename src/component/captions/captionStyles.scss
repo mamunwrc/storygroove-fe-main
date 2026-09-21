@@ -1,0 +1,27 @@
+.caption-list {
+  padding-left: 14px;
+  @media screen and (max-width: 768px) {
+    .caption-list-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .caption-list-row-buttons > * {
+      width: auto !important;
+    }
+  }
+  li {
+    margin: 16px 0 5px 0;
+    font-size: 18px;
+    color: rgba(27, 27, 27, 0.87);
+    font-weight: 500;
+    padding-bottom: 0px;
+  }
+  hr {
+    margin-top: 0;
+  }
+}
+
+.caption-btn-img {
+  width: 20px;
+  height: 20px;
+}

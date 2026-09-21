@@ -1,0 +1,114 @@
+.custom-progress-bar {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  text-align: center;
+  flex-direction: column;
+  margin: 0px auto 60px;
+  @media screen and (max-width: 1024px) {
+    display: none;
+  }
+}
+@media screen and (max-width: 1350px) {
+  .custom-progress-bar {
+    width: 80%;
+  }
+}
+.custom-progress-line {
+  width: 100%;
+  height: 2px;
+  background-color: #e7e7e7;
+  position: relative;
+  margin-top: 20px;
+  z-index: 1;
+}
+
+.custom-progress-line::before {
+  content: '';
+  width: var(--progress-width, 0);
+  background-color: #1b1b1b;
+  position: absolute;
+  z-index: -1;
+  display: block;
+  height: 2px;
+  left: 0;
+}
+
+.custom-step {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #e7e7e7;
+  border: 4px solid #ffffff;
+  position: absolute;
+  top: -6px;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.custom-step.completed {
+  background-color: black;
+  border-color: black;
+  background: url('https://i.ibb.co/3SwJhQd/item.png');
+  border: none;
+  // background: url('https://i.ibb.co/CbfWKgk/tick-shape.png');
+}
+
+.custom-step.current {
+  background-color: white;
+  border-color: black;
+  transform: translateX(-50%) scale(1);
+
+  span {
+    color: #1b1b1b !important;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+  }
+}
+
+.custom-step:nth-child(1) {
+  left: 0;
+}
+
+.custom-step:nth-child(2) {
+  left: 33%;
+}
+
+.custom-step:nth-child(3) {
+  left: 66%;
+}
+
+.custom-step:nth-child(4) {
+  left: 100%;
+}
+
+
+
+
+
+.step-label {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  text-align: center;
+  color: #999999 !important;
+  white-space: nowrap;
+}
+
+.custom-step.completed .step-label,
+.custom-step.current .step-label {
+  color: black;
+}
+
+.progressbar-button {
+  text-align: center;
+  button {
+    background: none;
+    margin: 20px 5px;
+    box-shadow: none;
+  }
+}

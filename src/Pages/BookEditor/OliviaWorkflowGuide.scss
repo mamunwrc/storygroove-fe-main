@@ -1,0 +1,466 @@
+/* ---------------------------------------------------------------------------
+   Olivia Workflow Guide — 7-card onboarding walkthrough
+
+   Reuses the Book Editor pre-outline tokens (Domine/Inter, #02415c / #078fca,
+   pill buttons, soft studio gradient) so it reads as a native swap-out for the
+   former pre-outline empty state. Two variants:
+     .olivia-guide--inline   fills the editor surface
+     .olivia-guide--overlay  centered modal for re-opening the guide later
+--------------------------------------------------------------------------- */
+
+.olivia-guide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.olivia-guide--inline {
+  flex: 1;
+  min-height: 0;
+  padding: 40px 32px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 60%);
+  border-radius: 8px;
+  overflow-y: auto;
+}
+
+.olivia-guide-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  max-height: 100%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(2, 65, 92, 0.1);
+  overflow: hidden;
+}
+
+.olivia-guide-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #5a6b78;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #f1f5f9;
+    color: #02415c;
+    outline: none;
+  }
+}
+
+.olivia-guide-card-head {
+  display: flex;
+  justify-content: center;
+  padding: 26px 28px 14px;
+}
+
+.olivia-guide-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 18px rgba(2, 65, 92, 0.18);
+  background: #ccd4d8;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.olivia-guide-card-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 30px 14px;
+}
+
+.olivia-guide-card-inner {
+  text-align: center;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.olivia-guide-eyebrow {
+  margin: 0 0 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #078fca;
+}
+
+.olivia-guide-title {
+  margin: 0 0 14px;
+  font-family: "Domine", serif;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #02415c;
+}
+
+.olivia-guide-title-nowrap {
+  white-space: nowrap;
+}
+
+.olivia-guide-text {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #41474c;
+  text-align: left;
+
+  p {
+    margin: 0 0 12px;
+  }
+
+  strong {
+    color: #02415c;
+    font-weight: 700;
+  }
+}
+
+.olivia-guide-list {
+  margin: 0 0 14px;
+  padding-left: 20px;
+
+  li {
+    margin-bottom: 6px;
+  }
+}
+
+.olivia-guide-callout {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #078fca;
+  border-radius: 10px;
+
+  p {
+    margin: 0 0 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.olivia-guide-callout-title {
+  font-weight: 700;
+  color: #02415c;
+}
+
+.olivia-guide-quote {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  background: #fbfcfe;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-style: italic;
+  color: #5a6b78;
+
+  p {
+    margin: 0 0 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &--compact {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}
+
+/* Real outline-row replica that mirrors the production Story Hub exactly — it
+   reuses prod classes (.outline-box, .scene-item, .scene-action-btn--coach,
+   drag-handle) so what writers see here matches what they'll see in the app.
+   The wrapper neutralises the sidebar's left margin and width assumptions and
+   makes the preview purely illustrative (no pointer events). */
+.olivia-guide-coaching-preview {
+  margin: 4px 0 16px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.olivia-guide-outline-box.outline-box {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.olivia-guide-scene-item.scene-item {
+  margin: 0;
+  border: 2px solid transparent;
+}
+
+/* Subtle ring + glow so the eye lands on the coaching icon — this is the one
+   action this card is teaching, so we draw attention to it without altering
+   the prod button styling itself. */
+.olivia-guide-coach-highlight {
+  position: relative;
+  background: rgba(100, 200, 255, 0.18);
+  box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.7);
+  border-radius: 4px;
+  animation: oliviaGuideCoachPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes oliviaGuideCoachPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(125, 211, 252, 0.35);
+  }
+}
+
+/* Annotation that names the coach icon. The arrow points up toward the icon,
+   and the whole callout is right-aligned so it sits beneath the action group
+   where the icon actually lives. */
+.olivia-guide-coach-callout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  margin-top: 6px;
+  padding-right: 4px;
+}
+
+/* The action group is right-aligned in the row, so the coach icon sits at a
+   roughly fixed distance from the right edge regardless of card width. Offset
+   the arrow left by that amount so it points up at the coach icon (the
+   leftmost of the four action icons), not the drag handle. */
+.olivia-guide-coach-callout-arrow {
+  width: 0;
+  height: 0;
+  margin-right: 108px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 7px solid #078fca;
+}
+
+.olivia-guide-coach-callout-text {
+  max-width: 300px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #0a6e98;
+  text-align: right;
+
+  svg {
+    color: #078fca;
+    vertical-align: text-bottom;
+    margin: 0 1px;
+  }
+}
+
+/* Footer: progress + controls, always visible (card body scrolls above it). */
+.olivia-guide-footer {
+  flex-shrink: 0;
+  padding: 14px 24px 20px;
+  border-top: 1px solid #eef2f6;
+  background: #ffffff;
+}
+
+.olivia-guide-progress {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.olivia-guide-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d7e0e8;
+  transition: background 150ms ease, transform 150ms ease;
+
+  &.is-done {
+    background: #9fd3ec;
+  }
+
+  &.is-active {
+    background: #078fca;
+    transform: scale(1.25);
+  }
+}
+
+.olivia-guide-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.olivia-guide-counter {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.olivia-guide-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.olivia-guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease,
+    transform 150ms ease, border-color 150ms ease;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #078fca;
+    outline-offset: 2px;
+  }
+}
+
+.olivia-guide-btn--primary {
+  color: #ffffff;
+  background: #078fca;
+  border: 1px solid #078fca;
+  box-shadow: 0 4px 14px rgba(7, 143, 202, 0.22);
+
+  &:hover,
+  &:focus-visible {
+    background: #0276a8;
+    border-color: #0276a8;
+    box-shadow: 0 6px 18px rgba(7, 143, 202, 0.28);
+  }
+}
+
+.olivia-guide-btn--secondary {
+  color: #02415c;
+  background: #ffffff;
+  border: 1px solid #c5e0f0;
+
+  &:hover,
+  &:focus-visible {
+    background: #f1f8fc;
+    border-color: #9fd3ec;
+  }
+}
+
+.olivia-guide-btn--ghost {
+  color: #5a6b78;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+
+  &:hover,
+  &:focus-visible {
+    background: #f1f5f9;
+    color: #02415c;
+  }
+}
+
+/* Overlay (re-open) variant */
+.olivia-guide-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(2, 31, 44, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.olivia-guide--overlay {
+  width: 100%;
+
+  .olivia-guide-card {
+    max-height: 88vh;
+  }
+}
+
+@media (max-width: 900px) {
+  .olivia-guide--inline {
+    padding: 24px 16px;
+  }
+
+  .olivia-guide-title {
+    font-size: 20px;
+  }
+
+  .olivia-guide-card-head {
+    padding-top: 22px;
+  }
+
+  .olivia-guide-avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .olivia-guide-card-body {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .olivia-guide-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .olivia-guide-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .olivia-guide-counter {
+    text-align: center;
+  }
+
+  .olivia-guide-buttons {
+    justify-content: center;
+  }
+
+  .olivia-guide-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}

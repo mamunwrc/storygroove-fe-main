@@ -1,0 +1,11 @@
+@use "sass:map";
+
+footer {
+  font-size: 16px;
+  padding: 10px 0;
+  font-family: map.get($theme-fonts, "primary-font");
+  color: $color-shark;
+  text-align: center;
+  background-color: rgb(33, 32, 32);
+  color: white;
+}

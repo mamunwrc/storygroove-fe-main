@@ -1,0 +1,19 @@
+.image-prompt-container {
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  border-radius: 8px;
+
+  .image-prompt-input {
+    height: 80px;
+    resize: none;
+    width: 97%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+  .image-prompt-input::placeholder {
+    color: #999999;
+    font-size: 16px;
+    font-weight: 400;
+  }
+}

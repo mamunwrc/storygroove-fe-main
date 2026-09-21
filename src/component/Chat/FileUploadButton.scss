@@ -1,0 +1,45 @@
+/* Secondary toolbar control — same family as .chat-icon-btn; stronger default contrast for the clip icon */
+
+.chat-file-attach-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  /* App body / heading gray (#3F4947) reads clearer than #666 on thin glyphs */
+  color: #3f4947;
+  cursor: pointer;
+  transition: background-color 0.18s, color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #e8f4fb;
+    color: #078fca;
+  }
+
+  &:active:not(:disabled) {
+    color: #0678a8;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #078fca;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    background: transparent;
+  }
+}

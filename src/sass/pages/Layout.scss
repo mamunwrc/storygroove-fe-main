@@ -1,0 +1,52 @@
+@use 'sass:map';
+.offcanvas-sidebar {
+  display: none;
+}
+.menu-icon-secondary {
+  color: #1b1b1b;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+@media screen and (max-width: 1024px) {
+  .main-wrapper > div {
+    // position: fixed !important;
+    // display: contents !important;
+  }
+  .main-wrapper > div > div:first-child {
+    position: relative !important;
+    // display: contents !important;
+  }
+}
+@media screen and (max-width: 1024px) {
+  main {
+    display: block !important;
+    .menu-icon {
+      display: none;
+    }
+    .offcanvas-sidebar {
+      display: block;
+    }
+  }
+  .d-flex.flex-nowrap {
+    display: block !important;
+  }
+}
+
+/* Book Editor fills the main column; internal panes manage their own scroll. */
+.main-wrapper > section:has(.book-editor-root) {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.main-wrapper > section:has(.book-editor-root) > .book-editor-root {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+}

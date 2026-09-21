@@ -1,0 +1,79 @@
+.intake-progress-strip {
+  display: flex;
+  justify-content: center;
+  padding: 0.625rem 2rem;
+  background-color: #f0f7fb;
+  border-bottom: 1px solid #dce8ef;
+  flex-shrink: 0;
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 1rem;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    max-width: 100%;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #078fca;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: center;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      font-size: 12px;
+    }
+  }
+
+  &__bar-wrap {
+    width: 200px;
+    min-width: 120px;
+    max-width: 280px;
+    flex-shrink: 0;
+
+    @media (max-width: 480px) {
+      width: min(240px, 100%);
+    }
+  }
+
+  &__bar-bg {
+    background: #e0e0e0;
+    border-radius: 6px;
+    width: 100%;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    background: #078fca;
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.3s ease;
+  }
+
+  &__meta {
+    font-size: 13px;
+    color: #4f4f4f;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: center;
+
+    @media (max-width: 480px) {
+      font-size: 12px;
+      width: 100%;
+    }
+  }
+
+  &__sep {
+    margin: 0 0.35rem;
+    color: #9ca3af;
+  }
+}

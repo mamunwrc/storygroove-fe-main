@@ -1,0 +1,308 @@
+// -----------------------------------------------------------------------
+// Voice tips — quiet "?" affordance + floating reference popover.
+// Shares the palette and motion language of the dictation language panel.
+// -----------------------------------------------------------------------
+.voice-tips-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #8a96a1;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.16s ease, color 0.16s ease,
+    border-color 0.16s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #eef2f5;
+    color: #3f4947;
+    border-color: #e2e8ec;
+  }
+
+  &--open {
+    background-color: #e8f4fb;
+    color: #078fca;
+    border-color: #cfe9f7;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #078fca;
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+// -----------------------------------------------------------------------
+// Floating popover (body portal)
+// -----------------------------------------------------------------------
+.voice-tips-panel {
+  z-index: 2200;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #e3e8ec;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(15, 38, 56, 0.14),
+    0 2px 8px rgba(15, 38, 56, 0.08);
+  overflow: hidden;
+  transform-origin: bottom center;
+  animation: voice-tips-in 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &--down {
+    transform-origin: top center;
+  }
+
+  &--closing {
+    animation: voice-tips-out 0.15s ease forwards;
+    pointer-events: none;
+  }
+}
+
+@keyframes voice-tips-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes voice-tips-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.voice-tips-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 8px 10px 12px;
+  border-bottom: 1px solid #eef2f4;
+  flex-shrink: 0;
+}
+
+.voice-tips-panel__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2b343b;
+}
+
+.voice-tips-panel__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #9aa5ae;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+
+  &:hover {
+    background-color: #f1f5f8;
+    color: #3f4947;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #078fca;
+    outline-offset: -2px;
+  }
+}
+
+.voice-tips-panel__body {
+  overflow-y: auto;
+  padding: 12px;
+  flex: 1;
+  min-height: 0;
+
+  scrollbar-width: thin;
+  scrollbar-color: #cfd8de transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #cfd8de;
+    border-radius: 8px;
+    border: 2px solid #fff;
+  }
+}
+
+.voice-tips__intro {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #54616c;
+}
+
+.voice-tips__note {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  &--auto {
+    background: #e8f4fb;
+    color: #066c98;
+  }
+
+  &--warn {
+    background: #fff6e9;
+    color: #9a6b16;
+  }
+}
+
+.voice-tips__section {
+  & + & {
+    margin-top: 14px;
+  }
+
+  &-label {
+    margin-bottom: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9aa5ae;
+  }
+}
+
+.voice-tips__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.voice-tips__cmd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  border-radius: 8px;
+
+  & + & {
+    border-top: 1px solid #f3f6f8;
+  }
+}
+
+.voice-tips__symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 7px;
+  background: #f1f5f8;
+  color: #2b343b;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.voice-tips__cmd-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.voice-tips__cmd-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2b343b;
+}
+
+.voice-tips__cmd-say {
+  font-size: 12px;
+  color: #6b7682;
+  font-style: italic;
+}
+
+.voice-tips__cmd-alt {
+  font-style: italic;
+  color: #9aa5ae;
+}
+
+.voice-tips__cmd-arrow {
+  flex-shrink: 0;
+  color: #c2ccd4;
+}
+
+.voice-tips__examples {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.voice-tips__example {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #54616c;
+
+  & + & {
+    margin-top: 8px;
+  }
+}
+
+.voice-tips__example-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.voice-tips__example--do .voice-tips__example-mark {
+  background: #2e9e5b;
+}
+
+.voice-tips__example--dont .voice-tips__example-mark {
+  background: #d2603a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voice-tips-panel,
+  .voice-tips-panel--closing {
+    animation: none;
+  }
+}

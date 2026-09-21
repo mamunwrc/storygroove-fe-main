@@ -1,0 +1,16 @@
+{
+  "schema_version": "1",
+  "feature_id": "story-ai-generation",
+  "title": "Story AI Generation",
+  "description": "OpenAI-powered story generation, novel review, and character generation.",
+  "source_paths": [
+    "src/component/bookGeneration/",
+    "src/api/generation.js",
+    "src/api/bookGeneration.js"
+  ],
+  "related_paths": [],
+  "entrypoints": [
+    "src/component/bookGeneration/StoryBluePrint.jsx"
+  ],
+  "mapping_confidence": "high"
+}

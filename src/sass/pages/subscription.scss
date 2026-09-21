@@ -1,0 +1,208 @@
+.primary-custom-btn {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  border-radius: 8px;
+  background: #1b1b1b;
+  border: 0;
+  font-family: Work Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 27px;
+  color: #ffffff;
+  &:hover {
+    cursor: pointer;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.2) 100%
+      ),
+      #1b1b1b !important;
+  }
+}
+
+.secondary-custom-btn {
+  min-width: 120px;
+  border-radius: 8px;
+  background: #e7e7e7;
+  padding: 15px 20px;
+  border: 0;
+  font-family: Work Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 27px;
+  &:hover {
+    cursor: pointer;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.2) 100%
+      ),
+      #1b1b1b !important;
+  }
+}
+
+.container-title {
+  color: #000;
+  font-family: Work Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
+  margin-bottom: 20px;
+}
+.current-plan-container {
+  .title {
+    color: #000;
+    font-family: Work Sans;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 36px;
+  }
+  .current-plan-card {
+    padding: 60px 0px;
+    border-radius: 40px;
+    border: #e7e7e7;
+    background: #f8f8f8;
+    display: flex;
+    flex-direction: row;
+    column-gap: 70px;
+    justify-content: space-evenly;
+    .active-plan-basic {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-self: center;
+      gap: 10px;
+      .current-plan-tag {
+        border-radius: 8px;
+        border: 1px solid var(--Disabled-Text, #999);
+        background: var(--Gray, #e7e7e7);
+        height: 44px;
+        padding: 9px 24px;
+        display: table;
+        max-width: 160px;
+        margin: 0 auto;
+      }
+      h2 {
+        color: #5e59df;
+        text-align: center;
+        font-family: Work Sans;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+      div > h3 {
+        color: #2a2f36;
+        text-align: center;
+        font-family: Work Sans;
+        font-size: 50px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 64px;
+      }
+      p {
+        color: #2a2f36;
+        text-align: center;
+        font-family: Work Sans;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 36px;
+      }
+    }
+    .active-plan-features {
+      padding: 0 10px;
+      .feature {
+        display: flex;
+        gap: 10px;
+        font-size: 18px;
+        .check-circle-icon {
+          font-size: 18px;
+          color: #27ae60 !important;
+        }
+        p {
+          margin-bottom: 0px;
+        }
+      }
+    }
+    .active-plan-btn-group {
+      width: 25%;
+      border-left: 1px solid #999;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+
+      .cancel-btn {
+        border-radius: 8px;
+        border: 1px solid #999;
+        background: #e7e7e7;
+        color: #999;
+        min-width: 150px;
+        :hover {
+          color: #ffffff;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+.current-plan-container {
+  margin-bottom: 100px !important;
+}
+@media screen and (max-width: 1400px) {
+  .current-plan-container {
+    .current-plan-card {
+      flex-direction: column;
+      padding: 30px 10px;
+
+      .active-plan-basic {
+        max-width: 100%;
+        width: 100%;
+      }
+      .active-plan-features {
+        max-width: 100%;
+        width: 100%;
+        padding: 0 20px;
+        .feature {
+          font-size: 16px;
+        }
+      }
+
+      .active-plan-btn-group {
+        max-width: 100%;
+        width: 100%;
+      }
+      .active-plan-btn-group {
+        border-left: 0 !important;
+        flex-direction: row;
+      }
+    }
+  }
+}
+
+.subscription-plans-container {
+  .subscription-card {
+    .choose-plan-btn {
+      border-radius: 8px;
+      background: #1b1b1b;
+      padding: 0px 24px;
+      width: 200px;
+      height: 48px;
+      border: 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+}

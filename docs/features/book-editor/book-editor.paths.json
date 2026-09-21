@@ -1,0 +1,20 @@
+{
+  "schema_version": "1",
+  "feature_id": "book-editor",
+  "title": "Book Editor (Writing Studio)",
+  "description": "Primary React writing studio UI for scenes, outline, Olivia, and characters.",
+  "source_paths": [
+    "src/Pages/BookEditor/",
+    "src/component/richTextEditor/",
+    "src/component/OliviaChatModal/",
+    "src/component/BookCoverModal/",
+    "src/component/bookGeneration/",
+    "src/contexts/NovelContext.js",
+    "src/api/bookGeneration.js"
+  ],
+  "related_paths": [],
+  "entrypoints": [
+    "src/Pages/BookEditor/BookEditorPage.jsx"
+  ],
+  "mapping_confidence": "high"
+}

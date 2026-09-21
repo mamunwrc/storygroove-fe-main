@@ -1,0 +1,394 @@
+/**
+ * Agent Prompts admin — matches Methodology Admin / app primary (#078fca).
+ *
+ * Uses natural sizing (no forced full-height flex column) so the card sits
+ * snugly against its content. Reuses the same token palette as
+ * MethodologyAdmin so the two admin pages feel like one product.
+ */
+
+.agent-prompts {
+  --ap-primary: #078fca;
+  --ap-primary-dark: #0678b0;
+  --ap-primary-soft: rgba(7, 143, 202, 0.1);
+  --ap-primary-border: rgba(7, 143, 202, 0.28);
+  --ap-surface: #ffffff;
+  --ap-surface-muted: #f8fafc;
+  --ap-border: #e8eef3;
+  --ap-border-strong: #d0dce6;
+  --ap-text: #1e293b;
+  --ap-text-muted: #64748b;
+  --ap-warn-soft: rgba(234, 88, 12, 0.08);
+  --ap-warn-border: rgba(234, 88, 12, 0.35);
+  --ap-warn-text: #9a3412;
+  --ap-radius: 12px;
+  --ap-radius-sm: 8px;
+  --ap-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+
+  color: var(--ap-text);
+  margin: 0 0 0 -10px;
+}
+
+.agent-prompts__shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+
+.agent-prompts__hero {
+  border-radius: var(--ap-radius);
+  overflow: hidden;
+  border: 1px solid var(--ap-primary-border);
+  background: linear-gradient(
+    165deg,
+    var(--ap-primary-soft) 0%,
+    var(--ap-surface) 45%,
+    #fafcfd 100%
+  );
+  box-shadow: var(--ap-shadow);
+}
+
+.agent-prompts__hero-accent {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--ap-primary-dark),
+    var(--ap-primary),
+    #34b8e8
+  );
+}
+
+.agent-prompts__hero-body {
+  padding: 0.95rem 1.2rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  flex-wrap: wrap;
+}
+
+.agent-prompts__hero-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ap-radius-sm);
+  background: var(--ap-primary-soft);
+  color: var(--ap-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.agent-prompts__hero-text {
+  flex: 1;
+  min-width: 220px;
+}
+
+.agent-prompts__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ap-text);
+  letter-spacing: -0.01em;
+}
+
+.agent-prompts__subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ap-text-muted);
+  line-height: 1.5;
+  max-width: 46rem;
+}
+
+.agent-prompts__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.agent-prompts__file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────── */
+
+.agent-prompts .btn.ap-btn {
+  height: auto;
+  min-height: 2rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--ap-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  box-shadow: none;
+}
+
+.agent-prompts__btn-secondary.ap-btn,
+.agent-prompts__btn-secondary.ap-btn.btn-outline-secondary {
+  background-color: var(--ap-surface);
+  border-color: var(--ap-border-strong);
+  color: var(--ap-text);
+}
+
+.agent-prompts__btn-secondary.ap-btn:hover:not(:disabled),
+.agent-prompts__btn-secondary.ap-btn:focus:not(:disabled),
+.agent-prompts__btn-secondary.ap-btn.btn-outline-secondary:hover:not(:disabled),
+.agent-prompts__btn-secondary.ap-btn.btn-outline-secondary:focus:not(:disabled) {
+  background-color: var(--ap-surface-muted);
+  border-color: var(--ap-primary);
+  color: var(--ap-primary-dark);
+}
+
+.agent-prompts__btn-primary.ap-btn,
+.agent-prompts__btn-primary.ap-btn.btn-primary {
+  background-color: var(--ap-primary);
+  border-color: var(--ap-primary);
+  color: #fff;
+}
+
+.agent-prompts__btn-primary.ap-btn:hover:not(:disabled),
+.agent-prompts__btn-primary.ap-btn:focus:not(:disabled),
+.agent-prompts__btn-primary.ap-btn.btn-primary:hover:not(:disabled),
+.agent-prompts__btn-primary.ap-btn.btn-primary:focus:not(:disabled) {
+  background-color: var(--ap-primary-dark);
+  border-color: var(--ap-primary-dark);
+  color: #fff;
+}
+
+.agent-prompts__btn-primary.ap-btn:disabled,
+.agent-prompts__btn-primary.ap-btn.btn-primary:disabled {
+  background-color: var(--ap-primary);
+  border-color: var(--ap-primary);
+  color: #fff;
+  opacity: 0.55;
+}
+
+/* ── Tabs (scope global .tab-content overrides) ────────────────────── */
+
+.agent-prompts__tabs.nav-tabs {
+  border-bottom: 1px solid var(--ap-border);
+  gap: 0.25rem;
+  padding: 0 !important;
+  margin: 0;
+  justify-content: flex-start !important;
+}
+
+.agent-prompts__tabs .nav-link {
+  border: none !important;
+  border-radius: var(--ap-radius-sm) var(--ap-radius-sm) 0 0;
+  color: var(--ap-text-muted);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.55rem 1rem;
+  margin-right: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.agent-prompts__tabs .nav-link:hover {
+  color: var(--ap-primary) !important;
+  background: var(--ap-primary-soft);
+  border-bottom: none !important;
+}
+
+.agent-prompts__tabs .nav-link.active {
+  color: var(--ap-primary-dark) !important;
+  background: var(--ap-primary-soft);
+  border-bottom: 2px solid var(--ap-primary) !important;
+  font-weight: 600;
+}
+
+.agent-prompts__tab-dirty {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ap-primary);
+  margin-left: 0.15rem;
+}
+
+/* Reset the global .tab-content / .tab-pane rules from bookdetails.css
+   so the prompt card spans full width and sits flush under the tabs. */
+.agent-prompts .tab-content {
+  align-items: stretch !important;
+  width: 100%;
+  padding: 0 !important;
+  margin-top: 0 !important;
+}
+
+.agent-prompts .tab-pane {
+  width: 100%;
+}
+
+.agent-prompts__tab-panel {
+  padding-top: 0.85rem;
+  width: 100%;
+}
+
+/* ── Editor card ──────────────────────────────────────────────────── */
+
+.agent-prompts__editor-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius);
+  background: var(--ap-surface);
+  box-shadow: var(--ap-shadow);
+  overflow: hidden;
+}
+
+.agent-prompts__editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--ap-border);
+  background: var(--ap-surface-muted);
+}
+
+.agent-prompts__editor-header-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.agent-prompts__editor-label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ap-primary-dark);
+}
+
+.agent-prompts__editor-sub {
+  margin: 0.1rem 0 0;
+  font-size: 0.78rem;
+  color: var(--ap-text-muted);
+}
+
+.agent-prompts__editor-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--ap-text-muted);
+}
+
+.agent-prompts__editor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--ap-primary-soft);
+  color: var(--ap-primary-dark);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.agent-prompts__form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.agent-prompts__textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 360px !important;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 1rem 1.1rem;
+  border: none;
+  border-radius: 0;
+  background: var(--ap-surface);
+  color: var(--ap-text);
+}
+
+.agent-prompts__textarea:focus {
+  box-shadow: none;
+  background: var(--ap-surface);
+  outline: none;
+}
+
+.agent-prompts__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--ap-border);
+  background: var(--ap-surface-muted);
+}
+
+.agent-prompts__actions-hint {
+  font-size: 0.78rem;
+  color: var(--ap-text-muted);
+}
+
+.agent-prompts__actions-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ── Import modal warning ─────────────────────────────────────────── */
+
+.agent-prompts__import-warning {
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--ap-radius-sm);
+  background: var(--ap-warn-soft);
+  border: 1px solid var(--ap-warn-border);
+  color: var(--ap-warn-text);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────── */
+
+.agent-prompts__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+  padding: 2rem;
+  color: var(--ap-text-muted);
+  font-size: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .agent-prompts__hero-body {
+    padding: 0.85rem 1rem;
+  }
+
+  .agent-prompts__hero-actions {
+    width: 100%;
+  }
+
+  .agent-prompts__hero-actions .btn.ap-btn {
+    flex: 1;
+  }
+}

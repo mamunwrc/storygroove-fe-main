@@ -1,0 +1,29 @@
+.skeletonImageList-main {
+  width: 20%;
+  text-align: center;
+  height: 638px;
+  overflow-y: auto;
+  @media screen and (max-width: 1420px) {
+    height: 580px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 40%;
+  }
+}
+
+.skeletonImageList-block {
+  margin-top: 15px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.skeletonImageList-image {
+  cursor: pointer;
+  height: 67px;
+}
+
+.skeletonImageList-skeleton div {
+  height: 67px !important;
+}

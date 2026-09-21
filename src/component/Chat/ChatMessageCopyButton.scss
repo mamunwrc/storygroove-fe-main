@@ -1,0 +1,35 @@
+.copy-button {
+  background: rgba(0, 0, 0, 0.06);
+  border: none;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 6px;
+  margin-left: auto;
+  opacity: 0.95;
+  transition: opacity 0.2s, background-color 0.2s;
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(7, 143, 202, 0.6);
+    outline-offset: 2px;
+  }
+
+  .copy-icon {
+    width: 18px;
+    height: 18px;
+    color: #444;
+    flex-shrink: 0;
+
+    &.copied {
+      color: #28a745;
+    }
+  }
+}

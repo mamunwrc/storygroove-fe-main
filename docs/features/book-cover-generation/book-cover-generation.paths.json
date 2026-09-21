@@ -1,0 +1,18 @@
+{
+  "schema_version": "1",
+  "feature_id": "book-cover-generation",
+  "title": "Book Cover Generation (Frontend)",
+  "description": "Conversational BookCoverModal with gallery and quota display.",
+  "source_paths": [
+    "storygroove-fe/src/component/BookCoverModal/",
+    "storygroove-fe/src/api/bookGeneration.js"
+  ],
+  "related_paths": [
+    "storygroove-fe/src/Pages/BookEditor/BookEditorPage.jsx",
+    "storygroove-fe/src/Pages/UploadedManuscript/UploadBookViewerPage.jsx"
+  ],
+  "entrypoints": [
+    "storygroove-fe/src/component/BookCoverModal/BookCoverModal.jsx"
+  ],
+  "mapping_confidence": "high"
+}

@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+node_modules/
+build/
+.DS_Store
+package-lock.json
+*.tgz
+npm-debug.log*
+/.changelog
+.npm/
+.env
+.env.local
+.env.production

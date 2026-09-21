@@ -1,0 +1,18 @@
+.subscriptionfailed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.subscriptionfailedouter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.paymentfailedimg {
+    width: 100%;
+}

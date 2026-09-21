@@ -1,0 +1,9 @@
+[
+  { "id": 1, "label": "3D", "value": "3d" },
+  { "id": 2, "label": "hyperrealistic", "value": "hyperrealistic" },
+  { "id": 3, "label": "unreal engine", "value": "unreal_engine" },
+  { "id": 4, "label": "cinematic lighting", "value": "cinematic_lighting" },
+  { "id": 5, "label": "detailed illustration", "value": "detailed_illustration" },
+  { "id": 6, "label": "-ar 9:16", "value": "ar_9_16" },
+  { "id": 7, "label": "Flat color", "value": "flat_color" }
+]

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1",
+  "feature_id": "methodology-admin",
+  "title": "Methodology Administration",
+  "description": "Admin CRUD for Olivia methodology rules, prompt templates, and genre overlays.",
+  "source_paths": [
+    "src/Pages/usertokendetails/MethodologyAdmin.jsx"
+  ],
+  "related_paths": [],
+  "entrypoints": [
+    "src/Pages/usertokendetails/MethodologyAdmin.jsx"
+  ],
+  "mapping_confidence": "high"
+}

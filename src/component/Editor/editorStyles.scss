@@ -1,0 +1,186 @@
+.editor-container {
+  position: relative;
+  height: 70vh;
+  .editor-sidebar {
+    background: #f8f8f8;
+    min-width: 424px;
+    padding: 20px;
+    overflow-y: scroll;
+    .navLinks {
+      h1 {
+        display: none;
+      }
+      .editor-option-buttons {
+        div {
+          padding: 0px;
+          margin: 0px;
+          margin-bottom: 20px;
+        }
+        button {
+          background: #1b1b1b;
+          height: 48px;
+          color: #ffffff;
+          text-align: center;
+          font-size: 18px;
+          font-weight: 500;
+          width: 100%;
+          border: none;
+        }
+      }
+      .pre-made-background {
+        text-align: left;
+        margin-top: 8px;
+        span {
+          font-weight: 500;
+        }
+        .background-image-selection-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 2fr);
+          grid-gap: 20px;
+          height: 300px;
+          overflow-y: auto;
+        }
+
+        .image-thumbnail-container {
+          width: 100%;
+          height: 110px;
+          background-color: white;
+          object-fit: cover;
+          width: 20px !important;
+        }
+
+        .image-thumbnail-container img {
+          object-fit: cover;
+          border-radius: 10px;
+          width: '100%' !important;
+          height: '100%' !important;
+        }
+      }
+      .background-color {
+        text-align: left;
+        margin-top: 20px;
+
+        .background-color-selection-grid {
+          grid-gap: 10px;
+          margin-top: 7px;
+          .solid-color-thumbnail {
+            width: 45px;
+            height: 45px;
+            .solid-color-thumbnail img {
+              border-radius: 10px;
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+      button {
+        background: #1b1b1b;
+        height: 48px;
+        color: #ffffff;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500;
+        width: 100%;
+        border: none;
+      }
+    }
+  }
+}
+
+.FIE_tabs,
+.FIE_topbar-buttons-wrapper,
+.FIE_tools-bar-wrapper,
+.FIE_topbar {
+  display: none !important;
+}
+
+.superimpose-editor {
+  // border: 3px dashed #ccc;
+  border: 0;
+  display: grid;
+  width: 100%;
+}
+
+.superimpose-editor > div {
+  grid-row-start: 1;
+  grid-column-start: 1;
+}
+.superimpose-editor {
+  height: 58vh;
+  .hdsmoF {
+    padding: 0;
+    .konvajs-content {
+      height: 55vh !important;
+    }
+  }
+}
+.editorloader {
+  height: 100%;
+  width: 100%;
+  z-index: 100000;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor-main {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 20px);
+  margin: 10px auto;
+
+  // .canvas-ratio {
+  //   border: 3px solid #000;
+  //   aspect-ratio: 9 / 16;
+  //   max-height: 400px; 
+  // }
+
+  // &::before {
+  //   content: '';
+  //   position: absolute;
+  //   z-index: 1;
+  //   --width-size: 5;
+  //   --height-size: 2;
+  //   --width-ratio : min(100%, calc((330px / var(--height-size)) * var(--width-size)));
+  //   width: min(100%, calc((330px / var(--height-size)) * var(--width-size)));
+  //   padding-bottom: calc((var(--width-ratio) / var(--width-size)) * var(--height-size));
+  //   box-shadow: 0 0 9px 0px #888888;
+  //   max-width: 680px;
+  // }
+
+  canvas {
+      z-index: 2;
+  }
+
+  .edit-wrap {
+    width: 100%;
+  }
+}
+
+.canvas-ratio {
+    position: absolute;
+    z-index: 1;
+    --width-size: 16;
+    --height-size: 9;
+    --width-ratio :min(100%, calc((var(--height-canvas) / var(--height-size)) * var(--width-size)));
+    width: min(100%, calc((var(--height-canvas) / var(--height-size)) * var(--width-size)));
+    // padding-bottom: calc((var(--width-ratio) / var(--width-size)) * var(--height-size));
+    padding-bottom: calc((var(--width-ratio) * (var(--height-size) / var(--width-size))));
+    box-shadow: 0 0 9px 0px #888888;
+    max-width: var(--width-canvas);
+    max-height: var(--height-canvas);
+    aspect-ratio: var(--width-size) / var(--height-size);
+}
+
+.duzgvS {
+  padding: 7px !important;
+}
+
+
+.sc-1tst9ex-0.FIE_annotation-controls-overlay {
+  z-index: 10;
+}

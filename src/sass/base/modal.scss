@@ -1,0 +1,46 @@
+.global-shopify-modal {
+  .modal-dialog {
+    max-width: 1286px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0 24px;
+      max-height: 650px;
+      padding-bottom: 8px;
+      width: 100%;
+
+      .modal-header {
+        width: 100%;
+        border: none;
+        padding: 16px 16px 6px;
+
+        .modal-title {
+          font-size: 24px;
+        }
+      }
+
+      .modal-body {
+        position: relative;
+        padding: 0;
+        width: 100%;
+        height: 550px;
+        overflow: scroll;
+        border-radius: 8px !important;
+        z-index: 5;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .modal-title {
+    font-size: 18px !important;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "feature_id": "olivia-scene-design",
+  "title": "Olivia Scene Design",
+  "description": "Olivia Scene Design tab and suggestion editing in Book Editor.",
+  "source_paths": [
+    "src/Pages/BookEditor/SidebarTabs.jsx",
+    "src/Pages/BookEditor/BookEditorPage.jsx"
+  ],
+  "related_paths": [
+    "src/api/bookGeneration.js"
+  ],
+  "entrypoints": [
+    "src/Pages/BookEditor/SidebarTabs.jsx"
+  ],
+  "mapping_confidence": "high"
+}
