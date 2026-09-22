@@ -1,7 +1,7 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button } from 'react-bootstrap';
 import { axiosOpen } from '../../api/axios';
-import useAuth from '../../Hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import "./styles.scss";
 
 const GoogleSignInButton = ({

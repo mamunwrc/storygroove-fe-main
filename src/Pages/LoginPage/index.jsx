@@ -9,7 +9,7 @@ import ResendVerificationPanel from "../../component/ResendVerification/ResendVe
 import { getUserSubscriptionDetailsAPI } from "../../api/subscriptions";
 import { GoogleSignInButton } from "../../component";
 import { ImageContext } from "../../contexts/imageContext";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { handleRedirect } from "../../utils/";
 import { toast } from "react-toastify";
 import NewAuthContext from "../../contexts/NewAuthProvider";
