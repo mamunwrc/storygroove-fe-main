@@ -32,7 +32,7 @@ import {
 import ManuscriptDraftEditor from "../../component/manuscriptEditor/ManuscriptDraftEditor";
 import { recordRecentWork } from "../../utils/recentWork";
 import VoiceRecorder from "../../component/Chat/VoiceRecorder";
-import { useEditorDictation } from "../../Hooks/useEditorDictation";
+import { useEditorDictation } from "../../hooks/useEditorDictation";
 import SaveStatusBadge from "./SaveStatusBadge";
 import EditorHistoryControls from "./EditorHistoryControls";
 import { supportsUnspokenPunctuation } from "../../utils/dictationTranscript";
