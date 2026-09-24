@@ -13,4 +13,3 @@ REACT_APP_BASE_API_URL="http://localhost:8086/"
 ## Running
 
 You can run the backend simply by running `npm start`
-
